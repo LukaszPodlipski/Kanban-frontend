@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Button from 'primevue/button';
+
 import { ref } from 'vue'
 
 defineProps<{ msg: string }>()
@@ -29,6 +31,7 @@ const count = ref(0)
     in your IDE for a better DX
   </p>
   <p class="read-the-docs">Click on the Vite and Vue logos to learn more</p>
+  <Button label="Submit" />
 </template>
 
 <style scoped>

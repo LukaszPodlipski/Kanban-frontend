@@ -1,14 +1,34 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import router from '../router'
+
+const mockedSelectedProject = async (id: number) => {
+  return new Promise((resolve, _) => {
+    return setTimeout(() => {
+      resolve({
+        id,
+        name: `Project ${id}`,
+        description: `Description for project ${id}`,
+      })
+    }, 1000)
+  })
+}
 
 export const useSingleProjectStore = defineStore('singleProject', () => {
+  const selectedProjectId = ref<any>(null)
   const project = ref<any>()
+  const loading = ref(false)
 
-  const selectProject = (selectProject: any) => {
-    project.value = selectProject
-    router.push({ name: 'SingleProject', params: { id: selectProject.id } })
+  const setSelectedProject = async (id: number) => {
+    loading.value = true
+    selectedProjectId.value = id
+    try {
+      project.value = await mockedSelectedProject(id)
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = false
+    }
   }
 
-  return { project, selectProject }
+  return { selectedProjectId, project, setSelectedProject, loading }
 })

@@ -1,16 +1,22 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import router from '../../router'
+import ProjectIcon from '../icons/ProjectIcon.vue'
+
 import { useProjectsStore } from '../../stores/projects'
 import { useSingleProjectStore } from '../../stores/singleProject'
 import { useLayoutStore } from '../../stores/layout'
-
-import ProjectIcon from '../icons/ProjectIcon.vue'
-import { computed } from 'vue'
 
 const projectsStore = useProjectsStore()
 const singleProjectStore = useSingleProjectStore()
 const layoutStore = useLayoutStore()
 
 const fullSideBar = computed(() => layoutStore.sideBarOpened)
+
+const selectProject = (project: any) => {
+  if (singleProjectStore.loading) return
+  router.push({ name: 'SingleProject', params: { id: project.id } })
+}
 
 const formatItemName = (name: string) => {
   return fullSideBar.value ? name : name.slice(0, 3).toUpperCase()
@@ -45,11 +51,20 @@ const formatItemName = (name: string) => {
           :class="{
             'item--mini': !fullSideBar,
             'mr-4 px-4 item--rounded': fullSideBar,
-            'item--selected': project.id === singleProjectStore.project?.id,
+            'item--selected':
+              project.id === singleProjectStore.selectedProjectId,
           }"
-          @click="singleProjectStore.selectProject(project)"
+          @click="selectProject(project)"
         >
-          <ProjectIcon />
+          <i
+            v-if="
+              project.id === singleProjectStore.selectedProjectId &&
+              singleProjectStore.loading
+            "
+            class="pi pi-spin pi-spinner"
+            style="font-size: 1.5rem"
+          ></i>
+          <ProjectIcon v-else />
           <span class="ml-3">{{ formatItemName(project.name) }}</span>
         </div>
       </div>
@@ -103,6 +118,24 @@ const formatItemName = (name: string) => {
     font-weight: 600;
     color: #7e828e;
   }
+
+  &__items {
+    max-height: 400px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #6560ba;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #2f2f3b;
+    }
+  }
 }
 
 .item {
@@ -112,6 +145,10 @@ const formatItemName = (name: string) => {
 
   &:hover {
     background-color: #645fc617;
+  }
+
+  &:active {
+    color: #6560ba;
   }
 
   &--rounded {

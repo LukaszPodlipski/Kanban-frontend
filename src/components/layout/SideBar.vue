@@ -1,0 +1,153 @@
+<script setup lang="ts">
+import { useProjectsStore } from '../../stores/projects'
+import { useSingleProjectStore } from '../../stores/singleProject'
+import { useLayoutStore } from '../../stores/layout'
+
+import ProjectIcon from '../icons/ProjectIcon.vue'
+import { computed } from 'vue'
+
+const projectsStore = useProjectsStore()
+const singleProjectStore = useSingleProjectStore()
+const layoutStore = useLayoutStore()
+
+const fullSideBar = computed(() => layoutStore.sideBarOpened)
+
+const formatItemName = (name: string) => {
+  return fullSideBar.value ? name : name.slice(0, 3).toUpperCase()
+}
+</script>
+
+<template>
+  <div class="side-bar" :class="{ 'side-bar--mini': !fullSideBar }">
+    <div class="side-bar__hamburger flex align-items-center p-5">
+      <img
+        src="../../assets/icons/hamburger.svg"
+        class="cursor-pointer"
+        :class="{ 'rotate-90': !fullSideBar }"
+        @click="layoutStore.changeSideBarStatus"
+      />
+      <span v-if="fullSideBar" class="side-bar__title ml-3">Kanban</span>
+    </div>
+
+    <div class="content flex flex-column">
+      <div class="px-4" :class="{ 'align-self-center': !fullSideBar }">
+        <span v-if="fullSideBar" class="content__title">ALL BOARDS </span>
+        <span class="content__title align-self-center"
+          >({{ projectsStore.projects.length }})</span
+        >
+      </div>
+
+      <div class="content__items flex flex-column mt-2">
+        <div
+          v-for="project in projectsStore.projects"
+          :key="project.name"
+          class="item flex align-items-center cursor-pointer px-2 py-3"
+          :class="{
+            'item--mini': !fullSideBar,
+            'mr-4 px-4 item--rounded': fullSideBar,
+            'item--selected': project.id === singleProjectStore.project?.id,
+          }"
+          @click="singleProjectStore.selectProject(project)"
+        >
+          <ProjectIcon />
+          <span class="ml-3">{{ formatItemName(project.name) }}</span>
+        </div>
+      </div>
+
+      <div class="content__actions mt-2">
+        <div
+          class="action flex align-items-center cursor-pointer"
+          :class="{
+            'mr-4 px-4 action--rounded': fullSideBar,
+          }"
+        >
+          <template v-if="fullSideBar">
+            <ProjectIcon color="#6560BA" />
+            <span class="action__title ml-3 py-3">+ Create New Board</span>
+          </template>
+          <div
+            v-else
+            class="action--mini align-self-center flex align-items-center py-2"
+          >
+            <ProjectIcon color="#6560BA" class="mr-2" />
+            <span>+</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.side-bar {
+  width: 300px;
+  height: 100vh;
+
+  background-color: #2c2c38;
+  border-top: 3px solid #2f2f3b;
+  border-bottom: 3px solid #2f2f3b;
+
+  &--mini {
+    width: 100px;
+  }
+
+  &__title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #dfdcff;
+  }
+}
+.content {
+  &__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #7e828e;
+  }
+}
+
+.item {
+  font-size: 16px;
+  font-weight: 600;
+  color: #dfdcff;
+
+  &:hover {
+    background-color: #645fc617;
+  }
+
+  &--rounded {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
+  &--selected {
+    background-color: #6560ba;
+
+    &:hover {
+      background-color: #6560ba;
+    }
+  }
+}
+
+.action {
+  &:hover {
+    background-color: #645fc617;
+  }
+
+  &--rounded {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
+  &--mini {
+    color: #6560ba;
+    padding: 0 20px;
+    font-size: 24px;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #6560ba;
+  }
+}
+</style>

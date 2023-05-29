@@ -1,10 +1,12 @@
-<script setup lang='ts'>
-import SideBar from "../components/SideBar.vue"
+<script setup lang="ts">
+import SideBar from '../components/layout/SideBar.vue'
 </script>
 
-
 <template>
-  <div>
+  <div class="flex">
     <SideBar />
+    <div>
+      <router-view />
+    </div>
   </div>
 </template>

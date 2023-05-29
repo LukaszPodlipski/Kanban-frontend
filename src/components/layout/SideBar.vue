@@ -73,7 +73,7 @@ const formatItemName = (name: string) => {
         <div
           class="action flex align-items-center cursor-pointer"
           :class="{
-            'mr-4 px-4 action--rounded': fullSideBar,
+            'mr-4 pl-4 action--rounded': fullSideBar,
           }"
         >
           <template v-if="fullSideBar">

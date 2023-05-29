@@ -1,22 +1,26 @@
-import { createApp } from "vue";
-import { createPinia } from "pinia";
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 
-import App from "./App.vue";
+import App from './App.vue'
 
-import PrimeVue from "primevue/config";
-import router from "./router/index";
+import PrimeVue from 'primevue/config'
+import router from './router/index'
 
-import "./style.css";
-import "primevue/resources/themes/saga-blue/theme.css"; //theme
-import "primevue/resources/primevue.min.css"; //core CSS
-import "primeicons/primeicons.css"; //icons
-import "/node_modules/primeflex/primeflex.css";
+import BaseButton from './components/base/BaseButton.vue'
 
-const app = createApp(App);
-const pinia = createPinia();
+import './style.css'
+import 'primevue/resources/themes/saga-blue/theme.css' //theme
+import 'primevue/resources/primevue.min.css' //core CSS
+import 'primeicons/primeicons.css' //icons
+import '/node_modules/primeflex/primeflex.css'
 
-app.use(PrimeVue);
-app.use(router);
-app.use(pinia);
+const app = createApp(App)
+const pinia = createPinia()
 
-app.mount("#app");
+app.use(PrimeVue)
+app.use(router)
+app.use(pinia)
+
+app.component('BaseButton', BaseButton)
+
+app.mount('#app')

@@ -12,6 +12,10 @@ defineProps({
     type: String,
     default: '#6560BA',
   },
+  hoverColor: {
+    type: String,
+    default: '#474479',
+  },
 })
 </script>
 
@@ -26,12 +30,17 @@ defineProps({
   border: 1px solid v-bind(backgroundColor);
 
   &:enabled:hover {
-    background: v-bind(backgroundColor);
-    border: 1px solid v-bind(backgroundColor);
+    background: v-bind(hoverColor);
+    border: 1px solid v-bind(hoverColor);
   }
 
   &:focus {
     box-shadow: none;
+  }
+
+  &:enabled:active {
+    background: v-bind(backgroundColor);
+    border: 1px solid v-bind(backgroundColor);
   }
 }
 </style>

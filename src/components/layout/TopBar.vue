@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useSingleProjectStore } from '../../stores/singleProject'
 
+const route = useRoute()
+
 const singleProjectStore = useSingleProjectStore()
-const title = computed(
-  () => singleProjectStore.project?.name || 'Wybierz projekt',
+const isSingleProjectView = computed(() => route.name === 'SingleProject')
+
+const title = computed(() =>
+  isSingleProjectView.value
+    ? singleProjectStore.project?.name || 'Explore your projects'
+    : 'Explore your projects',
 )
 </script>
 
@@ -18,7 +25,7 @@ const title = computed(
       ></i>
       <span v-else>{{ title }}</span>
     </div>
-    <div>
+    <div class="top-bar__actions" v-if="isSingleProjectView">
       <BaseButton label="Add New Task" icon="plus" />
     </div>
   </div>

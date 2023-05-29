@@ -36,14 +36,17 @@ const formatItemName = (name: string) => {
     </div>
 
     <div class="content flex flex-column">
-      <div class="px-4" :class="{ 'align-self-center': !fullSideBar }">
-        <span v-if="fullSideBar" class="content__title">ALL BOARDS </span>
-        <span class="content__title align-self-center"
-          >({{ projectsStore.projects.length }})</span
+      <div
+        class="px-4 flex flex-shrink-1"
+        :class="{ 'align-self-center': !fullSideBar }"
+      >
+        <span v-if="fullSideBar" class="content__title">ALL BOARDS  </span>
+        <span class="content__title align-self-center">
+          ({{ projectsStore.projects.length }})</span
         >
       </div>
 
-      <div class="content__items flex flex-column mt-2">
+      <div class="content__items flex flex-column mt-2 flex-shrink-0">
         <div
           v-for="project in projectsStore.projects"
           :key="project.name"
@@ -69,7 +72,7 @@ const formatItemName = (name: string) => {
         </div>
       </div>
 
-      <div class="content__actions mt-2">
+      <div class="content__actions mt-2 flex-shrink-1">
         <div
           class="action flex align-items-center cursor-pointer"
           :class="{
@@ -78,7 +81,7 @@ const formatItemName = (name: string) => {
         >
           <template v-if="fullSideBar">
             <ProjectIcon color="#6560BA" />
-            <span class="action__title ml-3 py-3">+ Create New Board</span>
+            <span class="action__title ml-3 py-3">Create New Board</span>
           </template>
           <div
             v-else
@@ -96,7 +99,6 @@ const formatItemName = (name: string) => {
 <style scoped lang="scss">
 .side-bar {
   width: 300px;
-  height: 100vh;
 
   background-color: #2c2c38;
   border-top: 3px solid #2f2f3b;

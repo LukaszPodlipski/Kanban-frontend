@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SideBar from '../components/layout/SideBar.vue'
 import TopBar from '../components/layout/TopBar.vue'
+import ProjectsContentWrapper from '../components/layout/ProjectsContentWrapper.vue'
 </script>
 
 <template>
@@ -8,7 +9,9 @@ import TopBar from '../components/layout/TopBar.vue'
     <SideBar />
     <div class="content-wrapper flex flex-column">
       <TopBar />
-      <router-view />
+      <ProjectsContentWrapper>
+        <router-view />
+      </ProjectsContentWrapper>
     </div>
     <div></div>
   </div>
@@ -17,10 +20,9 @@ import TopBar from '../components/layout/TopBar.vue'
 <style scoped lang="scss">
 .app-wrapper {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 }
 .content-wrapper {
   width: 100%;
-  height: 100%;
 }
 </style>

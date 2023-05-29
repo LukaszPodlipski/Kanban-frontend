@@ -13,7 +13,13 @@ const routes = [
     path: '/projects',
     name: 'Projects',
     component: Projects,
+    redirect: '/projects/explore',
     children: [
+      {
+        path: 'explore',
+        name: 'explore',
+        component: () => import('../views/ExploreProjects.vue'),
+      },
       {
         path: ':id',
         name: 'SingleProject',

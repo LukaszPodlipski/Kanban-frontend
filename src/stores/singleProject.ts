@@ -30,5 +30,16 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
     }
   }
 
-  return { selectedProjectId, project, setSelectedProject, loading }
+  const clearSelectedProject = () => {
+    selectedProjectId.value = null
+    project.value = null
+  }
+
+  return {
+    clearSelectedProject,
+    loading,
+    project,
+    selectedProjectId,
+    setSelectedProject,
+  }
 })

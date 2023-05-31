@@ -25,7 +25,7 @@ const formatItemName = (name: string) => {
 
 <template>
   <div class="side-bar" :class="{ 'side-bar--mini': !fullSideBar }">
-    <div class="side-bar__hamburger flex align-items-center p-5">
+    <div class="side-bar__hamburger flex align-items-center p-4">
       <img
         src="../../assets/icons/hamburger.svg"
         class="cursor-pointer"
@@ -40,13 +40,16 @@ const formatItemName = (name: string) => {
         class="px-4 flex flex-shrink-1"
         :class="{ 'align-self-center': !fullSideBar }"
       >
-        <span v-if="fullSideBar" class="content__title">ALL BOARDS  </span>
+        <span v-if="fullSideBar" class="content__title">ALL BOARDS </span>
         <span class="content__title align-self-center">
           ({{ projectsStore.projects.length }})</span
         >
       </div>
 
-      <div class="content__items flex flex-column mt-2 flex-shrink-0">
+      <div
+        class="content__items flex flex-column mt-2 flex-shrink-0"
+        :class="{ 'content__items-mini': !fullSideBar }"
+      >
         <div
           v-for="project in projectsStore.projects"
           :key="project.name"
@@ -138,8 +141,16 @@ const formatItemName = (name: string) => {
       background: #2f2f3b;
     }
   }
-}
 
+  &__items-mini {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
 .item {
   font-size: 16px;
   font-weight: 600;

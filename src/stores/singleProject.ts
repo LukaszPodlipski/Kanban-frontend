@@ -13,20 +13,21 @@ const mockedSelectedProject = async (id: number) => {
             id: 1,
             name: 'Column 1',
             description: 'Description for column 1',
+            color: '#836FF2',
             tasks: [
               {
                 id: 1,
-                name: 'Task 1',
+                name: 'Building UI for onboarding flow',
                 description: 'Description for task 1',
               },
               {
                 id: 2,
-                name: 'Task 2',
+                name: 'Building UI for onboarding flow',
                 description: 'Description for task 2',
               },
               {
                 id: 3,
-                name: 'Task 3',
+                name: 'Building UI for onboarding flow',
                 description: 'Description for task 3',
               },
             ],
@@ -35,6 +36,7 @@ const mockedSelectedProject = async (id: number) => {
             id: 2,
             name: 'Column 2',
             description: 'Description for column 2',
+            color: '#4EC4DF',
             tasks: [
               {
                 id: 4,
@@ -50,6 +52,52 @@ const mockedSelectedProject = async (id: number) => {
                 id: 6,
                 name: 'Task 6',
                 description: 'Description for task 6',
+              },
+            ],
+          },
+          {
+            id: 3,
+            name: 'Column 3',
+            description: 'Description for column 3',
+            color: '#4EC4DF',
+            tasks: [
+              {
+                id: 4,
+                name: 'Task 4',
+                description: 'Description for task 7',
+              },
+              {
+                id: 5,
+                name: 'Task 5',
+                description: 'Description for task 8',
+              },
+              {
+                id: 6,
+                name: 'Task 6',
+                description: 'Description for task 9',
+              },
+            ],
+          },
+          {
+            id: 4,
+            name: 'Column 4',
+            description: 'Description for column 4',
+            color: '#4EC4DF',
+            tasks: [
+              {
+                id: 4,
+                name: 'Task 4',
+                description: 'Description for task 10',
+              },
+              {
+                id: 5,
+                name: 'Task 5',
+                description: 'Description for task 11',
+              },
+              {
+                id: 6,
+                name: 'Task 6',
+                description: 'Description for task 12',
               },
             ],
           },

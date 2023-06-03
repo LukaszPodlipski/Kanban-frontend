@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import SideBar from '../components/layout/SideBar.vue'
-import TopBar from '../components/layout/TopBar.vue'
-import ProjectsContentWrapper from '../components/layout/ProjectsContentWrapper.vue'
+import SideBar from '@/components/layout/SideBar.vue'
+import TopBar from '@/components/layout/TopBar.vue'
+import ProjectsContentWrapper from '@/components/layout/ProjectsContentWrapper.vue'
 </script>
 
 <template>
@@ -13,7 +13,6 @@ import ProjectsContentWrapper from '../components/layout/ProjectsContentWrapper.
         <router-view />
       </ProjectsContentWrapper>
     </div>
-    <div></div>
   </div>
 </template>
 

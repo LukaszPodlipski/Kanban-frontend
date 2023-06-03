@@ -20,7 +20,7 @@ defineProps({
 </script>
 
 <template>
-  <Button :label="label" :icon="icon ? `pi pi-${icon}` : ''" />
+  <Button v-bind="$attrs" :label="label" :icon="icon ? `pi pi-${icon}` : ''" />
 </template>
 
 <style scoped lang="scss">

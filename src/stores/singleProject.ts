@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const mockedSelectedProject = async (id: number) => {
+import { singleProject } from '@/models/singleProjectModels'
+
+const mockedSelectedProject = async (id: number): Promise<singleProject> => {
   return new Promise((resolve, _) => {
     return setTimeout(() => {
       resolve({
         id,
-        name: `Project ${id}`,
+        name: `Project ${id} with long name`,
         description: `Description for project ${id}`,
         columns: [
           {
@@ -108,8 +110,8 @@ const mockedSelectedProject = async (id: number) => {
 }
 
 export const useSingleProjectStore = defineStore('singleProject', () => {
-  const selectedProjectId = ref<any>(null)
-  const project = ref<any>()
+  const selectedProjectId = ref<number | null>(null)
+  const project = ref<singleProject | null>(null)
   const loading = ref(false)
 
   const setSelectedProject = async (id: number) => {
@@ -124,6 +126,10 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
     }
   }
 
+  const updateProject = (updatedProject: any) => {
+    project.value = updatedProject
+  }
+
   const clearSelectedProject = () => {
     selectedProjectId.value = null
     project.value = null
@@ -135,5 +141,6 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
     project,
     selectedProjectId,
     setSelectedProject,
+    updateProject,
   }
 })

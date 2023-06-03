@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import router from '../../router'
-import ProjectIcon from '../icons/ProjectIcon.vue'
+import router from '@/router'
+import ProjectIcon from '@/components/icons/ProjectIcon.vue'
 
-import { useProjectsStore } from '../../stores/projects'
-import { useSingleProjectStore } from '../../stores/singleProject'
-import { useLayoutStore } from '../../stores/layout'
+import { useProjectsStore } from '@/stores/projects'
+import { useSingleProjectStore } from '@/stores/singleProject'
+import { useLayoutStore } from '@/stores/layout'
+
+import { ProjectMenuItem } from '@/models/projectsListModels'
 
 const projectsStore = useProjectsStore()
 const singleProjectStore = useSingleProjectStore()
@@ -13,13 +15,17 @@ const layoutStore = useLayoutStore()
 
 const fullSideBar = computed(() => layoutStore.sideBarOpened)
 
-const selectProject = (project: any) => {
+const selectProject = (project: ProjectMenuItem): void => {
   if (singleProjectStore.loading) return
   router.push({ name: 'SingleProject', params: { id: project.id } })
 }
 
-const formatItemName = (name: string) => {
-  return fullSideBar.value ? name : name.slice(0, 3).toUpperCase()
+const formatItemName = (name: string): string => {
+  const trimName = (name: string) => {
+    if (name.length > 14) return name.slice(0, 14) + '...'
+    return name
+  }
+  return fullSideBar.value ? trimName(name) : name.slice(0, 3).toUpperCase()
 }
 </script>
 
@@ -37,10 +43,10 @@ const formatItemName = (name: string) => {
 
     <div class="content flex flex-column">
       <div
-        class="px-4 flex flex-shrink-1"
+        class="px-4 flex flex-shrink-1 align-items-center"
         :class="{ 'align-self-center': !fullSideBar }"
       >
-        <span v-if="fullSideBar" class="content__title">ALL BOARDS </span>
+        <span v-if="fullSideBar" class="content__title mr-1">ALL BOARDS</span>
         <span class="content__title align-self-center">
           ({{ projectsStore.projects.length }})</span
         >
@@ -62,15 +68,13 @@ const formatItemName = (name: string) => {
           }"
           @click="selectProject(project)"
         >
-          <i
-            v-if="
-              project.id === singleProjectStore.selectedProjectId &&
-              singleProjectStore.loading
-            "
-            class="pi pi-spin pi-spinner"
-            style="font-size: 1.5rem"
-          ></i>
-          <ProjectIcon v-else />
+          <ProjectIcon
+            :class="{
+              shaking:
+                project.id === singleProjectStore.selectedProjectId &&
+                singleProjectStore.loading,
+            }"
+          />
           <span class="ml-3">{{ formatItemName(project.name) }}</span>
         </div>
       </div>
@@ -198,6 +202,28 @@ const formatItemName = (name: string) => {
     font-size: 16px;
     font-weight: 600;
     color: #6560ba;
+  }
+}
+
+.shaking {
+  animation: shake 0.5s ease-in-out infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 </style>

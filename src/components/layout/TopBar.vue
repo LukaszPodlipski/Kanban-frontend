@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useSingleProjectStore } from '../../stores/singleProject'
+import { useSingleProjectStore } from '@/stores/singleProject'
+import Skeleton from 'primevue/skeleton'
 
 const route = useRoute()
 
@@ -18,15 +19,22 @@ const title = computed(() =>
 <template>
   <div class="top-bar flex align-items-center justify-content-between">
     <div class="top-bar__title">
-      <i
+      <Skeleton
         v-if="singleProjectStore.loading"
-        class="pi pi-spin pi-spinner px-4"
-        style="font-size: 1.5rem"
-      ></i>
+        width="10rem"
+        height="2rem"
+        borderRadius="16px"
+        class="top-bar__sceleton"
+      ></Skeleton>
+
       <span v-else>{{ title }}</span>
     </div>
     <div class="top-bar__actions" v-if="isSingleProjectView">
-      <BaseButton label="Add New Task" icon="plus" />
+      <BaseButton
+        label="Add New Task"
+        icon="plus"
+        :disabled="singleProjectStore.loading"
+      />
     </div>
   </div>
 </template>
@@ -46,5 +54,18 @@ const title = computed(() =>
     font-weight: 600;
     color: #dfdcff;
   }
+
+  &__sceleton {
+    background-color: transparent;
+  }
+}
+
+.p-skeleton:after {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(101, 96, 186, 0.2),
+    rgba(255, 255, 255, 0)
+  );
 }
 </style>

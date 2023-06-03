@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-import { ProjectsMenuList } from '@/models/projectsListModels'
+import { iProjectsMenuList } from '@/models/projectsListTypes'
 
 export const useProjectsStore = defineStore('projects', () => {
-  const projects = ref<ProjectsMenuList>([
+  const projects = ref<iProjectsMenuList>([
     { name: 'Project 1 with long name', id: 1 },
     { name: 'Project 2', id: 2 },
     { name: 'Project 3', id: 3 },

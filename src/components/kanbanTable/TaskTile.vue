@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Task } from '@/models/singleProjectModels'
+import { iTask } from '@/models/singleProjectTypes'
 
 defineProps({
   task: {
-    type: Object as () => Task,
+    type: Object as () => iTask,
     required: true,
   },
 })

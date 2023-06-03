@@ -1,20 +1,20 @@
-export interface Task {
+export interface iTask {
   id: number
   name: string
   description: string
 }
 
-export interface Column {
+export interface iColumn {
   id: number
   name: string
   description: string
   color: string
-  tasks: Task[]
+  tasks: iTask[]
 }
 
-export interface singleProject {
+export interface iSingleProject {
   id: number
   name: string
   description: string
-  columns: Column[]
+  columns: iColumn[]
 }

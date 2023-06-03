@@ -7,7 +7,7 @@ import { useProjectsStore } from '@/stores/projects'
 import { useSingleProjectStore } from '@/stores/singleProject'
 import { useLayoutStore } from '@/stores/layout'
 
-import { ProjectMenuItem } from '@/models/projectsListModels'
+import { iProjectMenuItem } from '@/models/projectsListTypes'
 
 const projectsStore = useProjectsStore()
 const singleProjectStore = useSingleProjectStore()
@@ -15,7 +15,7 @@ const layoutStore = useLayoutStore()
 
 const fullSideBar = computed(() => layoutStore.sideBarOpened)
 
-const selectProject = (project: ProjectMenuItem): void => {
+const selectProject = (project: iProjectMenuItem): void => {
   if (singleProjectStore.loading) return
   router.push({ name: 'SingleProject', params: { id: project.id } })
 }

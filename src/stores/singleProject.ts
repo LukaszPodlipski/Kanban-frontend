@@ -11,6 +11,7 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
   const selectedProjectId = ref<number | null>(null)
   const project = ref<iSingleProject | null>(null)
   const loading = ref(false)
+  const loadingUpdate = ref(false)
 
   const setSelectedProject = async (id: number) => {
     loading.value = true
@@ -36,6 +37,7 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
   return {
     clearSelectedProject,
     loading,
+    loadingUpdate,
     project,
     selectedProjectId,
     setSelectedProject,

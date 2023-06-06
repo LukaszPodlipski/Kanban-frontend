@@ -6,11 +6,20 @@ defineProps({
     type: Object as () => iTask,
     required: true,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
 <template>
-  <div class="task__tile flex flex-column mb-4">
+  <div
+    class="task__tile flex flex-column mb-4"
+    :class="{
+      'task__tile--disabled': disabled,
+    }"
+  >
     <span class="task__title mb-1">{{ task.name }}</span>
     <span class="task__description">{{ task.description }}</span>
   </div>
@@ -25,6 +34,12 @@ defineProps({
     border-radius: 8px;
     padding: 24px;
     cursor: pointer;
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 1;
+      animation: fade-out 0.1s ease-in-out forwards;
+    }
   }
 
   &__title {
@@ -36,6 +51,15 @@ defineProps({
   &__description {
     font-size: 12px;
     color: #7e828e;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
   }
 }
 </style>

@@ -8,6 +8,8 @@ import PrimeVue from 'primevue/config'
 import router from './router/index'
 
 import BaseButton from './components/base/BaseButton.vue'
+import BaseInput from './components/base/BaseInput.vue'
+import BasePasswordInput from './components/base/BasePasswordInput.vue'
 
 import './style.css'
 import 'primevue/resources/themes/saga-blue/theme.css' //theme
@@ -25,5 +27,7 @@ app.use(pinia)
 app.config.globalProperties.$http = axios
 
 app.component('BaseButton', BaseButton)
+app.component('BaseInput', BaseInput)
+app.component('BasePasswordInput', BasePasswordInput)
 
 app.mount('#app')

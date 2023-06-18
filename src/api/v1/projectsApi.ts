@@ -1,12 +1,18 @@
 import { axiosApi } from '../axios'
-import { iSingleProject } from '@/models/singleProjectTypes'
+import { iProject } from '@/types/singleProjectTypes'
+import { iProjectsMenuList } from '@/types/projectsListTypes'
 
-export const getProjectsList = async () => {
-  const response = await axiosApi.get('/projects')
+const getProjectsList = async () => {
+  const response = await axiosApi.get<iProjectsMenuList>('/projects')
   return response.data
 }
 
-export const getSingleProject = async (id: string) => {
-  const response = await axiosApi.get<iSingleProject>(`/projects/${id}`)
+const getSingleProject = async (id: number) => {
+  const response = await axiosApi.get<iProject>(`/projects/${id}`)
   return response.data
+}
+
+export default {
+  getProjectsList,
+  getSingleProject,
 }

@@ -1,11 +1,27 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import ProgressBar from 'primevue/progressbar'
+import { useSingleProjectStore } from '@/stores/singleProject'
+
+const singleProjectStore = useSingleProjectStore()
+const loading = computed(() => singleProjectStore.loadingUpdate)
+</script>
+
 <template>
   <div class="projects-wrapper">
+    <ProgressBar
+      v-if="loading"
+      mode="indeterminate"
+      class="progress-bar"
+    ></ProgressBar>
+
     <slot />
   </div>
 </template>
 
 <style scoped lang="scss">
 .projects-wrapper {
+  position: relative;
   width: 100%;
   height: 100%;
   max-height: calc(100vh - 80px);
@@ -27,5 +43,21 @@
   &::-webkit-scrollbar-track {
     background: #2f2f3b;
   }
+}
+
+.progress-bar {
+  position: absolute;
+  z-index: 10;
+  top: 0px;
+  left: 0;
+  height: 3px;
+  width: 100%;
+}
+
+::v-deep .p-progressbar {
+  background-color: transparent;
+}
+::v-deep .p-progressbar .p-progressbar-value {
+  background-color: #6560ba !important;
 }
 </style>

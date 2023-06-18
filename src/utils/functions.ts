@@ -4,7 +4,7 @@ export const delay = (t: number, v: any): Promise<any> => {
   })
 }
 
-export const falseLoadingState = async () => {
-  await delay(300, null)
+export const falseLoadingState = async (time: number = 300) => {
+  await delay(time, null)
   return false
 }

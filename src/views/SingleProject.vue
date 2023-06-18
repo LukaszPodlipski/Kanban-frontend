@@ -12,10 +12,8 @@ import TaskTile from '@/components/kanbanTable/TaskTile.vue'
 
 /* -------------------------------- USE STORE ------------------------------- */
 const singleProjectStore = useSingleProjectStore()
-const project = computed({
-  get: () => singleProjectStore.project,
-  set: (value) => singleProjectStore.updateProject(value),
-})
+
+const project = computed(() => singleProjectStore.project)
 /* -------------------------------- GET PROJECT ------------------------------- */
 const route = useRoute()
 const id = computed(() => Number(route.params.id))
@@ -68,26 +66,21 @@ const unChoooseDraggingItem = () => {
   isDraggingHelper.value = false
 }
 
-const onMoveCallback = async (evt: any) => {
-  const draggedTask = JSON.parse(JSON.stringify(evt.draggedContext.element))
-  const previousIndex = evt.draggedContext.index
-  const fututreIndex = evt.draggedContext.futureIndex
-  const fromColumnId = evt.from.id
-  const toColumnId = evt.to.id
-  console.log('draggedTask: ', draggedTask)
-  console.log('previousIndex: ', previousIndex)
-  console.log('fututreIndex: ', fututreIndex)
-  console.log('fromColumnId: ', fromColumnId)
-  console.log('toColumnId: ', toColumnId)
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(false)
-    }, 2000)
-  })
-}
+const moveTask = (evt: any) => {
+  const draggedTask = JSON.parse(JSON.stringify(evt.item))._underlying_vm_ || {}
+  const sourceIndex = evt?.oldDraggableIndex
+  const targetIndex = evt?.newDraggableIndex
+  const sourceColumnId = evt?.from?.id
+  const targetColumnId = evt?.to?.id
 
-const endFunction = (evt: any) => {
-  console.log('end', evt)
+  if (sourceColumnId !== targetColumnId || sourceIndex !== targetIndex) {
+    const data = {
+      taskId: Number(draggedTask.id),
+      targetColumnId: Number(targetColumnId),
+      targetIndex,
+    }
+    singleProjectStore.moveTask(data)
+  }
 }
 </script>
 
@@ -109,8 +102,7 @@ const endFunction = (evt: any) => {
           :id="column.id"
           @choose="chooseDraggingItem"
           @unchoose="unChoooseDraggingItem"
-          @end="endFunction"
-          :move="onMoveCallback"
+          @end="moveTask"
           item-key="id"
           group="tasks"
           ghost-class="task-ghost"

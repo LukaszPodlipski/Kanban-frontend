@@ -65,33 +65,4 @@ function validateField(value: any) {
 
 <style scoped lang="scss">
 @import '@/styles/baseInput.scss';
-// .input-label {
-//   color: #6560ba !important;
-// }
-
-// ::v-deep .p-inputtext {
-//   min-width: 250px;
-//   height: 45px;
-//   background: #dfdcff !important;
-//   border: 1px solid #6560ba !important;
-// }
-
-// ::v-deep .p-inputtext:enabled:focus {
-//   outline: 0 none;
-//   outline-offset: 0;
-//   box-shadow: 0 0 0 0.2rem #6560ba;
-//   border-color: #6560ba;
-// }
-// ::v-deep .p-invalid {
-//   border-radius: 4px;
-//   outline: 2px solid red !important;
-// }
-
-// .p-error {
-//   text-align: end !important;
-//   height: 20px;
-// }
-// ::v-deep .p-input-icon-right > i:last-of-type {
-//   color: #6560ba !important;
-// }
 </style>

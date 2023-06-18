@@ -6,7 +6,7 @@ export const axiosApi: AxiosInstance = axios.create({
   // Add any other configurations you need
   transformResponse: [
     function transformResponse(data) {
-      return JSON.parse(data)
+      return data ? JSON.parse(data) || {} : {}
     },
   ],
 })

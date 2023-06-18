@@ -1,17 +1,23 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import router from '@/router'
 import ProjectIcon from '@/components/icons/ProjectIcon.vue'
 
 import { useProjectsStore } from '@/stores/projects'
 import { useSingleProjectStore } from '@/stores/singleProject'
 import { useLayoutStore } from '@/stores/layout'
+import { useAuthStore } from '@/stores/auth'
 
-import { iProjectMenuItem } from '@/models/projectsListTypes'
+import { iProjectMenuItem } from '@/types/projectsListTypes'
 
 const projectsStore = useProjectsStore()
 const singleProjectStore = useSingleProjectStore()
 const layoutStore = useLayoutStore()
+const authStore = useAuthStore()
+
+onMounted(() => {
+  projectsStore.getProjects()
+})
 
 const fullSideBar = computed(() => layoutStore.sideBarOpened)
 
@@ -30,76 +36,88 @@ const formatItemName = (name: string): string => {
 </script>
 
 <template>
-  <div class="side-bar" :class="{ 'side-bar--mini': !fullSideBar }">
-    <div class="side-bar__hamburger flex align-items-center p-4">
-      <img
-        src="../../assets/icons/hamburger.svg"
-        class="cursor-pointer"
-        :class="{ 'rotate-90': !fullSideBar }"
-        @click="layoutStore.changeSideBarStatus"
-      />
-      <span v-if="fullSideBar" class="side-bar__title ml-3">Kanban</span>
-    </div>
-
-    <div class="content flex flex-column">
-      <div
-        class="px-4 flex flex-shrink-1 align-items-center"
-        :class="{ 'align-self-center': !fullSideBar }"
-      >
-        <span v-if="fullSideBar" class="content__title mr-1">ALL BOARDS</span>
-        <span class="content__title align-self-center">
-          ({{ projectsStore.projects.length }})</span
-        >
+  <div
+    class="side-bar flex flex-column justify-content-between"
+    :class="{ 'side-bar--mini': !fullSideBar }"
+  >
+    <div>
+      <div class="side-bar__hamburger flex align-items-center p-4">
+        <img
+          src="../../assets/icons/hamburger.svg"
+          class="cursor-pointer"
+          :class="{ 'rotate-90': !fullSideBar }"
+          @click="layoutStore.changeSideBarStatus"
+        />
+        <span v-if="fullSideBar" class="side-bar__title ml-3">Kanban</span>
       </div>
 
-      <div
-        class="content__items flex flex-column mt-2 flex-shrink-0"
-        :class="{ 'content__items-mini': !fullSideBar }"
-      >
+      <div class="content flex flex-column">
         <div
-          v-for="project in projectsStore.projects"
-          :key="project.name"
-          class="item flex align-items-center cursor-pointer px-2 py-3"
-          :class="{
-            'item--mini': !fullSideBar,
-            'mr-4 px-4 item--rounded': fullSideBar,
-            'item--selected':
-              project.id === singleProjectStore.selectedProjectId,
-          }"
-          @click="selectProject(project)"
+          class="px-4 flex flex-shrink-1 align-items-center"
+          :class="{ 'align-self-center': !fullSideBar }"
         >
-          <ProjectIcon
-            :class="{
-              shaking:
-                project.id === singleProjectStore.selectedProjectId &&
-                singleProjectStore.loading,
-            }"
-          />
-          <span class="ml-3">{{ formatItemName(project.name) }}</span>
-        </div>
-      </div>
-
-      <div class="content__actions mt-2 flex-shrink-1">
-        <div
-          class="action flex align-items-center cursor-pointer"
-          :class="{
-            'mr-4 pl-4 action--rounded': fullSideBar,
-          }"
-        >
-          <template v-if="fullSideBar">
-            <ProjectIcon color="#6560BA" />
-            <span class="action__title ml-3 py-3">Create New Board</span>
-          </template>
-          <div
-            v-else
-            class="action--mini align-self-center flex align-items-center py-2"
+          <span v-if="fullSideBar" class="content__title mr-1">ALL BOARDS</span>
+          <span class="content__title align-self-center">
+            ({{ projectsStore.projects.length }})</span
           >
-            <ProjectIcon color="#6560BA" class="mr-2" />
-            <span>+</span>
+        </div>
+
+        <div
+          class="content__items flex flex-column mt-2 flex-shrink-0"
+          :class="{ 'content__items-mini': !fullSideBar }"
+        >
+          <div
+            v-for="project in projectsStore.projects"
+            :key="project.name"
+            class="item flex align-items-center cursor-pointer px-2 py-3"
+            :class="{
+              'item--mini': !fullSideBar,
+              'mr-4 px-4 item--rounded': fullSideBar,
+              'item--selected':
+                project.id === singleProjectStore.selectedProjectId,
+            }"
+            @click="selectProject(project)"
+          >
+            <ProjectIcon
+              :class="{
+                shaking:
+                  project.id === singleProjectStore.selectedProjectId &&
+                  singleProjectStore.loading,
+              }"
+            />
+            <span class="ml-3">{{ formatItemName(project.name) }}</span>
+          </div>
+        </div>
+
+        <div class="content__actions mt-2 flex-shrink-1">
+          <div
+            class="action flex align-items-center cursor-pointer"
+            :class="{
+              'mr-4 pl-4 action--rounded': fullSideBar,
+            }"
+          >
+            <template v-if="fullSideBar">
+              <ProjectIcon color="#6560BA" />
+              <span class="action__title ml-3 py-3">Create New Board</span>
+            </template>
+            <div
+              v-else
+              class="action--mini align-self-center flex align-items-center py-2"
+            >
+              <ProjectIcon color="#6560BA" class="mr-2" />
+              <span>+</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <BaseButton
+      :label="fullSideBar ? 'Logout' : ''"
+      icon="sign-out"
+      class="mb-4 align-self-center"
+      style="width: 50%"
+      @click="authStore.logout"
+    />
   </div>
 </template>
 

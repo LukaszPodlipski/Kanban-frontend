@@ -1,6 +1,8 @@
 import { axiosApi } from '../axios'
 
-export const login = async (email: string, password: string) => {
+import { iLoginResponse } from '@/types/userTypes'
+
+export const login = async (email: string, password: string): Promise<iLoginResponse>  => {
   const response = await axiosApi.post('/login', { email, password })
   return response.data
 }

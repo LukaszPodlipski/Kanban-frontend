@@ -17,11 +17,13 @@
     "vee-validate": "^4.9.6",
     "vue": "^3.2.47",
     "vue-router": "^4.0.13",
-    "vuedraggable": "^4.1.0"
+    "vuedraggable": "^4.1.0",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/node": "^20.2.5",
+    "@types/ws": "^8.5.5",
     "@vitejs/plugin-vue": "^4.1.0",
     "prettier": "2.8.8",
     "sass": "^1.62.1",

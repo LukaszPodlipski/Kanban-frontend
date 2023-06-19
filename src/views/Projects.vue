@@ -1,7 +1,19 @@
 <script setup lang="ts">
+import { onBeforeMount, onUnmounted } from 'vue'
+import { useWebsocketStore } from '@/stores/websocket.ts'
 import SideBar from '@/components/layout/SideBar.vue'
 import TopBar from '@/components/layout/TopBar.vue'
 import ProjectsContentWrapper from '@/components/layout/ProjectsContentWrapper.vue'
+
+const websocketStore = useWebsocketStore()
+
+onBeforeMount(() => {
+  websocketStore.joinChannel('TasksIndexChannel')
+})
+
+onUnmounted(() => {
+  websocketStore.leaveChannel('TasksIndexChannel')
+})
 </script>
 
 <template>

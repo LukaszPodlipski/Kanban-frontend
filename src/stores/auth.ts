@@ -4,12 +4,13 @@ import { login } from '@/api/v1/authApi'
 import { authorizeAxios } from '@/api/axios'
 import { useRouter } from 'vue-router'
 import { iLoginResponse } from '@/types/userTypes'
+import { useWebsocketStore } from '@/stores/websocket.ts'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref({})
   const loading = ref<boolean>(false)
   const token = ref<string>('')
-
+  const websocketStore = useWebsocketStore()
   const router = useRouter()
 
   const isAuthorized = () => {
@@ -33,7 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = {}
   }
 
-  const setAuth = (payload: iLoginResponse) => {
+  const setAuth = (payload: iLoginResponse | null = null) => {
     const token = payload?.token || localStorage.getItem('KAN-Auth-Token')
     const user =
       payload?.user || JSON.parse(localStorage.getItem('KAN-User') || '{}')
@@ -42,6 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
       setToken(token)
       authorizeAxios(token)
       setUser(user)
+      websocketStore.connectWS()
     } else {
       logout()
     }

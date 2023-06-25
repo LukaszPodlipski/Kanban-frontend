@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
 import { useRoute } from 'vue-router'
-import { computed, onMounted, onUnmounted, watch, ref } from 'vue'
+import {
+  computed,
+  onMounted,
+  onBeforeMount,
+  onUnmounted,
+  watch,
+  ref,
+} from 'vue'
 
 import { useSingleProjectStore } from '@/stores/singleProject'
+import { useWebsocketStore } from '@/stores/websocket.ts'
 
 import AddNewColumn from '@/components/kanbanTable/AddNewColumn.vue'
 import ColumnHeader from '@/components/kanbanTable/ColumnHeader.vue'
@@ -12,28 +20,34 @@ import TaskTile from '@/components/kanbanTable/TaskTile.vue'
 
 /* -------------------------------- USE STORE ------------------------------- */
 const singleProjectStore = useSingleProjectStore()
+const websocketStore = useWebsocketStore()
 
 const project = computed(() => singleProjectStore.project)
 /* -------------------------------- GET PROJECT ------------------------------- */
 const route = useRoute()
 const id = computed(() => Number(route.params.id))
 
+onBeforeMount(() => {
+  websocketStore.joinChannel('TasksIndexChannel', { projectId: id.value })
+})
+
 onMounted(async () => {
   await singleProjectStore.setSelectedProject(id.value)
 })
 
 watch(id, async () => {
-  if (id.value) await singleProjectStore.setSelectedProject(id.value)
+  if (id.value) {
+    websocketStore.leaveChannel('TasksIndexChannel')
+    websocketStore.joinChannel('TasksIndexChannel', { projectId: id.value })
+    await singleProjectStore.setSelectedProject(id.value)
+  }
 })
 
 /* -------------------------------- CLEAR PROJECT ------------------------------- */
 onUnmounted(() => {
   singleProjectStore.clearSelectedProject()
+  websocketStore.leaveChannel('TasksIndexChannel')
 })
-/* -------------------------------- ?????? ------------------------------- */
-
-const loadingUpdate = computed(() => singleProjectStore.loadingUpdate)
-
 /* -------------------------------- DRAGGING LOGIC ------------------------------- */
 
 // to apply styles to the dragged element we need to use this hack with isDraggingHelper
@@ -110,11 +124,10 @@ const moveTask = (evt: any) => {
         >
           <template #item="{ element }">
             <TaskTile
+              v-if="!element.updating"
               :id="element.id"
               :task="element"
-              :disabled="
-                (isDragging && draggedElementId != +element.id) || loadingUpdate
-              "
+              :disabled="isDragging && draggedElementId != +element.id"
             />
           </template>
         </draggable>

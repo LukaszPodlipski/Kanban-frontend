@@ -7,6 +7,7 @@ export interface iTask {
   createdBy: ISimplifiedUser
   assignee: ISimplifiedUser
   projectColumnId: number
+  updating?: boolean
 }
 
 export interface iMoveTaskPayload {

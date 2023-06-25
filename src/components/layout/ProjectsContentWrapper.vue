@@ -54,10 +54,11 @@ const loading = computed(() => singleProjectStore.loadingUpdate)
   width: 100%;
 }
 
-::v-deep .p-progressbar {
+.projects-wrapper :deep(.p-progressbar) {
   background-color: transparent;
 }
-::v-deep .p-progressbar .p-progressbar-value {
+
+.p-progressbar :deep(.p-progressbar-value) {
   background-color: #6560ba !important;
 }
 </style>

@@ -2,20 +2,20 @@
   color: #6560ba !important;
 }
 
-::v-deep .p-inputtext {
+:deep(.p-inputtext) {
   min-width: 250px;
   height: 45px;
   background: #dfdcff !important;
   border: 1px solid #6560ba !important;
 }
 
-::v-deep .p-inputtext:enabled:focus {
+:deep(.p-inputtext:enabled:focus) {
   outline: 0 none;
   outline-offset: 0;
   box-shadow: 0 0 0 0.2rem #6560ba;
   border-color: #6560ba;
 }
-::v-deep .p-invalid {
+:deep(.p-invalid) {
   border-radius: 4px;
   outline: 2px solid red !important;
 }
@@ -24,6 +24,6 @@
   text-align: end !important;
   height: 10px;
 }
-::v-deep .p-input-icon-right > i:last-of-type {
+:deep(.p-input-icon-right > i:last-of-type) {
   color: #6560ba !important;
 }

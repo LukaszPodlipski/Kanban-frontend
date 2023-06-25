@@ -53,10 +53,10 @@ export function useWebSocket() {
     }
   }
 
-  const joinChannel = (channel) => {
+  const joinChannel = (channel, params) => {
     send({
       command: 'subscribe',
-      identifier: { channel },
+      identifier: { channel, params },
     })
   }
 

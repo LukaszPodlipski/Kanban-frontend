@@ -70,6 +70,8 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
   const moveTask = async (payload: any) => {
     loadingUpdate.value = true
     try {
+      const index = tasks.value.findIndex((task) => task.id === payload.taskId)
+      tasks.value[index] = { ...tasks.value[index], updating: true }
       tasksApi.moveTask(payload)
     } catch (error) {
       throw error
@@ -78,13 +80,51 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
     }
   }
 
+  const updateTask = (data: iTask) => {
+    const updatedIndex = tasks.value.findIndex((task) => task.id === data.id)
+    tasks.value[updatedIndex] = data
+  }
+
+  const createTask = (data: unknown) => {
+    console.log('createTask', data)
+  }
+
+  const deleteTask = (data: unknown) => {
+    console.log('deleteTask', data)
+  }
+
+  const updateColumn = (data: unknown) => {
+    console.log('updateColumn', data)
+  }
+
+  const createColumn = (data: unknown) => {
+    console.log('createColumn', data)
+  }
+
+  const deleteColumn = (data: unknown) => {
+    console.log('deleteColumn', data)
+  }
+
+  const updateProjectData = (data: unknown) => {
+    console.log('updateProjectData', data)
+  }
+
   return {
     clearSelectedProject,
     loading,
     loadingUpdate,
+    tasks,
     project,
     selectedProjectId,
     setSelectedProject,
     moveTask,
+    updateTask,
+    createTask,
+    deleteTask,
+    updateColumn,
+    deleteColumn,
+    createColumn,
+
+    updateProjectData,
   }
 })

@@ -1,6 +1,7 @@
 export interface ISimplifiedUser {
   id: number
   fullName?: string
+  avatarUrl: string
 }
 
 export interface iUser {
@@ -8,6 +9,7 @@ export interface iUser {
   name: string
   surname: string
   email: string
+  avatarUrl: string
 }
 
 export interface iLoginResponse {

@@ -151,8 +151,13 @@ const moveTask = (evt: any) => {
 }
 
 .task-ghost {
+  opacity: 0;
   -webkit-box-shadow: 3px 11px 49px -25px rgba(101, 96, 186, 1);
   -moz-box-shadow: 3px 11px 49px -25px rgba(101, 96, 186, 1);
   box-shadow: 3px 11px 49px -25px rgba(101, 96, 186, 1);
+}
+
+.sortable-chosen {
+  cursor: grabbing !important;
 }
 </style>

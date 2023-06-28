@@ -28,7 +28,7 @@ defineProps({
   color: v-bind(textColor);
   background-color: v-bind(backgroundColor);
   border: 1px solid v-bind(backgroundColor);
-  height: 45px;
+  height: 40px;
 
   &:enabled:hover {
     background: v-bind(hoverColor);

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SideBar from '@/components/layout/SideBar.vue'
-import TopBar from '@/components/layout/TopBar.vue'
+import TopBar from '@/components/layout/topbar/TopBar.vue'
 import ProjectsContentWrapper from '@/components/layout/ProjectsContentWrapper.vue'
 </script>
 

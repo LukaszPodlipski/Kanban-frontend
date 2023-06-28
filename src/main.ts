@@ -12,6 +12,7 @@ import Tooltip from 'primevue/tooltip'
 import BaseButton from './components/base/BaseButton.vue'
 import BaseInput from './components/base/BaseInput.vue'
 import BasePasswordInput from './components/base/BasePasswordInput.vue'
+import BaseSearch from './components/base/BaseSearch.vue'
 
 import './style.css'
 import 'primevue/resources/themes/saga-blue/theme.css' //theme
@@ -32,5 +33,6 @@ app.config.globalProperties.$http = axios
 app.component('BaseButton', BaseButton)
 app.component('BaseInput', BaseInput)
 app.component('BasePasswordInput', BasePasswordInput)
+app.component('BaseSearch', BaseSearch)
 
 app.mount('#app')

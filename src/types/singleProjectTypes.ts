@@ -1,4 +1,5 @@
 import { iTask } from './taskTypes'
+import { ISimplifiedUser } from './userTypes'
 
 export interface iColumn {
   id: number
@@ -13,6 +14,7 @@ export interface iProject {
   name: string
   description: string
   isOwner: boolean
+  members: ISimplifiedUser[]
   columns: iColumn[]
   tasks: iTask[]
 }
@@ -27,6 +29,7 @@ export interface iCompleteProject {
   id: number
   name: string
   isOwner: boolean
+  members: ISimplifiedUser[]
   description: string
   columns: iColumn[]
 }
@@ -35,6 +38,7 @@ export class CompleteProject implements iCompleteProject {
   id: number
   name: string
   isOwner: boolean
+  members: ISimplifiedUser[]
   description: string
   columns: iColumn[]
 
@@ -43,6 +47,7 @@ export class CompleteProject implements iCompleteProject {
     this.name = project.name
     this.isOwner = project.isOwner
     this.description = project.description
+    this.members = project.members
     this.columns =
       project?.columns
         .map((column) => {

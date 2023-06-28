@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref, Ref } from 'vue'
 
 import { iProjectData, iColumn } from '@/types/singleProjectTypes'
+import { ISimplifiedUser } from '@/types/userTypes'
 import { iTask } from '@/types/taskTypes'
 
 import projectsApi from '@/api/v1/projectsApi'
@@ -19,6 +20,7 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
   const projectData: Ref<iProjectData | null> = ref(null)
   const columns: Ref<iColumn[]> = ref([])
   const tasks: Ref<iTask[]> = ref([])
+  const members: Ref<ISimplifiedUser[]> = ref([])
 
   // project is a computed property that returns the project data in format which works with vue-draggable
   const project = computed(() => {
@@ -49,9 +51,11 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
       const {
         columns: projectColumns,
         tasks: projectTasks,
+        members: projectMembers,
         ...project
       } = response
 
+      members.value = projectMembers || []
       projectData.value = project
       columns.value = projectColumns
       tasks.value = projectTasks
@@ -115,6 +119,7 @@ export const useSingleProjectStore = defineStore('singleProject', () => {
     loadingUpdate,
     tasks,
     project,
+    members,
     selectedProjectId,
     setSelectedProject,
     moveTask,

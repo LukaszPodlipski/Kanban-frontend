@@ -3,8 +3,38 @@ body {
   font-family: 'Manrope', sans-serif;
 }
 
+.p-tooltip {
+  z-index: 1002;
+}
+
 .p-tooltip-text {
   font-size: 12px;
   padding: 0;
   margin: 0;
+}
+
+.p-menu {
+  padding: 0 !important;
+  transform: translateY(15px);
+}
+
+.p-menu.p-menu-overlay {
+  background: #2c2c38 !important;
+}
+
+.p-menu .p-submenu-header {
+  background: #2c2c38 !important;
+  color: #dfdcff !important;
+}
+
+.p-menu .p-menuitem-link .p-menuitem-text {
+  color: #dfdcff !important;
+}
+
+.p-menu .p-menuitem-link .p-menuitem-icon {
+  color: #dfdcff !important;
+}
+
+.p-menu .p-menuitem-link:not(.p-disabled):hover {
+  background: #21212d !important;
 }

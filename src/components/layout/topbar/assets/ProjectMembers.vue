@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useSingleProjectStore } from '@/stores/singleProject'
+import stores from '@/stores'
 import Menu from 'primevue/menu'
 import { ISimplifiedUser } from '@/types/userTypes'
 
-const singleProjectStore = useSingleProjectStore()
+const membersStore = stores.useMembersStore()
 
 const numOfVisibleMembers = 3
 
-const members = computed<ISimplifiedUser[]>(
-  () => singleProjectStore?.members || [],
-)
+const members = computed<ISimplifiedUser[]>(() => membersStore?.items || [])
 const numOfMembers = computed<number>(() => members.value.length)
 
 const selectedMembers = ref<number[]>([])
@@ -50,7 +48,7 @@ const anyExceedingMembersSelected = computed(() => {
 </script>
 
 <template>
-  <div class="flex align-items-center">
+  <div class="flex align-items-center" v-if="!membersStore.loading">
     <div
       v-for="member in members.slice(0, numOfVisibleMembers)"
       :key="member.id"
@@ -160,3 +158,4 @@ const anyExceedingMembersSelected = computed(() => {
   }
 }
 </style>
+@/stores/project

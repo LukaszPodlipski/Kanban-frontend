@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import SideBar from '@/components/layout/SideBar.vue'
-import TopBar from '@/components/layout/topbar/TopBar.vue'
-import ProjectsContentWrapper from '@/components/layout/ProjectsContentWrapper.vue'
+import SideBar from '@/components/layout/sidebar/SideBar.vue'
+import Topbar from '@/components/layout/topbar/Topbar.vue'
+import ProjectsContentWrapper from '@/components/table/project/ProjectsContentWrapper.vue'
 </script>
 
 <template>
   <div class="app-wrapper flex">
     <SideBar />
     <div class="content-wrapper flex flex-column">
-      <TopBar />
+      <Topbar />
       <ProjectsContentWrapper>
         <router-view />
       </ProjectsContentWrapper>

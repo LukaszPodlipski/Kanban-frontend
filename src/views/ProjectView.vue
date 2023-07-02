@@ -10,19 +10,19 @@ import {
   ref,
 } from 'vue'
 
-import { useSingleProjectStore } from '@/stores/singleProject'
-import { useWebsocketStore } from '@/stores/websocket.ts'
+import stores from '@/stores'
 
-import AddNewColumn from '@/components/kanbanTable/AddNewColumn.vue'
-import ColumnHeader from '@/components/kanbanTable/ColumnHeader.vue'
-import ProjectLoadingSkeleton from '@/components/kanbanTable/ProjectLoadingSkeleton.vue'
-import TaskTile from '@/components/kanbanTable/TaskTile.vue'
+import AddNewColumn from '@/components/table/columns/AddNewColumn.vue'
+import ColumnHeader from '@/components/table/columns/ColumnHeader.vue'
+import TableLoadingSkeleton from '@/components/table/TableLoadingSkeleton.vue'
+import TaskTile from '@/components/table/tasks/TaskTile.vue'
 
 /* -------------------------------- USE STORE ------------------------------- */
-const singleProjectStore = useSingleProjectStore()
-const websocketStore = useWebsocketStore()
+const projectStore = stores.useProjectStore()
+const tasksStore = stores.useTasksStore()
+const websocketStore = stores.useWebsocketStore()
 
-const project = computed(() => singleProjectStore.project)
+const project = computed(() => projectStore.project)
 /* -------------------------------- GET PROJECT ------------------------------- */
 const route = useRoute()
 const id = computed(() => Number(route.params.id))
@@ -32,20 +32,20 @@ onBeforeMount(() => {
 })
 
 onMounted(async () => {
-  await singleProjectStore.setSelectedProject(id.value)
+  await projectStore.getCompleteProject(id.value)
 })
 
 watch(id, async () => {
   if (id.value) {
     websocketStore.leaveChannel('TasksIndexChannel')
     websocketStore.joinChannel('TasksIndexChannel', { projectId: id.value })
-    await singleProjectStore.setSelectedProject(id.value)
+    projectStore.getCompleteProject(id.value)
   }
 })
 
 /* -------------------------------- CLEAR PROJECT ------------------------------- */
 onUnmounted(() => {
-  singleProjectStore.clearSelectedProject()
+  projectStore.clearSelectedProject()
   websocketStore.leaveChannel('TasksIndexChannel')
 })
 /* -------------------------------- DRAGGING LOGIC ------------------------------- */
@@ -89,20 +89,21 @@ const moveTask = (evt: any) => {
 
   if (sourceColumnId !== targetColumnId || sourceIndex !== targetIndex) {
     const data = {
-      taskId: Number(draggedTask.id),
       targetColumnId: Number(targetColumnId),
       targetIndex,
     }
-    singleProjectStore.moveTask(data)
+    // projectStore.moveTask(data)
+    tasksStore.updateItemWithSpecificAction(
+      Number(draggedTask.id),
+      'move',
+      data,
+    )
   }
 }
 </script>
 
 <template>
-  <div
-    v-if="!singleProjectStore.loading"
-    class="flex h-full flex-column relative"
-  >
+  <div v-if="!projectStore.loading" class="flex h-full flex-column relative">
     <div class="flex columns-wrapper">
       <div
         v-for="column in project?.columns"
@@ -135,7 +136,7 @@ const moveTask = (evt: any) => {
       <AddNewColumn />
     </div>
   </div>
-  <ProjectLoadingSkeleton v-else />
+  <TableLoadingSkeleton v-else />
 </template>
 
 <style scoped lang="scss">
@@ -161,3 +162,4 @@ const moveTask = (evt: any) => {
   cursor: grabbing !important;
 }
 </style>
+@/stores/project

@@ -1,31 +1,45 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useWebSocket } from '@/composables/useWebsockets.js'
-import { useSingleProjectStore } from '@/stores/singleProject.js'
 import { iTask } from '@/types/taskTypes'
+import { iColumn } from '@/types/projectTypes'
+
+import stores from '@/stores/index.ts'
 
 type FunctionDictionary = {
   [key: string]: {
-    [key: string]: (data: iTask) => void
+    [key: string]: (data: any) => void
   }
 }
 
 export const useWebsocketStore = defineStore('websocket', () => {
-  const stores = {
-    singleProject: useSingleProjectStore(),
+  const storesList = {
+    tasks: stores.useTasksStore(),
+    columns: stores.useColumnsStore(),
   }
 
   const functionDictionary: FunctionDictionary = {
     TasksIndexChannel: {
       create: (data: iTask) => {
-        stores.singleProject.createTask(data)
+        storesList.tasks.WSCreatedItemHandler(data)
       },
       update: (data: iTask) => {
-        stores.singleProject.updateTask(data)
+        storesList.tasks.WSUpdatedItemHandler(data)
       },
       delete: (data: iTask) => {
-        stores.singleProject.deleteColumn(data)
+        storesList.tasks.WSDeletedItemHandler(data)
       },
+    },
+    ColumnsIndexChannel: {
+      create: (data: iColumn) => {
+        storesList.columns.WSCreatedItemHandler(data)
+      },
+      update: (data: iColumn) => {
+        storesList.columns.WSUpdatedItemHandler(data)
+      },
+      delete: (data: iColumn) => {
+        storesList.columns.WSDeletedItemHandler(data)
+      }
     },
   }
 
@@ -76,6 +90,6 @@ export const useWebsocketStore = defineStore('websocket', () => {
     joinChannel,
     leaveChannel,
     handleMessage,
-    stores,
+    storesList,
   }
 })

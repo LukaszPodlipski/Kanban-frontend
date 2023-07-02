@@ -1,10 +1,9 @@
-import { useAuthStore } from '@/stores/auth'
-import { useWebsocketStore } from '@/stores/websocket.ts'
+import stores from '@/stores'
 import { ref } from 'vue'
 
 export function useWebSocket() {
-  const authStore = useAuthStore()
-  const websocketStore = useWebsocketStore()
+  const authStore = stores.useAuthStore()
+  const websocketStore = stores.useWebsocketStore()
   const socket = ref(null)
   const token = ref('')
   const isConnected = ref(false)

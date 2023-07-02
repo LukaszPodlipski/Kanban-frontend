@@ -1,6 +1,6 @@
-export interface iProjectMenuItem {
+export interface iProjectSimplified {
   name: string
   id: number
 }
 
-export type iProjectsMenuList = iProjectMenuItem[]
+export type iProjects = iProjectSimplified[]

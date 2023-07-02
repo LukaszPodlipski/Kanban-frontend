@@ -3,27 +3,24 @@ import { computed, onMounted } from 'vue'
 import router from '@/router'
 import ProjectIcon from '@/components/icons/ProjectIcon.vue'
 
-import { useProjectsStore } from '@/stores/projects'
-import { useSingleProjectStore } from '@/stores/singleProject'
-import { useLayoutStore } from '@/stores/layout'
-import { useAuthStore } from '@/stores/auth'
+import stores from '@/stores'
 
-import { iProjectMenuItem } from '@/types/projectsListTypes'
+import { iProjectSimplified } from '@/types/projectsListTypes'
 
-const projectsStore = useProjectsStore()
-const singleProjectStore = useSingleProjectStore()
-const layoutStore = useLayoutStore()
-const authStore = useAuthStore()
+const projectsStore = stores.useProjectsStore()
+const projectStore = stores.useProjectStore()
+const layoutStore = stores.useLayoutStore()
+const authStore = stores.useAuthStore()
 
 onMounted(() => {
-  projectsStore.getProjects()
+  projectsStore.getItems()
 })
 
 const fullSideBar = computed(() => layoutStore.sideBarOpened)
 
-const selectProject = (project: iProjectMenuItem): void => {
-  if (singleProjectStore.loading) return
-  router.push({ name: 'SingleProject', params: { id: project.id } })
+const selectProject = (project: iProjectSimplified): void => {
+  if (projectStore.loading) return
+  router.push({ name: 'Project', params: { id: project.id } })
 }
 
 const formatItemName = (name: string): string => {
@@ -43,7 +40,7 @@ const formatItemName = (name: string): string => {
     <div>
       <div class="side-bar__hamburger flex align-items-center p-4">
         <img
-          src="../../assets/icons/hamburger.svg"
+          src="../../../assets/icons/hamburger.svg"
           class="cursor-pointer"
           :class="{ 'rotate-90': !fullSideBar }"
           @click="layoutStore.changeSideBarStatus"
@@ -58,7 +55,7 @@ const formatItemName = (name: string): string => {
         >
           <span v-if="fullSideBar" class="content__title mr-1">ALL BOARDS</span>
           <span class="content__title align-self-center">
-            ({{ projectsStore.projects.length }})</span
+            ({{ projectsStore.items.length }})</span
           >
         </div>
 
@@ -67,22 +64,21 @@ const formatItemName = (name: string): string => {
           :class="{ 'content__items-mini': !fullSideBar }"
         >
           <div
-            v-for="project in projectsStore.projects"
+            v-for="project in projectsStore.items"
             :key="project.name"
             class="item flex align-items-center cursor-pointer px-2 py-3"
             :class="{
               'item--mini': !fullSideBar,
               'mr-4 px-4 item--rounded': fullSideBar,
-              'item--selected':
-                project.id === singleProjectStore.selectedProjectId,
+              'item--selected': project.id === projectStore.selectedProjectId,
             }"
             @click="selectProject(project)"
           >
             <ProjectIcon
               :class="{
                 shaking:
-                  project.id === singleProjectStore.selectedProjectId &&
-                  singleProjectStore.loading,
+                  project.id === projectStore.selectedProjectId &&
+                  projectStore.loading,
               }"
             />
             <span class="ml-3">{{ formatItemName(project.name) }}</span>
@@ -245,3 +241,4 @@ const formatItemName = (name: string): string => {
   }
 }
 </style>
+@/stores/project

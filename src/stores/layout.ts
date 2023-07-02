@@ -8,6 +8,5 @@ export const useLayoutStore = defineStore('layout', () => {
     sideBarOpened.value = !sideBarOpened.value
   }
 
-
   return { sideBarOpened, changeSideBarStatus }
 })

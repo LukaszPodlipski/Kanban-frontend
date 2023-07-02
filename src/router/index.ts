@@ -1,38 +1,38 @@
 import { createWebHistory, createRouter } from 'vue-router'
-import Home from '../views/Home.vue'
-import Projects from '../views/Projects.vue'
-import { useAuthStore } from '@/stores/auth'
+import HomeView from '../views/HomeView.vue'
+import ProjectsWrapperView from '../views/ProjectsWrapperView.vue'
+import stores from '@/stores'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: HomeView,
     redirect: '/projects',
-    meta: { public: true }
+    meta: { public: true },
   },
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login.vue'),
-    meta: { public: true }
+    component: () => import('../views/LoginView.vue'),
+    meta: { public: true },
   },
 
   {
     path: '/projects',
     name: 'Projects',
-    component: Projects,
+    component: ProjectsWrapperView,
     redirect: '/projects/explore',
     children: [
       {
         path: 'explore',
-        name: 'explore',
-        component: () => import('../views/ExploreProjects.vue'),
+        name: 'Explore',
+        component: () => import('../views/ExploreProjectsView.vue'),
       },
       {
         path: ':id',
-        name: 'SingleProject',
-        component: () => import('../views/SingleProject.vue'),
+        name: 'Project',
+        component: () => import('../views/ProjectView.vue'),
       },
     ],
   },
@@ -44,7 +44,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _, next) => {
-  const authStore = useAuthStore()
+  const authStore = stores.useAuthStore()
 
   const isAuthorized = authStore.isAuthorized()
 

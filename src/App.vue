@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
+import stores from '@/stores'
 import { onBeforeMount } from 'vue'
 
-const authStore = useAuthStore()
+const authStore = stores.useAuthStore()
 
 onBeforeMount(() => {
   authStore.setAuth()

@@ -1,16 +1,16 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { login } from '@/api/v1/authApi'
+import api from '@/api/v1/indexApi'
 import { authorizeAxios } from '@/api/axios'
 import { useRouter } from 'vue-router'
 import { iLoginResponse } from '@/types/userTypes'
-import { useWebsocketStore } from '@/stores/websocket.ts'
+import stores from '@/stores'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref({})
   const loading = ref<boolean>(false)
   const token = ref<string>('')
-  const websocketStore = useWebsocketStore()
+  const websocketStore = stores.useWebsocketStore()
   const router = useRouter()
 
   const isAuthorized = () => {
@@ -57,7 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
   const loginUser = async (email: string, password: string) => {
     try {
       loading.value = true
-      const response = await login(email, password)
+      const response = await api.login(email, password)
       setAuth(response)
       router.push({ name: 'Projects' })
     } catch (error) {

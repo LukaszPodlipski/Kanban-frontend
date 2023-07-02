@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import ProgressBar from 'primevue/progressbar'
-import { useSingleProjectStore } from '@/stores/singleProject'
+import stores from '@/stores'
 
-const singleProjectStore = useSingleProjectStore()
-const loading = computed(() => singleProjectStore.loadingUpdate)
+const tasksStore = stores.useTasksStore()
+const loading = computed(() => tasksStore.loading)
 </script>
 
 <template>
@@ -62,3 +62,4 @@ const loading = computed(() => singleProjectStore.loadingUpdate)
   background-color: #6560ba !important;
 }
 </style>
+@/stores/project

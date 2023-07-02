@@ -3,14 +3,14 @@ import { useForm } from 'vee-validate'
 import { ref } from 'vue'
 import rules from '@/utils/validators'
 
-import { useAuthStore } from '@/stores/auth'
+import stores from '@/stores'
 
 const { handleSubmit, resetForm } = useForm()
 
 const emailValue = ref('')
 const passwordValue = ref('')
 
-const authStore = useAuthStore()
+const authStore = stores.useAuthStore()
 
 const onSubmit = handleSubmit(async (values) => {
   if (values.emailValue && values.passwordValue) {

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import SideBar from '@/components/layout/sidebar/SideBar.vue'
 import Topbar from '@/components/layout/topbar/Topbar.vue'
-import ProjectsContentWrapper from '@/components/table/project/ProjectsContentWrapper.vue'
 </script>
 
 <template>
@@ -9,9 +8,7 @@ import ProjectsContentWrapper from '@/components/table/project/ProjectsContentWr
     <SideBar />
     <div class="content-wrapper flex flex-column">
       <Topbar />
-      <ProjectsContentWrapper>
-        <router-view />
-      </ProjectsContentWrapper>
+      <router-view />
     </div>
   </div>
 </template>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import stores from '@/stores'
-import ProjectMembers from '../assets/ProjectMembers.vue'
-import TopbarTemplate from '../assets/TopbarTemplate.vue'
+import ProjectMembers from '../fragments/ProjectMembers.vue'
+import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 
 const projectStore = stores.useProjectStore()
 const tasksStore = stores.useTasksStore()

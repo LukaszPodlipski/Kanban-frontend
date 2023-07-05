@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ProjectsWrapperView from '../views/ProjectsWrapperView.vue'
+import DashboardWrapperView from '../views/DashboardWrapperView.vue'
 import stores from '@/stores'
 
 const routes = [
@@ -9,33 +9,38 @@ const routes = [
     name: 'Home',
     component: HomeView,
     redirect: '/projects',
-    meta: { public: true },
+    meta: { public: true, title: 'Welcome' },
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import('../views/LoginView.vue'),
-    meta: { public: true },
+    meta: { public: true, title: 'Auth' },
   },
-
   {
-    path: '/projects',
-    name: 'Projects',
-    component: ProjectsWrapperView,
-    redirect: '/projects/explore',
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: DashboardWrapperView,
+    redirect: '/dashboard/explore',
     children: [
       {
         path: 'explore',
         name: 'Explore',
         component: () => import('../views/ExploreProjectsView.vue'),
+        meta: { public: true, title: 'Explore' },
       },
       {
-        path: ':id',
+        path: 'project/:id',
         name: 'Project',
         component: () => import('../views/ProjectView.vue'),
+        meta: { public: true, title: 'Project' },
       },
     ],
   },
+  {
+    path: "/:notFound(.*)",
+    redirect: '/dashboard',
+  }
 ]
 
 const router = createRouter({
@@ -50,7 +55,7 @@ router.beforeEach((to, _, next) => {
 
   if (isAuthorized) {
     if (to.name === 'Login') {
-      next({ name: 'Projects' })
+      next({ name: 'Dashboard' })
     } else {
       next()
     }
@@ -58,6 +63,11 @@ router.beforeEach((to, _, next) => {
     next()
   } else {
     next({ name: 'Login' })
+  }
+
+  const title = to.meta.title as string
+  if (title) {
+    document.title = `Kanban - ${title}`
   }
 })
 

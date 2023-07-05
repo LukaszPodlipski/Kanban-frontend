@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import TopbarTemplate from '../assets/TopbarTemplate.vue'
+import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 import stores from '@/stores'
 
 const authStore = stores.useAuthStore()

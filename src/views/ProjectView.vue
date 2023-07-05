@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
+import ProgressBar from 'primevue/progressbar'
+
 import { useRoute } from 'vue-router'
 import {
   computed,
@@ -103,43 +105,91 @@ const moveTask = (evt: any) => {
 </script>
 
 <template>
-  <div v-if="!projectStore.loading" class="flex h-full flex-column relative">
-    <div class="flex columns-wrapper">
-      <div
-        v-for="column in project?.columns"
-        :key="column.id"
-        class="column mr-5"
-      >
-        <ColumnHeader :column="column" />
-        <draggable
-          v-model="column.tasks"
-          :sections="column.tasks"
-          :id="column.id"
-          @choose="chooseDraggingItem"
-          @unchoose="unChoooseDraggingItem"
-          @end="moveTask"
-          item-key="id"
-          group="tasks"
-          ghost-class="task-ghost"
-          class="h-full mt-4"
+  <div class="projects-wrapper">
+    <ProgressBar
+      v-if="tasksStore.loading"
+      mode="indeterminate"
+      class="progress-bar"
+    ></ProgressBar>
+    <div v-if="!projectStore.loading" class="flex h-full flex-column relative">
+      <div class="flex columns-wrapper">
+        <div
+          v-for="column in project?.columns"
+          :key="column.id"
+          class="column mr-5"
         >
-          <template #item="{ element }">
-            <TaskTile
-              v-if="!element.updating"
-              :id="element.id"
-              :task="element"
-              :disabled="isDragging && draggedElementId != +element.id"
-            />
-          </template>
-        </draggable>
+          <ColumnHeader :column="column" />
+          <draggable
+            v-model="column.tasks"
+            :sections="column.tasks"
+            :id="column.id"
+            @choose="chooseDraggingItem"
+            @unchoose="unChoooseDraggingItem"
+            @end="moveTask"
+            item-key="id"
+            group="tasks"
+            ghost-class="task-ghost"
+            class="h-full mt-4"
+          >
+            <template #item="{ element }">
+              <TaskTile
+                v-if="!element.updating"
+                :id="element.id"
+                :task="element"
+                :disabled="isDragging && draggedElementId != +element.id"
+              />
+            </template>
+          </draggable>
+        </div>
+        <AddNewColumn />
       </div>
-      <AddNewColumn />
     </div>
+    <TableLoadingSkeleton v-else />
   </div>
-  <TableLoadingSkeleton v-else />
 </template>
 
 <style scoped lang="scss">
+.projects-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 80px);
+  overflow-y: scroll;
+  padding: 24px 32px 32px 32px;
+  background-color: #21212d;
+  border-bottom: 3px solid #2f2f3b;
+  border-left: 3px solid #2f2f3b;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #6560ba;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #2f2f3b;
+  }
+}
+
+.progress-bar {
+  position: absolute;
+  z-index: 10;
+  top: 0px;
+  left: 0;
+  height: 3px;
+  width: 100%;
+}
+
+.projects-wrapper :deep(.p-progressbar) {
+  background-color: transparent;
+}
+
+.p-progressbar :deep(.p-progressbar-value) {
+  background-color: #6560ba !important;
+}
 .columns-wrapper {
   position: relative;
 }

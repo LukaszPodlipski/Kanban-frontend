@@ -59,7 +59,7 @@ export const useAuthStore = defineStore('auth', () => {
       loading.value = true
       const response = await api.login(email, password)
       setAuth(response)
-      router.push({ name: 'Projects' })
+      router.push({ name: 'Dashboard' })
     } catch (error) {
       console.log(error)
     } finally {

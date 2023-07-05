@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
+import stores  from '@/stores'
 
 export const axiosApi: AxiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/`,
@@ -18,3 +19,14 @@ export function authorizeAxios(token: string) {
 export function deauthorizeAxios() {
   delete axiosApi.defaults.headers.common['Authorization']
 }
+
+axiosApi.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      const authStore = stores.useAuthStore();
+      authStore.logout();
+    }
+    return Promise.reject(error);
+  }
+);

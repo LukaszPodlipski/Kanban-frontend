@@ -50,6 +50,7 @@ function validateField(value: any) {
       @update:model-value="(value: string) => $emit('update:modelValue', value)"
       :feedback="false"
       toggleMask
+      autocomplete="current-password"
       :class="{ 'p-invalid': errorMessage }"
       aria-describedby="text-error"
     />

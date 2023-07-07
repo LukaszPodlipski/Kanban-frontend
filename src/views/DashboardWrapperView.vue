@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import SideBar from '@/components/layout/sidebar/SideBar.vue'
+import Sidebar from '@/components/layout/sidebar/Sidebar.vue'
 import Topbar from '@/components/layout/topbar/Topbar.vue'
 </script>
 
 <template>
   <div class="app-wrapper flex">
-    <SideBar />
+    <Sidebar />
     <div class="content-wrapper flex flex-column">
       <Topbar />
       <router-view />

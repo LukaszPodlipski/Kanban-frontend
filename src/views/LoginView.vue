@@ -39,6 +39,7 @@ const onSubmit = handleSubmit(async (values) => {
           <BaseInput
             v-model="emailValue"
             label="Email"
+            autocomplete="username"
             :rules="[(value:string) => rules.required(value,'Email'), rules.email]"
             icon-right="pi-user"
           />

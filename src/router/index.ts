@@ -27,13 +27,45 @@ const routes = [
         path: 'explore',
         name: 'Explore',
         component: () => import('../views/ExploreProjectsView.vue'),
-        meta: { public: true, title: 'Explore' },
+        meta: { title: 'Explore' },
       },
       {
         path: 'project/:id',
         name: 'Project',
         component: () => import('../views/ProjectView.vue'),
-        meta: { public: true, title: 'Project' },
+        meta: { title: 'Project' },
+        children: [
+          {
+            path: 'members',
+            name: 'ProjectMembers',
+            component: () => import('../components/table/project/ProjectMembers.vue'),
+            meta: { title: 'Project members' },
+          },
+          {
+            path: 'statistics',
+            name: 'ProjectStatistics',
+            component: () => import('../components/table/project/ProjectStatistics.vue'),
+            meta: { title: 'Project statistics' },
+          },
+          {
+            path: 'settings',
+            name: 'ProjectSettings',
+            component: () => import('../components/table/project/ProjectSettings.vue'),
+            meta: { title: 'Project settings' },
+          }
+        ]
+      },
+      {
+        path: 'account',
+        name: 'Account',
+        component: () => import('../views/AccountView.vue'),
+        meta: { title: 'Account' },
+      },
+      {
+        path: 'preferences',
+        name: 'Preferences',
+        component: () => import('../views/PreferencesView.vue'),
+        meta: { title: 'Preferences' },
       },
     ],
   },

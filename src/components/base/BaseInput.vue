@@ -14,6 +14,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  autocomplete: {
+    type: String,
+    default: 'off',
+  },
 })
 
 const { value, errorMessage } = useField(
@@ -53,6 +57,7 @@ function validateField(value: any) {
       v-model="value"
       @update:model-value="(value: string) => $emit('update:modelValue', value)"
       class="w-full"
+      :autocomplete="autocomplete"
       :class="{ 'p-invalid': errorMessage }"
       aria-describedby="text-error"
     />

@@ -38,6 +38,9 @@ const props = defineProps({
     font-size: 24px;
     font-weight: 600;
     color: #dfdcff;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
   }
 
   &__sceleton {

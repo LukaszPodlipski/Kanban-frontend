@@ -34,26 +34,27 @@ const routes = [
         name: 'Project',
         component: () => import('../views/ProjectView.vue'),
         meta: { title: 'Project' },
-        children: [
-          {
-            path: 'members',
-            name: 'ProjectMembers',
-            component: () => import('../components/table/project/ProjectMembers.vue'),
-            meta: { title: 'Project members' },
-          },
-          {
-            path: 'statistics',
-            name: 'ProjectStatistics',
-            component: () => import('../components/table/project/ProjectStatistics.vue'),
-            meta: { title: 'Project statistics' },
-          },
-          {
-            path: 'settings',
-            name: 'ProjectSettings',
-            component: () => import('../components/table/project/ProjectSettings.vue'),
-            meta: { title: 'Project settings' },
-          }
-        ]
+      },
+      {
+        path: 'project/:id/members',
+        name: 'ProjectMembers',
+        component: () =>
+          import('../components/table/project/ProjectMembers.vue'),
+        meta: { title: 'Project members' },
+      },
+      {
+        path: 'project/:id/statistics',
+        name: 'ProjectStatistics',
+        component: () =>
+          import('../components/table/project/ProjectStatistics.vue'),
+        meta: { title: 'Project statistics' },
+      },
+      {
+        path: 'project/:id/settings',
+        name: 'ProjectSettings',
+        component: () =>
+          import('../components/table/project/ProjectSettings.vue'),
+        meta: { title: 'Project settings' },
       },
       {
         path: 'account',
@@ -70,9 +71,9 @@ const routes = [
     ],
   },
   {
-    path: "/:notFound(.*)",
+    path: '/:notFound(.*)',
     redirect: '/dashboard',
-  }
+  },
 ]
 
 const router = createRouter({

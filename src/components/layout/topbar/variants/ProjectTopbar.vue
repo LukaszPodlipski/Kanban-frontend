@@ -5,8 +5,19 @@ import ProjectMembers from '../fragments/ProjectMembers.vue'
 import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 
 const projectStore = stores.useProjectStore()
+const layoutStore = stores.useLayoutStore()
 const tasksStore = stores.useTasksStore()
 const searchQuery = ref<string>('')
+
+const openDialog = () => {
+  layoutStore.openDialog({
+    title: 'Add New Task',
+    component: 'AddNewTaskDialog',
+    data: {
+      submitTitle: 'Add Task',
+    },
+  })
+}
 </script>
 
 <template>
@@ -29,6 +40,7 @@ const searchQuery = ref<string>('')
         label="Add New Task"
         icon="plus"
         :disabled="tasksStore.loading"
+        @click="openDialog"
         class="mr-4"
       />
       <i class="pi pi-cog" :style="{ color: '#6560ba', fontSize: '24px' }"></i>

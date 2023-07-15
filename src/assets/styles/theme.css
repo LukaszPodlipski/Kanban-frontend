@@ -6339,7 +6339,10 @@
   height: 1.5rem;
 }
 .p-toast {
-  opacity: 0.9;
+  min-width: 20rem !important;
+  max-width: 30rem !important;
+  width: auto !important;
+  opacity: 1;
 }
 .p-toast .p-toast-message {
   margin: 0 0 1rem 0;
@@ -6347,14 +6350,23 @@
   border-radius: 4px;
 }
 .p-toast .p-toast-message .p-toast-message-content {
-  padding: 1rem;
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1rem;
   border-width: 0 0 0 6px;
 }
 .p-toast .p-toast-message .p-toast-message-content .p-toast-message-text {
-  margin: 0 0 0 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .p-toast .p-toast-message .p-toast-message-content .p-toast-message-icon {
-  font-size: 2rem;
+  /* display: none; */
+  margin-right: 15px;
+  font-size: 1.2rem;
+  margin-top: 2px;
 }
 .p-toast
   .p-toast-message
@@ -6364,12 +6376,14 @@
   height: 2rem;
 }
 .p-toast .p-toast-message .p-toast-message-content .p-toast-summary {
-  font-weight: 700;
+  font-weight: 500;
 }
 .p-toast .p-toast-message .p-toast-message-content .p-toast-detail {
+  display: none;
   margin: 0.5rem 0 0 0;
 }
 .p-toast .p-toast-message .p-toast-icon-close {
+  display: none;
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -6386,23 +6400,19 @@
 }
 .p-toast .p-toast-message.p-toast-message-info {
   background: #1256de;
-  border: solid #696cff;
-  border-width: 0 0 0 6px;
-  color: #696cff;
+  color: #dfdcff;
 }
 .p-toast .p-toast-message.p-toast-message-info .p-toast-message-icon,
 .p-toast .p-toast-message.p-toast-message-info .p-toast-icon-close {
   color: #696cff;
 }
 .p-toast .p-toast-message.p-toast-message-success {
-  background: #52ba28;
-  border: solid #1ea97c;
-  border-width: 0 0 0 6px;
-  color: #1ea97c;
+  background: #2e7d32;
+  color: #dfdcff;
 }
 .p-toast .p-toast-message.p-toast-message-success .p-toast-message-icon,
 .p-toast .p-toast-message.p-toast-message-success .p-toast-icon-close {
-  color: #1ea97c;
+  color: #dfdcff;
 }
 .p-toast .p-toast-message.p-toast-message-warn {
   background: #ff7a00;
@@ -6416,13 +6426,11 @@
 }
 .p-toast .p-toast-message.p-toast-message-error {
   background: #ed0000;
-  border: solid #ff5757;
-  border-width: 0 0 0 6px;
-  color: #ff5757;
+  color: #dfdcff;
 }
 .p-toast .p-toast-message.p-toast-message-error .p-toast-message-icon,
 .p-toast .p-toast-message.p-toast-message-error .p-toast-icon-close {
-  color: #ff5757;
+  color: #ff6d6d;
 }
 .p-galleria .p-galleria-close {
   margin: 0.5rem;

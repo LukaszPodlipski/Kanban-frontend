@@ -73,7 +73,12 @@ const addTask = async () => {
   try {
     await tasksStore.createItem(params)
     layoutStore.closeDialog()
-  } catch (error) {
+    layoutStore.showToast({ message: 'Task created successfully' })
+  } catch (error: any) {
+    layoutStore.showToast({
+      message: error.response.data.error,
+      type: 'error',
+    })
     console.log('error: ', error)
   }
 }

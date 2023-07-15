@@ -196,7 +196,7 @@ const clearNestedMenu = () => {
       :style="{ marginBottom: fullSideBar ? '0' : '2px' }"
     >
       <img
-        src="../../../assets/icons/hamburger.svg"
+        src="../../../assets/images/hamburger.svg"
         :class="{ 'rotate-90': !fullSideBar }"
         @click="layoutStore.changeSideBarStatus"
       />

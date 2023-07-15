@@ -5,6 +5,8 @@ import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
 import Textarea from 'primevue/textarea'
 import rules from '@/utils/validators'
 import stores from '@/stores'
+import { iTask } from '@/types/taskTypes'
+import { trimText } from '@/utils/functions'
 
 const { errors } = useForm()
 
@@ -29,7 +31,16 @@ const members = computed(() => {
 })
 
 const tasks = computed(() => {
-  return tasksStore.items
+  return tasksStore.items.map((task: iTask) => {
+    const assiggnee = task.assignee?.fullName
+      ? ` - ${task.assignee?.fullName || ''}`
+      : ''
+    const name = trimText(task.name, 20)
+    return {
+      label: `${task.identifier}: ${name} ${assiggnee}`,
+      id: task.id,
+    }
+  })
 })
 
 const relations = [
@@ -45,8 +56,6 @@ const formIsValid = computed(() => {
     Object.keys(errors.value).length === 0 &&
     !!name.value.length &&
     !!description.value.length &&
-    !!projectColumnId.value &&
-    !!assigneeId.value &&
     (!relatedTask.value || (!!relatedTask.value && !!relationMode.value)) &&
     (!relationMode.value || (!!relationMode.value && !!relatedTask.value))
   )
@@ -96,7 +105,7 @@ const addTask = async () => {
             />
             <div class="flex gap-4">
               <div class="flex flex-column flex-1 justify-content-center">
-                <span class="field-label">Status</span>
+                <span class="field-label">Status (by default backlog)</span>
                 <BaseSelect
                   v-model="projectColumnId"
                   :items="columns"
@@ -104,7 +113,6 @@ const addTask = async () => {
                   optionsValue="id"
                   optionsLabel="name"
                   placeholder="Set task status"
-                  :rules="[(value:string) => rules.required(value,'Status')]"
                 />
               </div>
               <div class="flex flex-column flex-1 justify-content-center">
@@ -116,7 +124,6 @@ const addTask = async () => {
                   optionsValue="id"
                   optionsLabel="fullName"
                   placeholder="Assign task to member"
-                  :rules="[(value:string) => rules.required(value,'Assignee')]"
                 />
               </div>
             </div>
@@ -147,7 +154,7 @@ const addTask = async () => {
                     label="RelatedTask"
                     fieldName="relatedTask"
                     optionsValue="id"
-                    optionsLabel="identifier"
+                    optionsLabel="label"
                     :placeholder="`Select ${
                       relationMode ? relationMode.toLowerCase() : ''
                     } task`"

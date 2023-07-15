@@ -33,7 +33,7 @@ const login = async () => {
   <div class="login-background">
     <div class="logo flex align-items-center">
       <img
-        src="../assets/icons/hamburger.svg"
+        src="../assets/images/hamburger.svg"
         class="login-dialog__logo mr-3"
       />
       <span>Kanban</span>

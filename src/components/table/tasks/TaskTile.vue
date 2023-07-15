@@ -26,8 +26,12 @@ defineProps({
       <span class="task__identifier" v-tooltip.bottom="task.identifier">{{
         task.identifier
       }}</span>
-      <div class="task__assignee-img" v-tooltip.bottom="task.assignee.fullName">
-        <img :src="task.assignee.avatarUrl" alt="" />
+      <div
+        class="task__assignee-img"
+        v-tooltip.bottom="task.assignee?.fullName || 'Not assigned'"
+      >
+        <img v-if="task.assignee" :src="task.assignee.avatarUrl" />
+        <img v-else src="@/assets/images/defaultUser.png" alt="" />
       </div>
     </div>
   </div>

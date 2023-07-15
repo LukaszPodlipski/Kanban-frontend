@@ -13,9 +13,6 @@ const openDialog = () => {
   layoutStore.openDialog({
     title: 'Add New Task',
     component: 'AddNewTaskDialog',
-    data: {
-      submitTitle: 'Add Task',
-    },
   })
 }
 </script>

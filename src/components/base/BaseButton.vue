@@ -16,11 +16,20 @@ defineProps({
     type: String,
     default: '#474479',
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
 <template>
-  <Button v-bind="$attrs" :label="label" :icon="icon ? `pi pi-${icon}` : ''" />
+  <Button
+    v-bind="$attrs"
+    :label="label"
+    :icon="icon ? `pi pi-${icon}` : ''"
+    :disabled="disabled"
+  />
 </template>
 
 <style scoped lang="scss">

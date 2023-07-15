@@ -4,13 +4,17 @@ defineProps({
     type: String,
     default: '#DFDCFF',
   },
+  size: {
+    type: Number,
+    default: 20,
+  },
 })
 </script>
 
 <template>
   <svg
-    width="20"
-    height="20"
+    :width="size"
+    :height="size"
     viewBox="0 0 20 20"
     fill="none"
   >

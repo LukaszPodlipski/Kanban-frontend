@@ -13,10 +13,11 @@ import BaseButton from './components/base/BaseButton.vue'
 import BaseInput from './components/base/BaseInput.vue'
 import BasePasswordInput from './components/base/BasePasswordInput.vue'
 import BaseSearch from './components/base/BaseSearch.vue'
+import BaseSelect from './components/base/BaseSelect.vue'
 
-import './style.css'
-import 'primevue/resources/themes/saga-blue/theme.css' //theme
-import 'primevue/resources/primevue.min.css' //core CSS
+import './assets/styles/index.scss' //global styles
+import '@/assets/styles/theme.css' //theme
+import 'primevue/resources/primevue.min.css' //core primevue UI framework styles
 import 'primeicons/primeicons.css' //icons
 import '/node_modules/primeflex/primeflex.css'
 
@@ -34,5 +35,6 @@ app.component('BaseButton', BaseButton)
 app.component('BaseInput', BaseInput)
 app.component('BasePasswordInput', BasePasswordInput)
 app.component('BaseSearch', BaseSearch)
+app.component('BaseSelect', BaseSelect)
 
 app.mount('#app')

@@ -1,30 +1,46 @@
 <script setup lang="ts">
 import Dialog from 'primevue/dialog'
-import Button from 'primevue/button'
-
 import stores from '@/stores'
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 
 const layoutStore = stores.useLayoutStore()
 const dialogData = computed(() => layoutStore.dialog || {})
-</script> 
+
+const loadComponent = () => {
+  const { component } = dialogData.value || {}
+  if (component && !Object.keys(components).includes(component)) {
+    components[component] = defineAsyncComponent(
+      () => import(`@/components/dialog/variants/${component}.vue`),
+    )
+  }
+  return component
+}
+
+const components: { [key: string]: ReturnType<typeof defineAsyncComponent> } =
+  {}
+</script>
 
 <template>
   <Dialog
     v-model:visible="dialogData.isActive"
     modal
     :header="dialogData.title"
-    :style="{ width: '50vw' }"
+    @hide="layoutStore.closeDialog"
   >
-    <slot name="content"></slot>
-    <template #footer>
-      <Button
-        label="Cancel"
-        icon="pi pi-times"
-        @click="layoutStore.closeDialog"
-        text
-      />
-      <slot name="buttons"></slot>
-    </template>
+    <component :is="components[loadComponent()]" />
   </Dialog>
 </template>
+
+<style scoped lang="scss">
+:deep(.p-dialog-header) {
+  background: red !important;
+}
+
+.p-dialog-header {
+  background: #2c2c38 !important;
+}
+
+:deep(.p-dialog) {
+  background: red !important;
+}
+</style>

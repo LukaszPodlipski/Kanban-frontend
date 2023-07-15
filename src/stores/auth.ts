@@ -54,14 +54,20 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'Login' })
   }
 
-  const loginUser = async (email: string, password: string) => {
+  const loginUser = async ({
+    email,
+    password,
+  }: {
+    email: string
+    password: string
+  }) => {
     try {
       loading.value = true
       const response = await api.login(email, password)
       setAuth(response)
       router.push({ name: 'Dashboard' })
     } catch (error) {
-      console.log(error)
+      throw error
     } finally {
       loading.value = false
     }

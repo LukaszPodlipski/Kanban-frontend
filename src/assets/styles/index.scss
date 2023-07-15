@@ -4,6 +4,7 @@ body {
   background-color: #21212d;
 }
 
+/* -------------------------------- OVERWRITE PRIMEVUE STYLES --------------------------------- */
 .p-tooltip {
   z-index: 1002;
 }
@@ -39,3 +40,27 @@ body {
 .p-menu .p-menuitem-link:not(.p-disabled):hover {
   background: #21212d !important;
 }
+
+.p-dialog .p-dialog-header .p-dialog-header-icon:focus {
+  box-shadow: none !important;
+}
+
+.p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
+  background: transparent !important;
+}
+
+.p-dropdown-items-wrapper {
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #6560ba;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #2f2f3b;
+  }
+}
+/* --------------------------------------------------------------------------------------------- */

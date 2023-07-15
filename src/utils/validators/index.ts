@@ -14,9 +14,22 @@ const password = (value: string) => {
   return true
 }
 
+const minLength = (value: string, length: number, label: string = 'Field') => {
+  if (value && value.length < length)
+    return `${label} must be at least ${length} characters`
+  return true
+}
+
+const maxLength = (value: string, length: number, label: string = 'Field') => {
+  if (value && value.length > length)
+    return `${label} must be at most ${length} characters`
+  return true
+}
 
 export default {
   required,
   email,
   password,
+  minLength,
+  maxLength,
 }

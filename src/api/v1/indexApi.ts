@@ -13,8 +13,8 @@ const getItem = async (endpoint: string, id: number) => {
   return response.data
 }
 
-const createItem = async (endpoint: string, params: any) => {
-  const response = await axiosApi.post(`/${endpoint}`, params)
+const createItem = async (endpoint: string, params: any, id: number) => {
+  const response = await axiosApi.post(`/${endpoint}/${id}`, params)
   return response.data
 }
 

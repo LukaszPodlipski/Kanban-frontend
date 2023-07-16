@@ -196,7 +196,7 @@ const clearNestedMenu = () => {
       :style="{ marginBottom: fullSideBar ? '0' : '2px' }"
     >
       <img
-        src="../../../assets/icons/hamburger.svg"
+        src="../../../assets/images/hamburger.svg"
         :class="{ 'rotate-90': !fullSideBar }"
         @click="layoutStore.changeSideBarStatus"
       />
@@ -213,8 +213,11 @@ const clearNestedMenu = () => {
         class="menu-item menu-item--rounded nested-menu-item pl-5 mr-5 pr-3"
         :class="{ 'menu-item--mini': !fullSideBar }"
       >
-        <ArrowLeftIcon :class="{'mr-3': fullSideBar}" @click="clearNestedMenu" />
-        <span v-if='fullSideBar'>{{ nestedMenu.name }}</span>
+        <ArrowLeftIcon
+          :class="{ 'mr-3': fullSideBar }"
+          @click="clearNestedMenu"
+        />
+        <span v-if="fullSideBar">{{ nestedMenu.name }}</span>
       </div>
       <div
         v-for="menuItem in nestedMenu.items"
@@ -230,10 +233,7 @@ const clearNestedMenu = () => {
         </div>
       </div>
     </div>
-    <div
-      v-else
-      class="flex flex-column"
-    >
+    <div v-else class="flex flex-column">
       <div v-for="item in menuItems" :key="item.name" id="menuItem">
         <div
           class="menu-item"

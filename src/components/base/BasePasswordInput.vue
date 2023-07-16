@@ -16,7 +16,7 @@ const props = defineProps({
   label: String,
 })
 
-const { value, errorMessage } = useField('passwordValue', validateField)
+const { value, errorMessage } = useField('passwordField', validateField)
 
 onMounted(() => {
   if (props.modelValue) {
@@ -51,7 +51,7 @@ function validateField(value: any) {
       :feedback="false"
       toggleMask
       autocomplete="current-password"
-      :class="{ 'p-invalid': errorMessage }"
+      :class="{ 'p-invalid': errorMessage, 'p-filled': value.length > 0 }"
       aria-describedby="text-error"
     />
     <label for="input" class="input-label">{{ label }}</label>
@@ -60,5 +60,5 @@ function validateField(value: any) {
 </template>
 
 <style scoped lang="scss">
-@import '@/styles/baseInput.scss';
+@import '@/assets/styles/partials/baseInput.scss';
 </style>

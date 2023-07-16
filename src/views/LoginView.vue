@@ -1,50 +1,64 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { ref } from 'vue'
+import { computed, ref, Ref } from 'vue'
 import rules from '@/utils/validators'
-
+import ArrowLeft from '@/components/icons/ArrowLeftIcon.vue'
 import stores from '@/stores'
 
-const { handleSubmit, resetForm } = useForm()
+const { errors } = useForm()
 
-const emailValue = ref('')
-const passwordValue = ref('')
+const email: Ref<string> = ref('')
+const password: Ref<string> = ref('')
 
 const authStore = stores.useAuthStore()
 
-const onSubmit = handleSubmit(async (values) => {
-  if (values.emailValue && values.passwordValue) {
-    await authStore.loginUser(values.emailValue, values.passwordValue)
-    resetForm()
-  }
+const formIsValid = computed(() => {
+  return (
+    Object.keys(errors.value).length === 0 &&
+    !!email.value.length &&
+    !!password.value.length
+  )
 })
+
+const login = async () => {
+  try {
+    await authStore.loginUser({ email: email.value, password: password.value })
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 
 <template>
   <div class="login-background">
     <div class="logo flex align-items-center">
       <img
-        src="../assets/icons/hamburger.svg"
+        src="../assets/images/hamburger.svg"
         class="login-dialog__logo mr-3"
       />
       <span>Kanban</span>
     </div>
     <div class="login-dialog flex flex-column align-items-center">
       <router-link to="/" class="login-dialog__back-icon">
-        <i class="pi pi-arrow-circle-left"></i>
+        <ArrowLeft :size="25" />
       </router-link>
       <span class="login-dialog__title">Login</span>
       <div class="flex flex-column justify-content-center">
-        <form @submit="onSubmit" class="flex flex-column gap-2 mt-5">
+        <form @submit.prevent="login" class="flex flex-column gap-2 mt-5">
           <BaseInput
-            v-model="emailValue"
+            v-model="email"
             label="Email"
             autocomplete="username"
             :rules="[(value:string) => rules.required(value,'Email'), rules.email]"
             icon-right="pi-user"
           />
-          <BasePasswordInput v-model="passwordValue" label="Password" />
-          <BaseButton type="submit" label="Login" class="mt-2" />
+          <BasePasswordInput v-model="password" label="Password" />
+          <BaseButton
+            type="submit"
+            label="Login"
+            class="mt-2"
+            :disabled="authStore.isLoading || !formIsValid"
+          />
         </form>
         <span class="singup-callback text-center mt-4"
           >Don't have an account?
@@ -83,7 +97,7 @@ const onSubmit = handleSubmit(async (values) => {
   height: fit-content;
   background-color: #2f2f3b;
   border-radius: 8px;
-  padding: 30px 80px 40px 80px;
+  padding: 30px 50px 40px 50px;
   color: #dfdcff;
   border: 2px solid #6560ba !important;
   box-shadow: 1px 1px 10px 0px #2f2f3b;
@@ -103,7 +117,6 @@ const onSubmit = handleSubmit(async (values) => {
     top: 25px;
     left: 25px;
     cursor: pointer;
-    color: #dfdcff;
 
     i {
       font-size: 24px;

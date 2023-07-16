@@ -21,24 +21,24 @@ export const useWebsocketStore = defineStore('websocket', () => {
   const functionDictionary: FunctionDictionary = {
     TasksIndexChannel: {
       create: (data: iTask) => {
-        storesList.tasks.WSCreatedItemHandler(data)
+        storesList.tasks.WSCreatedItemsHandler(data)
       },
       update: (data: iTask) => {
-        storesList.tasks.WSUpdatedItemHandler(data)
+        storesList.tasks.WSUpdatedItemsHandler(data)
       },
       delete: (data: iTask) => {
-        storesList.tasks.WSDeletedItemHandler(data)
+        storesList.tasks.WSDeletedItemsHandler(data)
       },
     },
     ColumnsIndexChannel: {
       create: (data: iColumn) => {
-        storesList.columns.WSCreatedItemHandler(data)
+        storesList.columns.WSCreatedItemsHandler(data)
       },
       update: (data: iColumn) => {
-        storesList.columns.WSUpdatedItemHandler(data)
+        storesList.columns.WSUpdatedItemsHandler(data)
       },
       delete: (data: iColumn) => {
-        storesList.columns.WSDeletedItemHandler(data)
+        storesList.columns.WSDeletedItemsHandler(data)
       }
     },
   }

@@ -14,13 +14,16 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
 
   const projectStore = useProjectStore()
   const selectedProjectId = computed<number | null>(
-    () => projectStore.project?.id || null,
+    () => projectStore.selectedProjectId || null,
   )
 
-  const getItems = async (id: number | null = null) => {
+  const getItems = async (filters: any | undefined = {}) => {
     try {
       loading.value = true
-      const response = await api.getItems(endpoint, { id })
+      const response = await api.getItems(endpoint, {
+        id: selectedProjectId.value,
+        filters,
+      })
       items.value = response
     } catch (error) {
       throw error
@@ -29,10 +32,13 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
     }
   }
 
-  const getItem = async (id: number) => {
+  const getItem = async () => {
     try {
       loading.value = true
-      const response = await api.getItem(endpoint, id)
+      const response = await api.getItem(
+        endpoint,
+        selectedProjectId.value as number,
+      )
       item.value = response
     } catch (error) {
       throw error

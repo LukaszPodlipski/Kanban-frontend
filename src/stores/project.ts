@@ -45,10 +45,10 @@ export const useProjectStore = defineStore('project', () => {
     } else return null
   })
 
-  const getItem = async (id: number) => {
+  const getItem = async () => {
     loading.value = await true
     try {
-      const response = await projectsApi.getSingleProject(id)
+      const response = await projectsApi.getSingleProject(selectedProjectId.value as number)
       projectData.value = response
     } catch (error) {
       selectedProjectId.value = null
@@ -62,10 +62,10 @@ export const useProjectStore = defineStore('project', () => {
     selectedProjectId.value = id
     try {
       await Promise.all([
-        getItem(id),
-        columnsStore.getItems(id),
-        tasksStore.getItems(id),
-        membersStore.getItems(id),
+        getItem(),
+        columnsStore.getItems(),
+        tasksStore.getItems(),
+        membersStore.getItems(),
       ])
     } catch (error) {
       selectedProjectId.value = null

@@ -1,15 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useProjectStore } from '@/stores/project'
 import { useLayoutStore } from '@/stores/layout'
 import { useTasksStore } from '@/stores/tasks'
 import ProjectMembers from '../fragments/ProjectMembers.vue'
 import TopbarTemplate from '../fragments/TopbarTemplate.vue'
+import debounce from 'lodash.debounce'
 
 const projectStore = useProjectStore()
 const layoutStore = useLayoutStore()
 const tasksStore = useTasksStore()
-const searchQuery = ref<string>('')
+
+const filters = ref({
+  query: '',
+  assigneeIds: [] as number[],
+})
+
+watch(
+  filters,
+  debounce(async (value) => {
+    await tasksStore.getItems(value)
+  }, 300),
+  { deep: true },
+)
 
 const openDialog = () => {
   layoutStore.openDialog({
@@ -25,11 +38,11 @@ const openDialog = () => {
       <span>{{ projectStore.project?.name }}</span>
     </template>
     <template v-slot:left>
-      <ProjectMembers class="ml-4" />
+      <ProjectMembers v-model:model-value="filters.assigneeIds" class="ml-4" />
     </template>
     <template v-slot:right>
       <BaseSearch
-        v-model="searchQuery"
+        v-model="filters.query"
         label="Search"
         :disabled="projectStore.loading"
         :loading="tasksStore.loading"

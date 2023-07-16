@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import TopbarTemplate from '../fragments/TopbarTemplate.vue'
-import stores from '@/stores'
+import { useAuthStore } from '@/stores/auth'
 
-const authStore = stores.useAuthStore()
-const user = computed(() => authStore.user || {})
+const authStore = useAuthStore()
+const user = computed(() => authStore.user)
 </script>
 
 <template>

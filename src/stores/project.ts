@@ -8,14 +8,16 @@ import projectsApi from '@/api/v1/projectApi'
 
 import { falseLoadingState } from '@/utils/functions'
 
-import stores from '@/stores'
+import { useColumnsStore } from '@/stores/columns'
+import { useTasksStore } from '@/stores/tasks'
+import { useMembersStore } from '@/stores/members'
 
 export const useProjectStore = defineStore('project', () => {
   const loading: Ref<boolean> = ref(false) // loading state of global project operations
 
-  const columnsStore = stores.useColumnsStore()
-  const tasksStore = stores.useTasksStore()
-  const membersStore = stores.useMembersStore()
+  const columnsStore = useColumnsStore()
+  const tasksStore = useTasksStore()
+  const membersStore = useMembersStore()
 
   const selectedProjectId: Ref<number | null> = ref(null)
 

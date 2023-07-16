@@ -1,7 +1,7 @@
 import { computed, ref, Ref } from 'vue'
 import api from '@/api/v1/indexApi'
 import { falseLoadingState } from '@/utils/functions'
-import stores from '@/stores/index'
+import { useProjectStore } from '@/stores/project'
 
 interface Item {
   id: number
@@ -12,8 +12,10 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
   const item: Ref<T[] | null> = ref(null)
   const loading: Ref<boolean> = ref(false)
 
-  const projectStore = stores.useProjectStore()
-  const selectedProjectId = computed<number>(() => projectStore.project.id)
+  const projectStore = useProjectStore()
+  const selectedProjectId = computed<number | null>(
+    () => projectStore.project?.id || null,
+  )
 
   const getItems = async (id: number | null = null) => {
     try {
@@ -42,7 +44,8 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
   const createItem = async (params: any) => {
     try {
       loading.value = true
-      await api.createItem(endpoint, params, selectedProjectId.value)
+      if (selectedProjectId.value)
+        await api.createItem(endpoint, params, selectedProjectId.value)
     } catch (error) {
       throw error
     } finally {
@@ -75,8 +78,8 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
     items.value[index] = item
   }
 
-  const WSDeletedItemsHandler = (id: number) => {
-    const index = items.value.findIndex((i) => i.id === id)
+  const WSDeletedItemsHandler = (item: any) => {
+    const index = items.value.findIndex((i) => i.id === item.id)
     items.value.splice(index, 1)
   }
 

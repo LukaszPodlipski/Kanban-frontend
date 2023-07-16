@@ -4,7 +4,10 @@ import { Form, useForm } from 'vee-validate'
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
 import Textarea from 'primevue/textarea'
 import rules from '@/utils/validators'
-import stores from '@/stores'
+import { useColumnsStore } from '@/stores/columns'
+import { useMembersStore } from '@/stores/members'
+import { useTasksStore } from '@/stores/tasks'
+import { useLayoutStore } from '@/stores/layout'
 import { iTask } from '@/types/taskTypes'
 import { trimText } from '@/utils/functions'
 
@@ -17,10 +20,10 @@ const assigneeId: Ref<number | null> = ref(null)
 const relatedTask: Ref<number | null> = ref(null)
 const relationMode: Ref<string> = ref('')
 
-const columnsStore = stores.useColumnsStore()
-const membersStore = stores.useMembersStore()
-const tasksStore = stores.useTasksStore()
-const layoutStore = stores.useLayoutStore()
+const columnsStore = useColumnsStore()
+const membersStore = useMembersStore()
+const tasksStore = useTasksStore()
+const layoutStore = useLayoutStore()
 
 const columns = computed(() => {
   return columnsStore.items

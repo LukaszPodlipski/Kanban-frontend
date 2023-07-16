@@ -20,7 +20,7 @@ export const useLayoutStore = defineStore('layout', () => {
     component,
   }: {
     title: string
-    item: any
+    item?: any
     component: string
   }) => {
     dialog.value = {
@@ -46,9 +46,9 @@ export const useLayoutStore = defineStore('layout', () => {
     message,
     life,
   }: {
-    type: string
+    type?: string
     message: string
-    life: number
+    life?: number
   }) => {
     const calculatedLife =
       message.length * 65 >= 3000 ? message.length * 45 : 3000

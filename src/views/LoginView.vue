@@ -3,14 +3,14 @@ import { useForm } from 'vee-validate'
 import { computed, ref, Ref } from 'vue'
 import rules from '@/utils/validators'
 import ArrowLeft from '@/components/icons/ArrowLeftIcon.vue'
-import stores from '@/stores'
+import { useAuthStore } from '@/stores/auth'
 
 const { errors } = useForm()
 
 const email: Ref<string> = ref('')
 const password: Ref<string> = ref('')
 
-const authStore = stores.useAuthStore()
+const authStore = useAuthStore()
 
 const formIsValid = computed(() => {
   return (
@@ -57,7 +57,7 @@ const login = async () => {
             type="submit"
             label="Login"
             class="mt-2"
-            :disabled="authStore.isLoading || !formIsValid"
+            :disabled="authStore.loading || !formIsValid"
           />
         </form>
         <span class="singup-callback text-center mt-4"

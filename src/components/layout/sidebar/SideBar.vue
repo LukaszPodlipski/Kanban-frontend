@@ -3,7 +3,10 @@ import { computed, onMounted, ref } from 'vue'
 import { trimText } from '@/utils/functions'
 import { useRoute } from 'vue-router'
 import router from '@/router'
-import stores from '@/stores'
+import { useProjectsStore } from '@/stores/projects'
+import { useProjectStore } from '@/stores/project'
+import { useLayoutStore } from '@/stores/layout'
+import { useAuthStore } from '@/stores/auth'
 
 import { iProjectSimplified } from '@/types/projectsListTypes'
 
@@ -12,10 +15,10 @@ import ArrowRightIcon from '@/components/icons/ArrowRightIcon.vue'
 import ArrowLeftIcon from '@/components/icons/ArrowLeftIcon.vue'
 import { iconComponent } from '@/composables/useDynamicIcon'
 
-const projectsStore = stores.useProjectsStore()
-const projectStore = stores.useProjectStore()
-const layoutStore = stores.useLayoutStore()
-const authStore = stores.useAuthStore()
+const projectsStore = useProjectsStore()
+const projectStore = useProjectStore()
+const layoutStore = useLayoutStore()
+const authStore = useAuthStore()
 
 const route = useRoute()
 

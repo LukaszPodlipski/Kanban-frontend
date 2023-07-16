@@ -1,16 +1,18 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, Ref } from 'vue'
 import api from '@/api/v1/indexApi'
 import { authorizeAxios } from '@/api/axios'
 import { useRouter } from 'vue-router'
 import { iLoginResponse } from '@/types/userTypes'
-import stores from '@/stores'
+import { useWebsocketStore } from '@/stores/websocket'
+import { iUser } from '@/types/userTypes'
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref({})
+  const user: Ref<iUser> = ref({} as iUser)
   const loading = ref<boolean>(false)
   const token = ref<string>('')
-  const websocketStore = stores.useWebsocketStore()
+
+  const websocketStore = useWebsocketStore()
   const router = useRouter()
 
   const isAuthorized = () => {
@@ -31,7 +33,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('KAN-Auth-Token')
     localStorage.removeItem('KAN-User')
     token.value = ''
-    user.value = {}
+    user.value = {} as iUser
   }
 
   const setAuth = (payload: iLoginResponse | null = null) => {

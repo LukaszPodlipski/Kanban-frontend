@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import stores from '@/stores'
+import { useProjectStore } from '@/stores/project'
+import { useLayoutStore } from '@/stores/layout'
+import { useTasksStore } from '@/stores/tasks'
 import ProjectMembers from '../fragments/ProjectMembers.vue'
 import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 
-const projectStore = stores.useProjectStore()
-const layoutStore = stores.useLayoutStore()
-const tasksStore = stores.useTasksStore()
+const projectStore = useProjectStore()
+const layoutStore = useLayoutStore()
+const tasksStore = useTasksStore()
 const searchQuery = ref<string>('')
 
 const openDialog = () => {

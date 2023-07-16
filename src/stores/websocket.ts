@@ -4,7 +4,8 @@ import { useWebSocket } from '@/composables/useWebsockets.js'
 import { iTask } from '@/types/taskTypes'
 import { iColumn } from '@/types/projectTypes'
 
-import stores from '@/stores/index.ts'
+import { useTasksStore } from '@/stores/tasks'
+import { useColumnsStore } from '@/stores/columns'
 
 type FunctionDictionary = {
   [key: string]: {
@@ -14,8 +15,8 @@ type FunctionDictionary = {
 
 export const useWebsocketStore = defineStore('websocket', () => {
   const storesList = {
-    tasks: stores.useTasksStore(),
-    columns: stores.useColumnsStore(),
+    tasks: useTasksStore(),
+    columns: useColumnsStore(),
   }
 
   const functionDictionary: FunctionDictionary = {
@@ -39,7 +40,7 @@ export const useWebsocketStore = defineStore('websocket', () => {
       },
       delete: (data: iColumn) => {
         storesList.columns.WSDeletedItemsHandler(data)
-      }
+      },
     },
   }
 

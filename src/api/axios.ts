@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import stores  from '@/stores'
+import { useAuthStore } from '@/stores/auth'
 
 export const axiosApi: AxiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/`,
@@ -12,7 +12,7 @@ export const axiosApi: AxiosInstance = axios.create({
   ],
 })
 
-export function authorizeAxios(token: string) {
+export function authorizeAxios(token: string): void {
   axiosApi.defaults.headers.common['Authorization'] = token
 }
 
@@ -24,7 +24,7 @@ axiosApi.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      const authStore = stores.useAuthStore();
+      const authStore = useAuthStore();
       authStore.logout();
     }
     return Promise.reject(error);

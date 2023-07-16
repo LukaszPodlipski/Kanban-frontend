@@ -12,7 +12,9 @@ import {
   ref,
 } from 'vue'
 
-import stores from '@/stores'
+import { useProjectStore } from '@/stores/project'
+import { useTasksStore } from '@/stores/tasks'
+import { useWebsocketStore } from '@/stores/websocket'
 
 import AddNewColumn from '@/components/table/columns/AddNewColumn.vue'
 import ColumnHeader from '@/components/table/columns/ColumnHeader.vue'
@@ -20,9 +22,9 @@ import TableLoadingSkeleton from '@/components/table/TableLoadingSkeleton.vue'
 import TaskTile from '@/components/table/tasks/TaskTile.vue'
 
 /* -------------------------------- USE STORE ------------------------------- */
-const projectStore = stores.useProjectStore()
-const tasksStore = stores.useTasksStore()
-const websocketStore = stores.useWebsocketStore()
+const projectStore = useProjectStore()
+const tasksStore = useTasksStore()
+const websocketStore = useWebsocketStore()
 
 const project = computed(() => projectStore.project)
 /* -------------------------------- GET PROJECT ------------------------------- */
@@ -212,4 +214,3 @@ const moveTask = (evt: any) => {
   cursor: grabbing !important;
 }
 </style>
-@/stores/project

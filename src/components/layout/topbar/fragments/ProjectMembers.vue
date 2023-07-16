@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import stores from '@/stores'
+import { useMembersStore } from '@/stores/members';
 import Menu from 'primevue/menu'
 import { ISimplifiedUser } from '@/types/userTypes'
 
-const membersStore = stores.useMembersStore()
+const membersStore = useMembersStore()
 
 const numOfVisibleMembers = 3
 
@@ -158,4 +158,3 @@ const anyExceedingMembersSelected = computed(() => {
   }
 }
 </style>
-@/stores/project

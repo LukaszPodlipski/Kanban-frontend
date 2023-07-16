@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import Dialog from 'primevue/dialog'
-import stores from '@/stores'
+import { useLayoutStore } from '@/stores/layout'
 import { computed, defineAsyncComponent } from 'vue'
 
-const layoutStore = stores.useLayoutStore()
+const layoutStore = useLayoutStore()
 const dialogData = computed(() => layoutStore.dialog || {})
 
 const loadComponent = () => {
@@ -13,7 +13,7 @@ const loadComponent = () => {
       () => import(`@/components/dialog/variants/${component}.vue`),
     )
   }
-  return component
+  return component || ''
 }
 
 const components: { [key: string]: ReturnType<typeof defineAsyncComponent> } =

@@ -19,4 +19,3 @@ import { component } from '@/composables/useDynamicTopbar'
   border-left: 3px solid #2f2f3b;
 }
 </style>
-@/stores/project

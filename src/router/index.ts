@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DashboardWrapperView from '../views/DashboardWrapperView.vue'
-import stores from '@/stores'
+import { useAuthStore } from '@/stores/auth'
 
 const routes = [
   {
@@ -82,7 +82,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _, next) => {
-  const authStore = stores.useAuthStore()
+  const authStore = useAuthStore()
 
   const isAuthorized = authStore.isAuthorized()
 

@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, Ref } from 'vue'
 import api from '@/api/v1/indexApi'
 import { falseLoadingState } from '@/utils/functions'
 import stores from '@/stores/index'
@@ -8,9 +8,9 @@ interface Item {
 }
 
 export const storeContructor = <T extends Item>(endpoint: string) => {
-  const items = ref<T[]>([])
-  const item = ref<T | null>(null)
-  const loading = ref(false)
+  const items: Ref<T[]> = ref([])
+  const item: Ref<T[] | null> = ref(null)
+  const loading: Ref<boolean> = ref(false)
 
   const projectStore = stores.useProjectStore()
   const selectedProjectId = computed<number>(() => projectStore.project.id)

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate'
-import { computed, ref } from 'vue'
+import { computed, ref, Ref } from 'vue'
 import rules from '@/utils/validators'
 import ArrowLeft from '@/components/icons/ArrowLeftIcon.vue'
 import stores from '@/stores'
 
 const { errors } = useForm()
 
-const email = ref('')
-const password = ref('')
+const email: Ref<string> = ref('')
+const password: Ref<string> = ref('')
 
 const authStore = stores.useAuthStore()
 

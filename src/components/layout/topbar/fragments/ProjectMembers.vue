@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useMembersStore } from '@/stores/members';
+import { useMembersStore } from '@/stores/members'
 import Menu from 'primevue/menu'
 import { ISimplifiedUser } from '@/types/userTypes'
+
+const emit = defineEmits(['update:modelValue'])
 
 const membersStore = useMembersStore()
 
@@ -27,6 +29,7 @@ const toggleSelectedMember = (memberId: number) => {
   } else {
     selectedMembers.value = [...selectedMembers.value, memberId]
   }
+  emit('update:modelValue', selectedMembers.value)
 }
 
 const menuModel = computed(() => [

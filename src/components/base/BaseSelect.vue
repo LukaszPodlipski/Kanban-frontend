@@ -7,6 +7,7 @@ defineEmits(['cleared', 'update:modelValue'])
 
 const props = defineProps({
   modelValue: [String, Number],
+  value: [String, Number],
   fieldName: {
     type: String,
     default: '',
@@ -50,13 +51,15 @@ const props = defineProps({
 })
 
 const { value, errorMessage } = useField(
-  (props.fieldName || props.label?.replace(/\s+/g, '') || props.placeholder.replace(/\s+/g, '')) + 'Field',
+  (props.fieldName ||
+    props.label?.replace(/\s+/g, '') ||
+    props.placeholder.replace(/\s+/g, '')) + 'Field',
   validateField,
 )
 
 onMounted(() => {
-  if (props.modelValue) {
-    value.value = props.modelValue
+  if (props.modelValue || props.value) {
+    value.value = props.modelValue || props.value
   }
 })
 
@@ -98,6 +101,7 @@ function validateField(value: any) {
     }"
     @update:model-value="(value: string) => $emit('update:modelValue', value)"
   />
+  <slot name="append" />
   <small class="p-error mt-1 mb-1" id="text-error">{{
     errorMessage || '&nbsp;'
   }}</small>

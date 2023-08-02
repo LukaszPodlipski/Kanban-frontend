@@ -24,23 +24,22 @@ const components: { [key: string]: ReturnType<typeof defineAsyncComponent> } =
   <Dialog
     v-model:visible="dialogData.isActive"
     modal
+    dismissableMask
+    :showHeader="!dialogData.hideHeader"
     :header="dialogData.title"
     @hide="layoutStore.closeDialog"
+    :style="{ width: dialogData.size }"
   >
     <component :is="components[loadComponent()]" />
   </Dialog>
 </template>
 
 <style scoped lang="scss">
-:deep(.p-dialog-header) {
-  background: red !important;
-}
-
 .p-dialog-header {
   background: #2c2c38 !important;
 }
 
 :deep(.p-dialog) {
-  background: red !important;
+  width: 800px !important;
 }
 </style>

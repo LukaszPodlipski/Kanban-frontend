@@ -31,6 +31,11 @@ export const useWebsocketStore = defineStore('websocket', () => {
         storesList.tasks.WSDeletedItemsHandler(data)
       },
     },
+    TaskIndexChannel: {
+      update: (data: iTask) => {
+        storesList.tasks.WSUpdatedItemHandler(data)
+      },
+    },
     ColumnsIndexChannel: {
       create: (data: iColumn) => {
         storesList.columns.WSCreatedItemsHandler(data)

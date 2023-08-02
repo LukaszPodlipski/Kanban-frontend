@@ -3,5 +3,5 @@ import { iColumn } from '@/types/projectTypes'
 import { storeContructor } from './storeConstructor'
 
 export const useColumnsStore = defineStore('columns', () =>
-  storeContructor<iColumn>('columns'),
+  storeContructor<iColumn, iColumn>('columns'),
 )

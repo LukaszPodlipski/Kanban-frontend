@@ -2,13 +2,13 @@
 import { computed, ref, Ref } from 'vue'
 import { Form, useForm } from 'vee-validate'
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
-import Textarea from 'primevue/textarea'
+import Editor from 'primevue/editor'
 import rules from '@/utils/validators'
 import { useColumnsStore } from '@/stores/columns'
 import { useMembersStore } from '@/stores/members'
 import { useTasksStore } from '@/stores/tasks'
 import { useLayoutStore } from '@/stores/layout'
-import { iTask } from '@/types/taskTypes'
+import { iSimplifiedTask } from '@/types/taskTypes'
 import { trimText } from '@/utils/functions'
 
 const { errors } = useForm()
@@ -17,8 +17,8 @@ const name: Ref<string> = ref('')
 const description: Ref<string> = ref('')
 const projectColumnId: Ref<number | null> = ref(null)
 const assigneeId: Ref<number | null> = ref(null)
-const relatedTask: Ref<number | null> = ref(null)
 const relationMode: Ref<string> = ref('')
+const relationId: Ref<number | null> = ref(null)
 
 const columnsStore = useColumnsStore()
 const membersStore = useMembersStore()
@@ -34,7 +34,7 @@ const members = computed(() => {
 })
 
 const tasks = computed(() => {
-  return tasksStore.items.map((task: iTask) => {
+  return tasksStore.items.map((task: iSimplifiedTask) => {
     const assiggnee = task.assignee?.fullName
       ? ` - ${task.assignee?.fullName || ''}`
       : ''
@@ -59,8 +59,8 @@ const formIsValid = computed(() => {
     Object.keys(errors.value).length === 0 &&
     !!name.value.length &&
     !!description.value.length &&
-    (!relatedTask.value || (!!relatedTask.value && !!relationMode.value)) &&
-    (!relationMode.value || (!!relationMode.value && !!relatedTask.value))
+    (!relationId.value || (!!relationId.value && !!relationMode.value)) &&
+    (!relationMode.value || (!!relationMode.value && !!relationId.value))
   )
 })
 
@@ -70,7 +70,7 @@ const addTask = async () => {
     description: description.value,
     projectColumnId: projectColumnId.value,
     assigneeId: assigneeId.value,
-    relatedTask: relatedTask.value,
+    relationId: relationId.value,
     relationMode: relationMode.value,
   }
   try {
@@ -92,7 +92,7 @@ const addTask = async () => {
     <form @submit.prevent="addTask" class="flex flex-column gap-2">
       <DialogTemplate>
         <template #content>
-          <div class="flex flex-column flex-wrap">
+          <div class="flex flex-column flex-wrap px-4 pt-4">
             <span class="field-label">Name</span>
             <BaseInput
               v-model="name"
@@ -108,7 +108,7 @@ const addTask = async () => {
               placeholder="Describe new task"
               :maxLength="1000"
               :floatLabel="false"
-              :component="Textarea"
+              :component="Editor"
               :rules="[(value:string) => rules.required(value,'Description'), (value:string) => rules.maxLength(value, 1000, 'Description')]"
             />
             <div class="flex gap-4">
@@ -149,15 +149,15 @@ const addTask = async () => {
                     fieldName="relationMode"
                     placeholder="Type"
                     :hide-dropdown-icon="true"
-                    :rules="[(value:string) => relatedTask ? rules.required(value,'Relation') : true]"
+                    :rules="[(value:string) => relationId ? rules.required(value,'Relation') : true]"
                     @cleared="
-                      !relatedTask ? resetField('relatedTaskField') : null
+                      !relationId ? resetField('relatedTaskField') : null
                     "
                   />
                 </div>
                 <div class="flex flex-column flex-1 justify-content-center">
                   <BaseSelect
-                    v-model="relatedTask"
+                    v-model="relationId"
                     :items="tasks"
                     label="RelatedTask"
                     fieldName="relatedTask"

@@ -7,6 +7,8 @@ interface Dialog {
   isActive: boolean
   item?: any
   component?: string
+  hideHeader?: boolean
+  size?: string
 }
 
 export const useLayoutStore = defineStore('layout', () => {
@@ -14,20 +16,14 @@ export const useLayoutStore = defineStore('layout', () => {
   const dialog: Ref<Dialog> = ref({ isActive: false } as Dialog)
   const toast = useToast()
 
-  const openDialog = ({
-    title,
-    item,
-    component,
-  }: {
-    title: string
-    item?: any
-    component: string
-  }) => {
+  const openDialog = ({ title, item, component, hideHeader, size }: Omit<Dialog, 'isActive'>) => {
     dialog.value = {
       title,
       item,
       component,
       isActive: true,
+      hideHeader: hideHeader || false,
+      size: size || ''
     }
   }
 
@@ -44,7 +40,6 @@ export const useLayoutStore = defineStore('layout', () => {
   const showToast = ({
     type,
     message,
-    life,
   }: {
     type?: string
     message: string

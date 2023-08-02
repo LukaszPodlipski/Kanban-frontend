@@ -5,6 +5,7 @@ import { onMounted, ComponentOptions } from 'vue'
 
 const props = defineProps({
   modelValue: String || Number,
+  value: String || Number,
   fieldName: {
     type: String,
     default: '',
@@ -40,16 +41,18 @@ const props = defineProps({
   },
 })
 
-const inputLabel = props.placeholder.length ? '' : props.label
+const inputLabel = props.placeholder?.length ? '' : props.label
 
 const { value, errorMessage } = useField(
-  (props.fieldName || props.label?.replace(/\s+/g, '') || props.placeholder.replace(/\s+/g, '')) + 'Field',
+  (props.fieldName ||
+    props.label?.replace(/\s+/g, '') ||
+    props.placeholder.replace(/\s+/g, '')) + 'Field',
   validateField,
 )
 
 onMounted(() => {
-  if (props.modelValue) {
-    value.value = props.modelValue
+  if (props.modelValue || props.value) {
+    value.value = props.modelValue || props.value
   }
 })
 
@@ -76,22 +79,41 @@ function validateField(value: any) {
     <i v-if="iconRight" :class="`pi ${iconRight}`" />
     <component
       :is="component"
-      id="input"
       v-model="value"
+      id="input"
+      autoResize
       @update:model-value="(value: string) => $emit('update:modelValue', value)"
       class="w-full"
       :placeholder="placeholder"
       :autocomplete="autocomplete"
-      :class="{ 'p-invalid': errorMessage }"
+      :class="{
+        'p-invalid': errorMessage,
+        'p-editor-container-filled':
+          component.name === 'Editor' && value?.length,
+      }"
       aria-describedby="text-error"
-    />
+    >
+      <template v-if="component.name === 'Editor'" v-slot:toolbar>
+        <span class="ql-formats">
+          <button v-tooltip.bottom="'Bold'" class="ql-bold"></button>
+          <button v-tooltip.bottom="'Italic'" class="ql-italic"></button>
+          <button v-tooltip.bottom="'Underline'" class="ql-underline"></button>
+        </span>
+      </template>
+    </component>
     <label for="input" class="input-label">{{ inputLabel }}</label>
   </span>
-  <div class="flex mb-2" style="height: 15px">
+  <div class="flex mb-2 mt-1" style="height: 15px">
+    <slot name="append" />
     <small
-      v-if="component.name === 'Textarea'"
-      :class="{ 'p-error mb-1': errorMessage && maxLength - value.length < 0 }"
-      >{{ Math.max(maxLength - value.length, 0) }} left</small
+      v-if="
+        !$slots.append &&
+        component.name &&
+        ['Textarea', 'Editor'].includes(component.name) &&
+        maxLength
+      "
+      :class="{ 'p-error mb-1': errorMessage && maxLength - value?.length < 0 }"
+      >{{ Math.max(maxLength - value?.length, 0) }} left</small
     >
     <small class="flex-1 p-error" id="text-error">{{
       errorMessage || '&nbsp;'

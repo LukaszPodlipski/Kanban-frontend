@@ -15,16 +15,20 @@ import {
 import { useProjectStore } from '@/stores/project'
 import { useTasksStore } from '@/stores/tasks'
 import { useWebsocketStore } from '@/stores/websocket'
+import { useLayoutStore } from '@/stores/layout'
 
 import AddNewColumn from '@/components/table/columns/AddNewColumn.vue'
 import ColumnHeader from '@/components/table/columns/ColumnHeader.vue'
 import TableLoadingSkeleton from '@/components/table/TableLoadingSkeleton.vue'
 import TaskTile from '@/components/table/tasks/TaskTile.vue'
 
+import { iTask } from '@/types/taskTypes'
+
 /* -------------------------------- USE STORE ------------------------------- */
 const projectStore = useProjectStore()
 const tasksStore = useTasksStore()
 const websocketStore = useWebsocketStore()
+const layoutStore = useLayoutStore()
 
 const project = computed(() => projectStore.project)
 /* -------------------------------- GET PROJECT ------------------------------- */
@@ -104,6 +108,16 @@ const moveTask = (evt: any) => {
     )
   }
 }
+
+const openTaskDialog = (task: iTask) => {
+  layoutStore.openDialog({
+    title: task.name,
+    component: 'TaskDialog',
+    item: task,
+    hideHeader: true,
+    size: '900px',
+  })
+}
 </script>
 
 <template>
@@ -133,12 +147,13 @@ const moveTask = (evt: any) => {
             ghost-class="task-ghost"
             class="h-full mt-4"
           >
-            <template #item="{ element }">
+            <template #item="{ element: task }">
               <TaskTile
-                v-if="!element.updating"
-                :id="element.id"
-                :task="element"
-                :disabled="isDragging && draggedElementId != +element.id"
+                v-if="!task.updating"
+                :id="task.id"
+                :task="task"
+                :disabled="isDragging && draggedElementId != +task.id"
+                @click="openTaskDialog(task)"
               />
             </template>
           </draggable>

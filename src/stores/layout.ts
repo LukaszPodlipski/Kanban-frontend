@@ -16,14 +16,20 @@ export const useLayoutStore = defineStore('layout', () => {
   const dialog: Ref<Dialog> = ref({ isActive: false } as Dialog)
   const toast = useToast()
 
-  const openDialog = ({ title, item, component, hideHeader, size }: Omit<Dialog, 'isActive'>) => {
+  const openDialog = async ({
+    title,
+    item,
+    component,
+    hideHeader,
+    size,
+  }: Omit<Dialog, 'isActive'>) => {
     dialog.value = {
       title,
       item,
       component,
       isActive: true,
       hideHeader: hideHeader || false,
-      size: size || ''
+      size: size || '',
     }
   }
 
@@ -41,7 +47,7 @@ export const useLayoutStore = defineStore('layout', () => {
     type,
     message,
   }: {
-    type?: string
+    type?: 'success' | 'info' | 'warn' | 'error'
     message: string
     life?: number
   }) => {

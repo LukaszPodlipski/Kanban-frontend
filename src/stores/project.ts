@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import { computed, ref, Ref, ComputedRef } from 'vue'
 
-import { iProjectData, iColumn } from '@/types/projectTypes'
-import { iTask } from '@/types/taskTypes'
+import { iSimplifiedProject } from '@/types/projectTypes'
+import { iColumn } from '@/types/columnTypes'
+import { iSimplifiedTask } from '@/types/taskTypes'
 
 import projectsApi from '@/api/v1/projectApi'
 
@@ -22,9 +23,9 @@ export const useProjectStore = defineStore('project', () => {
   const selectedProjectId: Ref<number | null> = ref(null)
 
   // we separate project data into 3 different variables to make it easier to work with
-  const projectData: Ref<iProjectData | null> = ref(null)
+  const projectData: Ref<iSimplifiedProject | null> = ref(null)
   const columns: ComputedRef<iColumn[]> = computed(() => columnsStore.items)
-  const tasks: ComputedRef<iTask[]> = computed(() => tasksStore.items)
+  const tasks: ComputedRef<iSimplifiedTask[]> = computed(() => tasksStore.items)
 
   // project is a computed property that returns the project data in format which works with vue-draggable
   const project = computed(() => {
@@ -48,7 +49,9 @@ export const useProjectStore = defineStore('project', () => {
   const getItem = async () => {
     loading.value = await true
     try {
-      const response = await projectsApi.getSingleProject(selectedProjectId.value as number)
+      const response = await projectsApi.getSingleProject(
+        selectedProjectId.value as number,
+      )
       projectData.value = response
     } catch (error) {
       selectedProjectId.value = null

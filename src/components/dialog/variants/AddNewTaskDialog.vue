@@ -10,6 +10,7 @@ import { useTasksStore } from '@/stores/tasks'
 import { useLayoutStore } from '@/stores/layout'
 import { iSimplifiedTask } from '@/types/taskTypes'
 import { trimText } from '@/utils/functions'
+import { relations } from '@/const'
 
 const { errors } = useForm()
 
@@ -45,14 +46,6 @@ const tasks = computed(() => {
     }
   })
 })
-
-const relations = [
-  'Blocked by',
-  'Blocks',
-  'Relates to',
-  'Duplicate of',
-  'Duplicated by',
-]
 
 const formIsValid = computed(() => {
   return (
@@ -99,7 +92,7 @@ const addTask = async () => {
               label="Name"
               placeholder="Enter name"
               :floatLabel="false"
-              :rules="[(value:string) => rules.required(value,'Name'), (value:string) => rules.minLength(value, 5, 'Name'), (value:string) => rules.maxLength(value, 20, 'Name')]"
+              :rules="[(value:string) => rules.required(value,'Name'), (value:string) => rules.minLength(value, 5, 'Name'), (value:string) => rules.maxLength(value, 60, 'Name')]"
             />
             <span class="field-label">Description</span>
             <BaseInput

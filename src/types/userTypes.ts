@@ -1,9 +1,3 @@
-export interface ISimplifiedUser {
-  id: number
-  fullName?: string
-  avatarUrl: string
-}
-
 export interface iUser {
   id: number
   name: string
@@ -12,7 +6,8 @@ export interface iUser {
   avatarUrl: string
 }
 
-export interface iLoginResponse {
-  token: string
-  user: iUser
+export interface ISimplifiedUser {
+  id: number
+  fullName?: string
+  avatarUrl: string
 }

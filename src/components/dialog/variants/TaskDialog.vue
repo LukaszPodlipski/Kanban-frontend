@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, onUnmounted, reactive } from 'vue'
+import {
+  computed,
+  onBeforeMount,
+  onMounted,
+  onUnmounted,
+  reactive,
+  watch,
+} from 'vue'
 import Editor from 'primevue/editor'
 import rules from '@/utils/validators'
 import { Form } from 'vee-validate'
 import { trimText } from '@/utils/functions'
 
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
+import ArrowLeftIcon from '@/components/icons/ArrowLeftIcon.vue'
 
 import { useTasksStore } from '@/stores/tasks'
 import { useColumnsStore } from '@/stores/columns'
@@ -15,6 +23,7 @@ import { useProjectStore } from '@/stores/project'
 import { useMembersStore } from '@/stores/members'
 
 import { iTask, iSimplifiedTask } from '@/types/taskTypes'
+import { relations } from '@/const'
 
 const tasksStore = useTasksStore()
 const columnsStore = useColumnsStore()
@@ -23,7 +32,9 @@ const layoutStore = useLayoutStore()
 const websocketStore = useWebsocketStore()
 const membersStore = useMembersStore()
 
-const dialogItem = computed<iTask>(() => layoutStore.dialog.item)
+const dialogItem = computed<iTask & { redirectedFromId?: number }>(
+  () => layoutStore.dialog.item,
+)
 
 const columns = computed(() => {
   return columnsStore.items
@@ -49,6 +60,20 @@ onMounted(async () => {
   await tasksStore.getItem(dialogItem.value.id)
 })
 
+watch(
+  () => dialogItem?.value?.id,
+  async () => {
+    if (dialogItem?.value?.id) {
+      websocketStore.leaveChannel('TaskIndexChannel')
+      websocketStore.joinChannel('TaskIndexChannel', {
+        projectId: projectStore.project?.id,
+        taskId: dialogItem.value.id,
+      })
+      await tasksStore.getItem(dialogItem.value.id)
+    }
+  },
+)
+
 onUnmounted(() => {
   websocketStore.leaveChannel('TaskIndexChannel')
 })
@@ -57,10 +82,34 @@ const task = computed<iTask>(() => {
   return tasksStore.item
 })
 
+const tasks = computed(() => {
+  return tasksStore.items
+    .filter((item) => item.id !== task.value.id)
+    .map((task: iSimplifiedTask) => {
+      const assiggnee = task.assignee?.fullName
+        ? ` - ${task.assignee?.fullName || ''}`
+        : ''
+      return {
+        label: `${task.identifier}: ${trimText(task.name, 15)} ${trimText(
+          assiggnee,
+          15,
+        )}`,
+        id: task.id,
+      }
+    })
+})
+
 const relatedTask = computed<iSimplifiedTask | null>(() => {
   return (
     tasksStore.items.find((item) => item.id === task.value.relationId) || null
   )
+})
+
+const tabsState: {
+  [key: string]: boolean
+} = reactive({
+  comments: true,
+  history: false,
 })
 
 const fieldsEditingState: {
@@ -71,19 +120,21 @@ const fieldsEditingState: {
   createdBy: false,
   assigneeId: false,
   projectColumnId: false,
+  relation: false,
 })
 
 const fieldsValueState: {
-  [key: string]: string
-} = reactive({})
+  [key: string]: string | null
+} = reactive({
+  relationMode: '',
+  relationId: null,
+})
 
 const updateFieldValue = (value: string, key: string) => {
-  console.log(value, key)
   fieldsValueState[key] = value
 }
 
 const submitFieldValue = async (key: string) => {
-  console.log('key: ', key, 'value: ', fieldsValueState[key])
   try {
     const params = {
       [key]: fieldsValueState[key],
@@ -94,12 +145,90 @@ const submitFieldValue = async (key: string) => {
     console.log(error)
   }
 }
+
+const deleteRelation = async () => {
+  try {
+    await tasksStore.updateItem(dialogItem.value.id, {
+      relationMode: null,
+      relationId: null,
+    })
+    fieldsEditingState.relation = false
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const updateRelation = async () => {
+  try {
+    const params = {
+      relationMode: fieldsValueState.relationMode,
+      relationId: fieldsValueState.relationId,
+    }
+    fieldsEditingState.relation = false
+    await tasksStore.updateItem(dialogItem.value.id, params)
+    fieldsValueState.relationMode = ''
+    fieldsValueState.relationId = null
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+type DialogParams = {
+  title: string
+  component: string
+  item: iTask & { redirectedFromId?: number }
+  hideHeader: boolean
+  size: string
+}
+
+const openRelatedTaskDialog = (taskId: number, redirected: boolean = false) => {
+  const task: iTask = tasksStore.items.find(
+    (item) => item.id === taskId,
+  ) as iTask
+  if (task) {
+    const params: DialogParams = {
+      title: task?.name || 'Task',
+      component: 'TaskDialog',
+      item: task,
+      hideHeader: true,
+      size: '900px',
+    }
+    if (redirected) {
+      params.item = { ...task, redirectedFromId: dialogItem.value.id }
+    }
+    layoutStore.openDialog(params)
+  }
+}
+
+const closeRelationEditingState = () => {
+  if (fieldsEditingState.relation) {
+    fieldsEditingState.relation = false
+    fieldsValueState.relationMode = ''
+    fieldsValueState.relationId = null
+  } else {
+    fieldsEditingState.relation = true
+  }
+}
+
+const setActiveTab = (tab: string) => {
+  Object.keys(tabsState).forEach((t) => {
+    tabsState[t] = false
+  })
+  tabsState[tab] = true
+}
 </script>
 
 <template>
   <DialogTemplate hideActions>
     <template #customHeader>
       <div class="flex align-items-center">
+        <ArrowLeftIcon
+          v-if="dialogItem.redirectedFromId"
+          color="#6560ba"
+          :size="15"
+          class="mr-2"
+          @click="openRelatedTaskDialog(dialogItem.redirectedFromId)"
+        />
         <span class="task__identifier mr-2">{{ task.identifier }}</span>
       </div>
     </template>
@@ -119,7 +248,7 @@ const submitFieldValue = async (key: string) => {
                 placeholder="Enter name"
                 :floatLabel="false"
                 @update:modelValue="(value:string) => updateFieldValue(value, 'name')"
-                :rules="[(value:string) => rules.required(value,'Name'), (value:string) => rules.minLength(value, 5, 'Name'), (value:string) => rules.maxLength(value, 20, 'Name')]"
+                :rules="[(value:string) => rules.required(value,'Name'), (value:string) => rules.minLength(value, 5, 'Name'), (value:string) => rules.maxLength(value, 60, 'Name')]"
               >
                 <template #append>
                   <div class="mt-1">
@@ -135,8 +264,7 @@ const submitFieldValue = async (key: string) => {
                       small
                       @click="fieldsEditingState.name = false"
                       :disabled="Object.keys(errors).length > 0"
-                    />
-                  </div> </template
+                    /></div></template
               ></BaseInput>
             </Form>
           </div>
@@ -186,25 +314,115 @@ const submitFieldValue = async (key: string) => {
             <span class="task__label">Connected tasks</span>
             <i
               v-if="!task.relationId"
-              class="pi pi-plus"
-              style="font-size: 0.6rem"
+              class="pi cursor-pointer"
+              :class="{
+                'pi-plus': !fieldsEditingState.relation,
+                'pi-times': fieldsEditingState.relation,
+              }"
+              style="font-size: 0.8rem"
+              @click.native="closeRelationEditingState"
             ></i>
           </div>
+          <Form
+            v-if="fieldsEditingState.relation"
+            v-slot="{ resetField, errors }"
+          >
+            <div class="flex gap-2 p-2">
+              <div
+                class="flex flex-column justify-content-center"
+                :style="{ width: '130px !important' }"
+              >
+                <BaseSelect
+                  v-model="fieldsValueState.relationMode"
+                  :items="relations"
+                  label="RelationMode"
+                  fieldName="relationMode"
+                  placeholder="Type"
+                  :hide-dropdown-icon="true"
+                  :rules="[(value:string) => fieldsValueState.relationId ? rules.required(value,'Relation') : true]"
+                  @cleared="
+                    !fieldsValueState.relationId
+                      ? resetField('relatedTaskField')
+                      : null
+                  "
+                />
+              </div>
+              <div class="flex flex-column flex-1 justify-content-center">
+                <BaseSelect
+                  v-model="fieldsValueState.relationId"
+                  :items="tasks"
+                  label="RelatedTask"
+                  fieldName="relatedTask"
+                  optionsValue="id"
+                  optionsLabel="label"
+                  :placeholder="`Select ${
+                    fieldsValueState.relationMode
+                      ? fieldsValueState.relationMode.toLowerCase()
+                      : ''
+                  } task`"
+                  :rules="[(value:string) => fieldsValueState.relationMode ? rules.required(value,'Related task') : true]"
+                  @cleared="
+                    !fieldsValueState.relationMode
+                      ? resetField('relationModeField')
+                      : null
+                  "
+                />
+              </div>
+              <div class="flex justify-content-center">
+                <BaseButton
+                  icon="check"
+                  medium
+                  :disabled="
+                    Object.keys(errors).length > 0 ||
+                    !fieldsValueState.relationId ||
+                    !fieldsValueState.relationMode
+                  "
+                  @click="updateRelation"
+                />
+              </div>
+            </div>
+          </Form>
           <div
             v-if="task.relationId"
             class="task__field task__relation flex justify-content-between align-items-center p-2 mx-2"
+            @click="openRelatedTaskDialog(task.relationId, true)"
           >
             <span>{{ task.relationMode }}</span>
-            <div>
-              <span>{{ relatedTask?.identifier }} - </span>
-              <span>{{ trimText(relatedTask?.name, 20) }} - </span>
-              <span>{{ trimText(relatedTask?.assignee.fullName, 20) }}</span>
+            <div class="flex align-items-center justify-content-center">
+              <span class="mr-2">{{ relatedTask?.identifier }}</span>
+              <span class="mr-2">{{ trimText(relatedTask?.name, 20) }}</span>
+              <span>{{ trimText(relatedTask?.assignee?.fullName, 20) }}</span>
+              <i
+                class="pi pi-times ml-4"
+                style="font-size: 0.8rem"
+                @click.stop="deleteRelation"
+              ></i>
             </div>
           </div>
           <span class="task__label p-2 mt-2">Activity</span>
           <div class="p-2 flex">
-            <span class="task__tab mr-2">Comments</span>
-            <span class="task__tab">History</span>
+            <span
+              class="task__tab mr-2"
+              :class="{ 'task__tab--active': tabsState.comments }"
+              @click="setActiveTab('comments')"
+              >Comments</span
+            >
+            <span
+              class="task__tab"
+              :class="{ 'task__tab--active': tabsState.history }"
+              @click="setActiveTab('history')"
+              >History</span
+            >
+          </div>
+          <div v-if="tabsState.comments" class="task__comments">
+            <div v-for="comment in task.comments" :key="comment.id">
+              <span>{{ comment.content }}</span>
+            </div>
+          </div>
+          <div v-if="tabsState.history" class="task__history">
+            <div v-for="log in task.logs">
+              <span>{{ log.content }}</span>
+            </div>
           </div>
         </div>
         <div
@@ -335,7 +553,7 @@ const submitFieldValue = async (key: string) => {
   }
 
   &__relation {
-    border: 1px solid #6560ba;
+    border: 1px solid #6460ba6d;
   }
 
   &__tab {
@@ -346,6 +564,15 @@ const submitFieldValue = async (key: string) => {
     &:hover {
       background-color: #2f2f3b;
       cursor: pointer;
+    }
+
+    &--active {
+      background-color: #6560ba;
+
+      &:hover {
+        background-color: #6560ba;
+        cursor: pointer;
+      }
     }
   }
 

@@ -3,7 +3,7 @@ import { ref, Ref } from 'vue'
 import api from '@/api/v1/indexApi'
 import { authorizeAxios } from '@/api/axios'
 import { useRouter } from 'vue-router'
-import { iLoginResponse } from '@/types/userTypes'
+import { iLoginResponse } from '@/types/authTypes'
 import { useWebsocketStore } from '@/stores/websocket'
 import { iUser } from '@/types/userTypes'
 

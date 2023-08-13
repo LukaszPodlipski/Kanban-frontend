@@ -65,7 +65,7 @@ const isDragging = ref<boolean>(false)
 const isDraggingHelper = ref<boolean>(false)
 let dragTimeout: any = null
 
-watch(isDraggingHelper, (newVal) => {
+watch(isDraggingHelper, (newVal: boolean) => {
   if (newVal) {
     dragTimeout = setTimeout(() => {
       isDragging.value = true

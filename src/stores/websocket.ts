@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useWebSocket } from '@/composables/useWebsockets.js'
 import { iTask } from '@/types/taskTypes'
-import { iColumn } from '@/types/projectTypes'
+import { iColumn } from '@/types/columnTypes'
 
 import { useTasksStore } from '@/stores/tasks'
 import { useColumnsStore } from '@/stores/columns'

@@ -22,7 +22,7 @@ import { useWebsocketStore } from '@/stores/websocket'
 import { useProjectStore } from '@/stores/project'
 import { useMembersStore } from '@/stores/members'
 
-import { iTask, iSimplifiedTask } from '@/types/taskTypes'
+import { iTask, iSimplifiedTask, Task } from '@/types/taskTypes'
 import { relations } from '@/const'
 
 const tasksStore = useTasksStore()
@@ -79,7 +79,7 @@ onUnmounted(() => {
 })
 
 const task = computed<iTask>(() => {
-  return tasksStore.item
+  return new Task(tasksStore.item)
 })
 
 const tasks = computed(() => {
@@ -470,9 +470,9 @@ const setActiveTab = (tab: string) => {
             v-if="!fieldsEditingState.assigneeId"
             class="task__field p-2"
             @dblclick="fieldsEditingState.assigneeId = true"
-            >{{ task?.assignee?.fullName }}</span
+            >{{ task?.assignee?.fullName || 'Not assigned' }}</span
           >
-          <Form v-slot="{ errors }" v-else class="mx-2">
+          <Form v-else v-slot="{ errors }" class="mx-2">
             <BaseSelect
               :value="task.assignee.id"
               :items="members"

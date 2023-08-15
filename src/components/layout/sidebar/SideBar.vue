@@ -58,6 +58,11 @@ const menuItems = computed(
             icon: 'BoardIcon',
             nestedMenu: [
               {
+                name: 'Backlog',
+                icon: 'BacklogIcon',
+                pathName: 'ProjectBacklog',
+              },
+              {
                 name: 'Members',
                 icon: 'MembersIcon',
                 pathName: 'ProjectMembers',

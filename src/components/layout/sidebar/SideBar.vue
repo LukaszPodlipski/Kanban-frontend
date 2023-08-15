@@ -8,7 +8,7 @@ import { useProjectStore } from '@/stores/project'
 import { useLayoutStore } from '@/stores/layout'
 import { useAuthStore } from '@/stores/auth'
 
-import { iProjectSimplified } from '@/types/projectsListTypes'
+import { iListItem } from '@/types/baseTypes'
 
 import ArrowDownIcon from '@/components/icons/ArrowDownIcon.vue'
 import ArrowRightIcon from '@/components/icons/ArrowRightIcon.vue'
@@ -33,7 +33,7 @@ interface MenuItem {
   action?: () => void
   children?: MenuItem[]
   multiple?: boolean
-  items?: iProjectSimplified[]
+  items?: iListItem[]
   nestedMenu?: MenuItem[]
   loading?: boolean
 }
@@ -52,11 +52,16 @@ const menuItems = computed(
         children: [
           {
             multiple: true,
-            items: projectsStore.items as iProjectSimplified[],
+            items: projectsStore.items as iListItem[],
             loading: projectStore.loading,
             pathName: 'Project',
             icon: 'BoardIcon',
             nestedMenu: [
+              {
+                name: 'Backlog',
+                icon: 'BacklogIcon',
+                pathName: 'ProjectBacklog',
+              },
               {
                 name: 'Members',
                 icon: 'MembersIcon',
@@ -147,7 +152,7 @@ const isSelectedMenuItem = (menuItem: MenuItem, data: any) => {
 
 const executeMenuItemAction = (
   menuItem: MenuItem,
-  childItem: iProjectSimplified | null = null,
+  childItem: iListItem | null = null,
 ) => {
   if (menuItem.pathName) {
     const payload = {
@@ -351,7 +356,7 @@ const clearNestedMenu = () => {
 }
 .menu-item {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   color: #dfdcff;
   height: 48px;
   transition: transform 0.2s ease;

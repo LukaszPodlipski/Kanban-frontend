@@ -57,6 +57,13 @@ const routes = [
         meta: { title: 'Project settings' },
       },
       {
+        path: 'project/:id/backlog',
+        name: 'ProjectBacklog',
+        component: () =>
+          import('../components/table/project/ProjectBacklog.vue'),
+        meta: { title: 'Project backlog' },
+      },
+      {
         path: 'account',
         name: 'Account',
         component: () => import('../views/AccountView.vue'),

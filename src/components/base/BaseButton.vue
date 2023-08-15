@@ -20,6 +20,14 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  small: {
+    type: Boolean,
+    default: false,
+  },
+  medium: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
@@ -29,6 +37,7 @@ defineProps({
     :label="label"
     :icon="icon ? `pi pi-${icon}` : ''"
     :disabled="disabled"
+    :class="{ 'p-button--small': small && !medium, 'p-button--medium': medium }"
   />
 </template>
 
@@ -38,6 +47,18 @@ defineProps({
   background-color: v-bind(backgroundColor);
   border: 1px solid v-bind(backgroundColor);
   height: 40px;
+
+  &--small {
+    padding: 0 !important;
+    height: 25px !important;
+    width: 25px !important;
+  }
+
+  &--medium{
+    padding: 0 !important;
+    height: 37px !important;
+    width: 37px !important;
+  }
 
   &:enabled:hover {
     background: v-bind(hoverColor);

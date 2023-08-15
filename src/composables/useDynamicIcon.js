@@ -1,5 +1,5 @@
-import { useRoute } from 'vue-router'
 import AccountIcon from '@/components/icons/AccountIcon.vue'
+import BacklogIcon from '@/components/icons/BacklogIcon.vue'
 import BoardIcon from '@/components/icons/BoardIcon.vue'
 import BoardsIcon from '@/components/icons/BoardsIcon.vue'
 import ExploreIcon from '@/components/icons/ExploreIcon.vue'
@@ -12,22 +12,21 @@ import SettingsIcon from '@/components/icons/SettingsIcon.vue'
 import StatisticsIcon from '@/components/icons/StatisticsIcon.vue'
 import UserIcon from '@/components/icons/UserIcon.vue'
 
-
 export function iconComponent(iconName) {
-
   const componentMap = {
-    AccountIcon: AccountIcon,
-    BoardIcon: BoardIcon,
-    BoardsIcon: BoardsIcon,
-    ExploreIcon: ExploreIcon,
-    LogoutIcon: LogoutIcon,
-    MembersIcon: MembersIcon,
-    NewBoardIcon: NewBoardIcon,
-    PreferencesIcon: PreferencesIcon,
-    ProjectIcon: ProjectIcon,
-    SettingsIcon: SettingsIcon,
-    StatisticsIcon: StatisticsIcon,
-    UserIcon: UserIcon,
+    AccountIcon,
+    BacklogIcon,
+    BoardIcon,
+    BoardsIcon,
+    ExploreIcon,
+    LogoutIcon,
+    MembersIcon,
+    NewBoardIcon,
+    PreferencesIcon,
+    ProjectIcon,
+    SettingsIcon,
+    StatisticsIcon,
+    UserIcon,
   }
 
   return componentMap[iconName]

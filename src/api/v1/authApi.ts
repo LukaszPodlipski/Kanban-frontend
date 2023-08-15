@@ -1,6 +1,6 @@
 import { axiosApi } from '../axios'
 
-import { iLoginResponse } from '@/types/userTypes'
+import { iLoginResponse } from '@/types/authTypes'
 
 const login = async (
   email: string,

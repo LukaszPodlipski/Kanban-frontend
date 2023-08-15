@@ -4,6 +4,11 @@ body {
   background-color: #21212d;
 }
 
+p {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+}
+
 /* -------------------------------- OVERWRITE PRIMEVUE STYLES --------------------------------- */
 .p-tooltip {
   z-index: 1002;
@@ -49,6 +54,31 @@ body {
   background: transparent !important;
 }
 
+.p-editor-content {
+  min-height: 100px !important;
+}
+
+.p-editor-container .task__description--readonly > .p-editor-toolbar {
+  display: none !important;
+}
+
+.p-editor-container-filled:not(.p-invalid) {
+  border: 0;
+  outline: 2px solid #52ba28 !important;
+  border-radius: 4px;
+}
+
+.p-editor-container .p-invalid {
+  border: 0;
+  outline: 2px solid red !important;
+  border-radius: 4px;
+}
+
+.ql-editor.ql-blank::before {
+  color: #7e828e !important;
+  font-size: 14px;
+  font-style: normal !important;
+}
 .p-dropdown-items-wrapper {
   &::-webkit-scrollbar {
     width: 5px;

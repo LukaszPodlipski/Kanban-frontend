@@ -7,10 +7,10 @@ interface Item {
   id: number
 }
 
-export const storeContructor = <T extends Item>(endpoint: string) => {
-  const items: Ref<T[]> = ref([])
-  const item: Ref<T[] | null> = ref(null)
-  const loading: Ref<boolean> = ref(false)
+export const storeContructor = <T extends Item, Y extends Item>(endpoint: string) => {
+  const items = ref([]) as Ref<Y[]>
+  const item = ref({} as T) as Ref<T>
+  const loading = ref(false) as Ref<boolean>
 
   const projectStore = useProjectStore()
   const selectedProjectId = computed<number | null>(
@@ -21,7 +21,7 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
     try {
       loading.value = true
       const response = await api.getItems(endpoint, {
-        id: selectedProjectId.value,
+        projectId: selectedProjectId.value,
         filters,
       })
       items.value = response
@@ -32,14 +32,13 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
     }
   }
 
-  const getItem = async () => {
+  const getItem = async (id: number) => {
     try {
       loading.value = true
-      const response = await api.getItem(
-        endpoint,
-        selectedProjectId.value as number,
-      )
-      item.value = response
+      const response = await api.getItem(endpoint, id, {
+        projectId: selectedProjectId.value,
+      })
+      item.value = response as T
     } catch (error) {
       throw error
     } finally {
@@ -50,8 +49,10 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
   const createItem = async (params: any) => {
     try {
       loading.value = true
-      if (selectedProjectId.value)
-        await api.createItem(endpoint, params, selectedProjectId.value)
+      await api.createItem(endpoint, {
+        projectId: selectedProjectId.value,
+        ...params,
+      })
     } catch (error) {
       throw error
     } finally {
@@ -63,7 +64,10 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
     try {
       const index = items.value.findIndex((item) => item.id === id)
       items.value[index] = { ...items.value[index], updating: true }
-      await api.updateItem(endpoint, id, params)
+      await api.updateItem(endpoint, id, {
+        projectId: selectedProjectId.value,
+        ...params,
+      })
     } catch (error) {
       throw error
     } finally {
@@ -71,21 +75,21 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
     }
   }
 
-  const WSCreatedItemsHandler = (item: any) => {
-    items.value.push(item)
+  const WSCreatedItemsHandler = (createdItem: Y) => {
+    items.value.push(createdItem as Y)
   }
 
-  const WSUpdatedItemHandler = (item: any) => {
-    item.value = item
+  const WSUpdatedItemHandler = (updatedItem: T) => {
+    item.value = updatedItem
   }
 
-  const WSUpdatedItemsHandler = (item: any) => {
-    const index = items.value.findIndex((i) => i.id === item.id)
-    items.value[index] = item
+  const WSUpdatedItemsHandler = (updatedItem: Y) => {
+    const index = items.value.findIndex((i) => i.id === updatedItem.id)
+    items.value[index] = updatedItem as Y
   }
 
-  const WSDeletedItemsHandler = (item: any) => {
-    const index = items.value.findIndex((i) => i.id === item.id)
+  const WSDeletedItemsHandler = (deletedItem: Y) => {
+    const index = items.value.findIndex((i) => i.id === deletedItem.id)
     items.value.splice(index, 1)
   }
 
@@ -97,8 +101,9 @@ export const storeContructor = <T extends Item>(endpoint: string) => {
     try {
       loading.value = true
       const index = items.value.findIndex((item) => item.id === id)
-      items.value[index] = { ...items.value[index], updating: true }
+      items.value[index] = { ...items.value[index], updating: true } as Y
       await api.updateItemWithSpecificAction(endpoint, id, action, params)
+      items.value[index] = { ...items.value[index], updating: false } as Y
     } catch (error) {
       throw error
     } finally {

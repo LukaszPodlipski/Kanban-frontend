@@ -21,7 +21,10 @@ defineProps({
     }"
   >
     <span class="task__title">{{ task.name }}</span>
-    <span class="task__description mt-1">{{ task.description }}</span>
+    <span
+      class="task__description p-0 m-0 mt-2"
+      v-html="task.description"
+    ></span>
     <div class="flex flex-row justify-content-between align-items-end mt-1">
       <span class="task__identifier" v-tooltip.bottom="task.identifier">{{
         task.identifier
@@ -65,7 +68,8 @@ defineProps({
     color: #7e828e;
     padding-right: 30px;
     display: inline-block;
-    width: 236px;
+    width: 200px;
+    max-height: 20px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

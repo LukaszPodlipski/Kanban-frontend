@@ -8,11 +8,12 @@ import {
   ref,
   watch,
 } from 'vue'
-import Editor from 'primevue/editor'
-import rules from '@/utils/validators'
+
 import { Form } from 'vee-validate'
+
 import { trimText } from '@/utils/functions'
 
+import Editor from 'primevue/editor'
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
 import ArrowLeftIcon from '@/components/icons/ArrowLeftIcon.vue'
 
@@ -25,6 +26,7 @@ import { useMembersStore } from '@/stores/members'
 import { useAuthStore } from '@/stores/auth'
 
 import { iTask, iSimplifiedTask, Task } from '@/types/taskTypes'
+import rules from '@/utils/validators'
 import { relations } from '@/const'
 
 const tasksStore = useTasksStore()
@@ -49,7 +51,7 @@ const members = computed(() => {
 
 const getColumnName = (id: number) => {
   const column = columnsStore.items.find((column) => column.id === id)
-  return column?.name
+  return column?.name || null
 }
 
 onBeforeMount(() => {
@@ -85,7 +87,7 @@ const task = computed<iTask>(() => {
   return new Task(tasksStore.item)
 })
 
-const tasks = computed(() => {
+const relatedTasksOptions = computed(() => {
   return tasksStore.items
     .filter((item) => item.id !== task.value.id)
     .map((task: iSimplifiedTask) => {
@@ -388,7 +390,7 @@ const addTaskComment = async () => {
               <div class="flex flex-column flex-1 justify-content-center">
                 <BaseSelect
                   v-model="fieldsValueState.relationId"
-                  :items="tasks"
+                  :items="relatedTasksOptions"
                   label="RelatedTask"
                   fieldName="relatedTask"
                   optionsValue="id"

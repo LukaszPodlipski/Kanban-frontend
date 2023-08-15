@@ -5,6 +5,7 @@ import {
   onMounted,
   onUnmounted,
   reactive,
+  ref,
   watch,
 } from 'vue'
 import Editor from 'primevue/editor'
@@ -21,6 +22,7 @@ import { useLayoutStore } from '@/stores/layout'
 import { useWebsocketStore } from '@/stores/websocket'
 import { useProjectStore } from '@/stores/project'
 import { useMembersStore } from '@/stores/members'
+import { useAuthStore } from '@/stores/auth'
 
 import { iTask, iSimplifiedTask, Task } from '@/types/taskTypes'
 import { relations } from '@/const'
@@ -31,6 +33,7 @@ const projectStore = useProjectStore()
 const layoutStore = useLayoutStore()
 const websocketStore = useWebsocketStore()
 const membersStore = useMembersStore()
+const authStore = useAuthStore()
 
 const dialogItem = computed<iTask & { redirectedFromId?: number }>(
   () => layoutStore.dialog.item,
@@ -121,6 +124,7 @@ const fieldsEditingState: {
   assigneeId: false,
   projectColumnId: false,
   relation: false,
+  comment: false,
 })
 
 const fieldsValueState: {
@@ -128,6 +132,7 @@ const fieldsValueState: {
 } = reactive({
   relationMode: '',
   relationId: null,
+  comment: null,
 })
 
 const updateFieldValue = (value: string, key: string) => {
@@ -216,10 +221,40 @@ const setActiveTab = (tab: string) => {
   })
   tabsState[tab] = true
 }
+
+const dialogLeftPanelRef = ref<null | HTMLElement>(null)
+
+const showCommentInput = async () => {
+  fieldsEditingState.comment = true
+  setTimeout(() => {
+    if (dialogLeftPanelRef.value)
+      dialogLeftPanelRef.value.scrollTop =
+        dialogLeftPanelRef.value?.scrollHeight
+  }, 100)
+}
+
+const taskCommentsRef = ref<null | HTMLElement>(null)
+
+const addTaskComment = async () => {
+  try {
+    await tasksStore.updateItemWithSpecificAction(
+      dialogItem.value.id,
+      'comment',
+      { content: fieldsValueState.comment },
+    )
+    fieldsEditingState.comment = false
+    fieldsValueState.comment = ''
+    if (taskCommentsRef.value)
+      taskCommentsRef.value.scrollTop = taskCommentsRef.value?.scrollHeight
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 
 <template>
   <DialogTemplate hideActions>
+    <!-- header -->
     <template #customHeader>
       <div class="flex align-items-center">
         <ArrowLeftIcon
@@ -234,7 +269,11 @@ const setActiveTab = (tab: string) => {
     </template>
     <template #content>
       <div class="grid task__content-wrapper m-0">
-        <div class="task flex flex-column col pt-2 pb-4 px-3">
+        <!-- left panel -->
+        <div
+          ref="dialogLeftPanelRef"
+          class="task flex flex-column col pt-2 pb-4 px-3"
+        >
           <div
             class="task__title p-2"
             :class="{ task__field: !fieldsEditingState.name }"
@@ -303,7 +342,6 @@ const setActiveTab = (tab: string) => {
                       class="ml-2"
                       small
                       @click="fieldsEditingState.description = false"
-                      :disabled="Object.keys(errors).length > 0"
                     />
                   </div>
                 </template>
@@ -327,7 +365,7 @@ const setActiveTab = (tab: string) => {
             v-if="fieldsEditingState.relation"
             v-slot="{ resetField, errors }"
           >
-            <div class="flex gap-2 p-2">
+            <div class="flex gap-2 px-2">
               <div
                 class="flex flex-column justify-content-center"
                 :style="{ width: '130px !important' }"
@@ -414,17 +452,88 @@ const setActiveTab = (tab: string) => {
               >History</span
             >
           </div>
-          <div v-if="tabsState.comments" class="task__comments">
-            <div v-for="comment in task.comments" :key="comment.id">
-              <span>{{ comment.content }}</span>
+          <div v-if="tabsState.comments" class="px-2 mt-2">
+            <div ref="taskCommentsRef" class="task__comments mb-2">
+              <div
+                v-for="comment in task.comments"
+                :key="comment.id"
+                class="comment flex mb-2 align-items-start"
+              >
+                <img
+                  :src="comment.user.avatarUrl"
+                  class="comment__avatar mr-3"
+                />
+                <div class="comment__content flex flex-column py-2 px-3">
+                  <span class="comment__user">{{
+                    comment.user?.fullName
+                  }}</span>
+                  <span v-html="comment.content" class="comment__text mt-1" />
+                </div>
+              </div>
+            </div>
+            <div class="comment-input-wrapper flex align-items-start">
+              <img
+                :src="authStore.user.avatarUrl"
+                class="comment-input-wrapper__avatar mr-3"
+              />
+              <div
+                v-if="!fieldsEditingState.comment"
+                class="comment-input-wrapper__placeholder py-2 px-3 flex-1"
+                @dblclick="showCommentInput"
+              >
+                <span>Add new comment</span>
+              </div>
+              <Form class="flex-1" v-else v-slot="{ errors }">
+                <BaseInput
+                  :value="fieldsValueState.comment"
+                  label="Comment"
+                  placeholder="Add new comment"
+                  :maxLength="1000"
+                  :floatLabel="false"
+                  :component="Editor"
+                  @update:modelValue="(value:string) => updateFieldValue(value, 'comment')"
+                  :rules="[(value:string) => rules.maxLength(value, 1000, 'Description')]"
+                >
+                  <template #append>
+                    <div class="mt-1">
+                      <BaseButton
+                        icon="check"
+                        small
+                        :disabled="
+                          Object.keys(errors).length > 0 ||
+                          !fieldsValueState.comment
+                        "
+                        @click="addTaskComment"
+                      />
+                      <BaseButton
+                        icon="times"
+                        class="ml-2"
+                        small
+                        @click="fieldsEditingState.comment = false"
+                      />
+                    </div>
+                  </template>
+                </BaseInput>
+              </Form>
             </div>
           </div>
-          <div v-if="tabsState.history" class="task__history">
-            <div v-for="log in task.logs">
-              <span>{{ log.content }}</span>
+          <div v-if="tabsState.history" class="task__history px-2 pt-3">
+            <div
+              v-for="log in task.history"
+              class="log flex align-items-start mb-3"
+            >
+              <img class="log__avatar mr-3" :src="log.user.avatarUrl" />
+              <div class="flex flex-column">
+                <div class="flex">
+                  <span class="log__user mr-2">{{ log.user.fullName }}</span>
+                  <span class="log__date">{{ log.createdAt }}</span>
+                </div>
+                <span class="log__text mt-1">{{ log.text }}</span>
+              </div>
             </div>
           </div>
         </div>
+        <!-- right panel -->
         <div
           class="task__side-bar col-fixed flex flex-column pt-2 pb-4 px-2"
           style="width: 300px"
@@ -434,7 +543,11 @@ const setActiveTab = (tab: string) => {
             v-if="!fieldsEditingState.projectColumnId"
             class="task__field p-2"
             @dblclick="fieldsEditingState.projectColumnId = true"
-            >{{ getColumnName(task?.projectColumnId) }}</span
+            >{{
+              task?.projectColumnId
+                ? getColumnName(task?.projectColumnId)
+                : 'Backlog'
+            }}</span
           >
           <Form v-slot="{ errors }" v-else class="mx-2">
             <BaseSelect
@@ -503,6 +616,8 @@ const setActiveTab = (tab: string) => {
           </Form>
           <span class="task__label p-2">Created by</span>
           <span class="p-2">{{ task?.createdBy?.fullName }}</span>
+          <span class="task__label p-2">Created date</span>
+          <span class="p-2">{{ task?.createdAt }}</span>
         </div>
       </div>
     </template>
@@ -511,7 +626,7 @@ const setActiveTab = (tab: string) => {
 
 <style scoped lang="scss">
 .task {
-  max-height: 800px !important;
+  max-height: 600px !important;
   overflow-y: scroll;
   color: #dfdcff;
 
@@ -556,10 +671,34 @@ const setActiveTab = (tab: string) => {
     border: 1px solid #6460ba6d;
   }
 
+  &__comments,
+  &__history {
+    max-height: 200px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #6560ba;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #2f2f3b;
+    }
+  }
+
+  &__history {
+    max-height: 245px;
+  }
+
   &__tab {
     padding: 4px 8px;
     border-radius: 4px;
     background-color: #292938;
+    font-size: 12px;
 
     &:hover {
       background-color: #2f2f3b;
@@ -587,6 +726,53 @@ const setActiveTab = (tab: string) => {
 
   &::-webkit-scrollbar-track {
     background: #2f2f3b;
+  }
+}
+
+.comment {
+  &__content {
+    background-color: #23232f;
+    border-radius: 8px;
+  }
+  &__avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  &__user {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  &__text {
+    font-size: 14px;
+  }
+}
+.comment-input-wrapper {
+  font-size: 12px;
+  &__placeholder {
+    background-color: #23232f;
+    border-radius: 4px;
+  }
+  &__avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+}
+
+.log {
+  &__avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  &__user,
+  &__date {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  &__text {
+    font-size: 14px;
   }
 }
 

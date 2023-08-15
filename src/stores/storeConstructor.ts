@@ -103,6 +103,7 @@ export const storeContructor = <T extends Item, Y extends Item>(endpoint: string
       const index = items.value.findIndex((item) => item.id === id)
       items.value[index] = { ...items.value[index], updating: true } as Y
       await api.updateItemWithSpecificAction(endpoint, id, action, params)
+      items.value[index] = { ...items.value[index], updating: false } as Y
     } catch (error) {
       throw error
     } finally {

@@ -5,6 +5,7 @@ import { authorizeAxios } from '@/api/axios'
 import { useRouter } from 'vue-router'
 import { iLoginResponse } from '@/types/authTypes'
 import { useWebsocketStore } from '@/stores/websocket'
+import { useLayoutStore } from '@/stores/layout'
 import { iUser } from '@/types/userTypes'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -13,6 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<string>('')
 
   const websocketStore = useWebsocketStore()
+  const layoutStore = useLayoutStore()
   const router = useRouter()
 
   const isAuthorized = () => {
@@ -34,6 +36,7 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('KAN-User')
     token.value = ''
     user.value = {} as iUser
+    layoutStore.setLayoutDefaultState()
   }
 
   const setAuth = (payload: iLoginResponse | null = null) => {

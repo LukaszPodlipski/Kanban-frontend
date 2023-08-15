@@ -43,6 +43,13 @@ export const useLayoutStore = defineStore('layout', () => {
     sideBarOpened.value = !sideBarOpened.value
   }
 
+  const setLayoutDefaultState = () => {
+    sideBarOpened.value = true
+    dialog.value = {
+      isActive: false,
+    }
+  }
+
   const showToast = ({
     type,
     message,
@@ -68,5 +75,6 @@ export const useLayoutStore = defineStore('layout', () => {
     closeDialog,
     dialog,
     showToast,
+    setLayoutDefaultState
   }
 })

@@ -6,14 +6,15 @@ export interface iComment {
   taskId: number
   createdBy: ISimplifiedUser
   createdAt: string
+  user: ISimplifiedUser
 }
 
 export interface iTaskLog {
   id: number
   taskId: number
-  content: string
+  text: string
   createdAt: string
-  createdBy: ISimplifiedUser
+  user: ISimplifiedUser
 }
 export interface iTask {
   id: number
@@ -28,7 +29,8 @@ export interface iTask {
   relationMode: string | null
   relationId: number | null
   comments: iComment[]
-  logs: iTaskLog[]
+  history: iTaskLog[]
+  createdAt: string
 }
 
 export class Task implements iTask {
@@ -44,7 +46,8 @@ export class Task implements iTask {
   relationMode: string | null
   relationId: number | null
   comments: iComment[]
-  logs: iTaskLog[]
+  history: iTaskLog[]
+  createdAt: string
 
   constructor(data: iTask) {
     this.id = data.id
@@ -63,7 +66,15 @@ export class Task implements iTask {
     this.relationMode = data.relationMode
     this.relationId = data.relationId
     this.comments = data.comments
-    this.logs = data.logs
+    this.history = data.history
+      ?.sort((a, b) => {
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      })
+      .map((log) => ({
+        ...log,
+        createdAt: new Date(log.createdAt).toLocaleString(),
+      }))
+    this.createdAt = new Date(data.createdAt).toLocaleString()
   }
 }
 

@@ -65,7 +65,9 @@ export class Task implements iTask {
     this.updating = data.updating
     this.relationMode = data.relationMode
     this.relationId = data.relationId
-    this.comments = data.comments
+    this.comments = data.comments?.sort((a, b) => {
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    })
     this.history = data.history
       ?.sort((a, b) => {
         return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()

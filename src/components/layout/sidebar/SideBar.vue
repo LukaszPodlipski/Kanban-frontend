@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { trimText } from '@/utils/functions'
 import { useRoute } from 'vue-router'
 import router from '@/router'
@@ -25,6 +25,11 @@ const route = useRoute()
 onMounted(() => {
   projectsStore.getItems().then(() => setActiveMenuItem())
 })
+
+watch(
+  () => route.name,
+  () => setActiveMenuItem(),
+)
 
 interface MenuItem {
   name: string
@@ -110,8 +115,15 @@ const menuItems = computed(
     ] as MenuItem[],
 )
 
+interface iPrevRoute {
+  name: string
+  params: {
+    id: number
+  }
+}
+
 interface iNestedMenu {
-  prevRoute: string
+  prevRoute: iPrevRoute
   name: string
   items: MenuItem[]
 }
@@ -144,7 +156,7 @@ const menuItemClasses = (menuItem: MenuItem, data: any = null) => {
 
 const isSelectedMenuItem = (menuItem: MenuItem, data: any) => {
   return data
-    ? menuItem.pathName === route.name && data
+    ? menuItem.pathName === route.name
       ? Number(route.params?.id) === data?.id
       : false
     : menuItem.pathName === route.name
@@ -166,30 +178,70 @@ const executeMenuItemAction = (
   }
 }
 
-const toggleMenuItem = (menuItem: MenuItem) => {
-  menuItemsStates[menuItem.name] = !menuItemsStates[menuItem.name]
+const toggleMenuItem = (
+  menuItem: MenuItem,
+  overwritedState: boolean = false,
+) => {
+  menuItemsStates[menuItem.name] =
+    overwritedState || !menuItemsStates[menuItem.name]
 }
 
 const setActiveMenuItem = () => {
-  const menuItem = menuItems.value.find(
+  const routeName = route.name
+  const menuItemIndex = menuItems.value.findIndex(
     (item) =>
-      item.pathName === route.name ||
+      item.pathName === routeName ||
       (item.children &&
-        item.children.find((child) => child.pathName === route.name)),
+        item.children.find((child) => child.pathName === routeName)) ||
+      (item.children &&
+        item.children.find((child) =>
+          child.nestedMenu?.find((nested) => nested.pathName === routeName),
+        )),
   )
-  if (menuItem) toggleMenuItem(menuItem)
+
+  const childrenIndex = menuItems.value[menuItemIndex]?.children?.findIndex(
+    (child) =>
+      child.pathName === routeName ||
+      child.nestedMenu?.find((nested) => nested.pathName === routeName),
+  ) as number
+
+  const nestedMenuElementIndex = menuItems.value[menuItemIndex]?.children
+    ?.at(childrenIndex)
+    ?.nestedMenu?.findIndex((nested) => nested.pathName === routeName) as number
+
+  if (menuItemIndex >= 0) toggleMenuItem(menuItems.value[menuItemIndex], true)
+
+  if (nestedMenuElementIndex >= 0) {
+    const menuChild = menuItems.value[menuItemIndex].children?.at(
+      childrenIndex,
+    ) as MenuItem
+
+    setNestedMenu(menuChild, {
+      name:
+        menuChild?.items &&
+        menuChild?.items.find((item) => item?.id === Number(route?.params?.id))
+          ?.name,
+    })
+  }
 }
 
 const setNestedMenu = (childItem: MenuItem, data: any) => {
   nestedMenu.value = {
-    prevRoute: route.fullPath,
+    prevRoute: {
+      name: childItem.pathName || '',
+      params: {
+        id: Number(route.params.id),
+      },
+    },
     name: data.name,
     items: childItem.nestedMenu as MenuItem[],
   }
 }
 
 const clearNestedMenu = () => {
-  if (nestedMenu.value?.prevRoute) router.push(nestedMenu.value?.prevRoute)
+  const prevRoute = nestedMenu.value?.prevRoute
+  if (prevRoute && Object.keys(prevRoute).length)
+    router.push({ name: prevRoute.name, params: prevRoute.params })
   nestedMenu.value = null
 }
 </script>

@@ -480,7 +480,7 @@ const addTaskComment = async () => {
               />
               <div
                 v-if="!fieldsEditingState.comment"
-                class="comment-input-wrapper__placeholder py-2 px-3 flex-1"
+                class="comment-input-wrapper__placeholder flex-1"
                 @dblclick="showCommentInput"
               >
                 <span>Add new comment</span>
@@ -558,7 +558,7 @@ const addTaskComment = async () => {
               label="Status"
               optionsValue="id"
               optionsLabel="name"
-              placeholder="Set task status"
+              placeholder="Backlog"
               @update:modelValue="(value:string) => updateFieldValue(value, 'projectColumnId')"
             >
               <template #append>
@@ -754,6 +754,8 @@ const addTaskComment = async () => {
   &__placeholder {
     background-color: #23232f;
     border-radius: 4px;
+    padding: 10px 16px;
+    cursor: pointer;
   }
   &__avatar {
     width: 30px;

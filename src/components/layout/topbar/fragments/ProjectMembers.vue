@@ -51,7 +51,7 @@ const anyExceedingMembersSelected = computed(() => {
 </script>
 
 <template>
-  <div class="flex align-items-center" v-if="!membersStore.loading">
+  <div class="flex align-items-center" v-if="!membersStore.loading && members.length > 1">
     <div
       v-for="member in members.slice(0, numOfVisibleMembers)"
       :key="member.id"

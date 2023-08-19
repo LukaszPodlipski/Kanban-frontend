@@ -222,6 +222,8 @@ const setActiveMenuItem = () => {
         menuChild?.items.find((item) => item?.id === Number(route?.params?.id))
           ?.name,
     })
+  } else {
+    nestedMenu.value = null
   }
 }
 

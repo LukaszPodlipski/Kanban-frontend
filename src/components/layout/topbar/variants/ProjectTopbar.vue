@@ -73,27 +73,31 @@ const navigateToBacklog = () => {
         label="Search"
         :disabled="projectStore.loading"
         :loading="tasksStore.loading"
-        class="mr-4"
+        class="mr-5"
       />
       <BaseButton
         label="Add New Task"
         icon="plus"
         :disabled="tasksStore.loading"
         @click="openDialog"
-        class="mr-4"
+        class="mr-5"
       />
-      <BacklogIcon
-        class="cursor-pointer mr-4"
-        :size="24"
-        color="#6560ba"
-        @click="navigateToBacklog"
-      />
-      <SettingsIcon
-        class="cursor-pointer"
-        :size="28"
-        color="#6560ba"
-        @click="navigateToSettings"
-      />
+      <div v-tooltip.bottom="'Backlog'" class="mr-4">
+        <BacklogIcon
+          class="cursor-pointer"
+          :size="24"
+          color="#6560ba"
+          @click="navigateToBacklog"
+        />
+      </div>
+      <div v-tooltip.bottom="'Settings'">
+        <SettingsIcon
+          class="cursor-pointer"
+          :size="28"
+          color="#6560ba"
+          @click="navigateToSettings"
+        />
+      </div>
     </template>
   </TopbarTemplate>
 </template>

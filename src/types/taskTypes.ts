@@ -1,4 +1,5 @@
 import { ISimplifiedUser } from './userTypes'
+import { formatDate } from '@/utils/functions'
 
 export interface iComment {
   id: number
@@ -74,9 +75,9 @@ export class Task implements iTask {
       })
       .map((log) => ({
         ...log,
-        createdAt: new Date(log.createdAt).toLocaleString(),
+        createdAt: formatDate(log.createdAt),
       }))
-    this.createdAt = new Date(data.createdAt).toLocaleString()
+    this.createdAt = formatDate(data.createdAt)
   }
 }
 

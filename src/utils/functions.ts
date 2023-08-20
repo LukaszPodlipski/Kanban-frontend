@@ -28,3 +28,7 @@ export const trimText = (
     ? trimName(text)
     : text && text.slice(0, trimAlt).toUpperCase()
 }
+
+export const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString()
+}

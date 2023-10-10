@@ -104,7 +104,7 @@ const addTask = async () => {
               :component="Editor"
               :rules="[(value:string) => rules.required(value,'Description'), (value:string) => rules.maxLength(value, 1000, 'Description')]"
             />
-            <div class="flex gap-4">
+            <div class="flex gap-4  mt-3">
               <div class="flex flex-column flex-1 justify-content-center">
                 <span class="field-label">Status (by default backlog)</span>
                 <BaseSelect
@@ -128,7 +128,7 @@ const addTask = async () => {
                 />
               </div>
             </div>
-            <div class="flex flex-column">
+            <div class="flex flex-column mt-3">
               <span class="field-label">Relation (optional)</span>
               <div class="flex gap-2">
                 <div

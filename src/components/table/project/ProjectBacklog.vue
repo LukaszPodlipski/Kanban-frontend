@@ -8,16 +8,15 @@ import { useTasksStore } from '@/stores/tasks'
 import { useWebsocketStore } from '@/stores/websocket'
 import { iTask } from '@/types/taskTypes'
 import {
-  Ref,
   computed,
   onBeforeMount,
   onMounted,
   onUnmounted,
-  ref,
   watch,
 } from 'vue'
 import { useRoute } from 'vue-router'
 
+import useResizableTable from '@/composables/useResizableTable'
 import { trimText, formatDate } from '@/utils/functions'
 
 const tasksStore = useTasksStore()
@@ -38,7 +37,6 @@ const backlogTasks = computed(() =>
 
 onMounted(async () => {
   await projectStore.getCompleteProject(id.value)
-  window.addEventListener('resize', onResize)
 })
 
 watch(id, async () => {
@@ -52,14 +50,9 @@ watch(id, async () => {
 onUnmounted(() => {
   projectStore.clearSelectedProject()
   websocketStore.leaveChannel('TasksIndexChannel')
-  window.removeEventListener('resize', onResize)
 })
 
-const tableHeight: Ref<string> = ref(`${window.innerHeight - 78}px`)
-
-const onResize = () => {
-  tableHeight.value = `${window.innerHeight - 78}px`
-}
+const { tableHeight } = useResizableTable()
 
 const openTaskDialog = (payload: any) => {
   const task: iTask = payload.data
@@ -86,6 +79,7 @@ const openTaskDialog = (payload: any) => {
       scrollable
       :scrollHeight="tableHeight"
       :metaKeySelection="false"
+      :loading="tasksStore.loading"
     >
       <Column field="" header=""></Column>
       <Column field="identifier" header="Identifier"></Column>

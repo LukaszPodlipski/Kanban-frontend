@@ -102,7 +102,7 @@ function validateField(value: any) {
     @update:model-value="(value: string) => $emit('update:modelValue', value)"
   />
   <slot name="append" />
-  <small class="p-error mt-1 mb-1" id="text-error">{{
+  <small v-if= "rules.length" class="p-error mt-1 mb-1" id="text-error">{{
     errorMessage || '&nbsp;'
   }}</small>
 </template>

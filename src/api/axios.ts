@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios'
 import { useAuthStore } from '@/stores/auth'
+import { useLayoutStore } from '@/stores/layout'
 
 export const axiosApi: AxiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/`,
@@ -24,9 +25,27 @@ axiosApi.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      const authStore = useAuthStore();
-      authStore.logout();
+      const authStore = useAuthStore()
+      const layoutStore = useLayoutStore()
+
+      layoutStore.showToast({
+        message: 'Please login to again',
+        type: 'error',
+      })
+      authStore.logout()
     }
-    return Promise.reject(error);
-  }
-);
+    if (error.response && error.response.status === 403) {
+      const layoutStore = useLayoutStore()
+
+      const errorMessage =
+        error.response.data.error ||
+        'You are not authorized to perform this action'
+
+      layoutStore.showToast({
+        message: errorMessage,
+        type: 'error',
+      })
+    }
+    return Promise.reject(error)
+  },
+)

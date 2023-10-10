@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref, Ref, ComputedRef } from 'vue'
+import { useRoute } from 'vue-router'
 
 import { iSimplifiedProject } from '@/types/projectTypes'
 import { iColumn } from '@/types/columnTypes'
@@ -20,7 +21,11 @@ export const useProjectStore = defineStore('project', () => {
   const tasksStore = useTasksStore()
   const membersStore = useMembersStore()
 
-  const selectedProjectId: Ref<number | null> = ref(null)
+  const route = useRoute()
+
+  const id = computed(() => Number(route.params.id))
+
+  const selectedProjectId: Ref<number | null> = ref(id || null)
 
   // we separate project data into 3 different variables to make it easier to work with
   const projectData: Ref<iSimplifiedProject | null> = ref(null)

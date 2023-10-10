@@ -1,21 +1,29 @@
 <script setup lang="ts">
-import TopbarTemplate from '../fragments/TopbarTemplate.vue'
-import ProjectMembers from '../fragments/ProjectMembers.vue'
 import SettingsIcon from '@/components/icons/SettingsIcon.vue'
 import BoardIcon from '@/components/icons/BoardIcon.vue'
+
+import { useMembersStore } from '@/stores/members'
+import { useLayoutStore } from '@/stores/layout'
+
+import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 
 import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities.ts'
 import usePermittedUser from '@/composables/usePermittedUser.ts'
 
-import { useTasksStore } from '@/stores/tasks'
-import { useProjectStore } from '@/stores/project'
-
-const tasksStore = useTasksStore()
-const projectStore = useProjectStore()
+const { navigateToSettings, navigateToProject } = useProjectTopbarUtilities()
 const { isAdmin } = usePermittedUser()
 
-const { filters, navigateToSettings, navigateToProject, openNewTaskDialog } = useProjectTopbarUtilities()
+const layoutStore = useLayoutStore()
 
+const openNewMemberDialog = () => {
+  layoutStore.openDialog({
+    title: 'Add New Member',
+    component: 'AddNewMemberDialog',
+    size: '600px',
+  })
+}
+
+const membersStore = useMembersStore()
 </script>
 
 <template>
@@ -24,19 +32,11 @@ const { filters, navigateToSettings, navigateToProject, openNewTaskDialog } = us
       <span>Backlog</span>
     </template>
     <template v-slot:right>
-      <ProjectMembers v-model:model-value="filters.assigneeIds" class="mr-4" />
-      <BaseSearch
-        v-model="filters.query"
-        label="Search"
-        :disabled="projectStore.loading"
-        :loading="tasksStore.loading"
-        class="mr-5"
-      />
       <BaseButton
-        label="Add New Task"
+        label="Add New Members"
         icon="plus"
-        :disabled="tasksStore.loading || !isAdmin"
-        @click="openNewTaskDialog"
+        :disabled="membersStore.loading || !isAdmin"
+        @click="openNewMemberDialog"
         class="mr-5"
       />
       <div v-tooltip.bottom="'Board'" class="mr-4">

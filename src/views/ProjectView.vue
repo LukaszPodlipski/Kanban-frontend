@@ -23,6 +23,7 @@ import TableLoadingSkeleton from '@/components/table/TableLoadingSkeleton.vue'
 import TaskTile from '@/components/table/tasks/TaskTile.vue'
 
 import { iTask } from '@/types/taskTypes'
+import usePermittedUser from '@/composables/usePermittedUser'
 
 /* -------------------------------- USE STORE ------------------------------- */
 const projectStore = useProjectStore()
@@ -108,6 +109,7 @@ const moveTask = (evt: any) => {
     )
   }
 }
+const { isViewer } = usePermittedUser()
 
 const openTaskDialog = (task: iTask) => {
   layoutStore.openDialog({
@@ -139,6 +141,7 @@ const openTaskDialog = (task: iTask) => {
             v-model="column.tasks"
             :sections="column.tasks"
             :id="column.id"
+            :disabled="isViewer"
             @choose="chooseDraggingItem"
             @unchoose="unChoooseDraggingItem"
             @end="moveTask"

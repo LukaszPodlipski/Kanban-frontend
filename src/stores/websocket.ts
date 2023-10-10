@@ -3,9 +3,11 @@ import { ref } from 'vue'
 import { useWebSocket } from '@/composables/useWebsockets.js'
 import { iTask } from '@/types/taskTypes'
 import { iColumn } from '@/types/columnTypes'
+import { iUser } from '@/types/userTypes'
 
 import { useTasksStore } from '@/stores/tasks'
 import { useColumnsStore } from '@/stores/columns'
+import { useMembersStore } from '@/stores/members'
 
 type FunctionDictionary = {
   [key: string]: {
@@ -17,6 +19,7 @@ export const useWebsocketStore = defineStore('websocket', () => {
   const storesList = {
     tasks: useTasksStore(),
     columns: useColumnsStore(),
+    members: useMembersStore(),
   }
 
   const functionDictionary: FunctionDictionary = {
@@ -45,6 +48,22 @@ export const useWebsocketStore = defineStore('websocket', () => {
       },
       delete: (data: iColumn) => {
         storesList.columns.WSDeletedItemsHandler(data)
+      },
+    },
+    MembersIndexChannel: {
+      create: (data: iUser) => {
+        storesList.members.WSCreatedItemsHandler(data)
+      },
+      update: (data: iUser) => {
+        storesList.members.WSUpdatedItemsHandler(data)
+      },
+      delete: (data: iUser) => {
+        storesList.members.WSDeletedItemsHandler(data)
+      },
+    },
+    MemberIndexChannel: {
+      update: (data: iUser) => {
+        storesList.members.WSUpdatedItemHandler(data)
       },
     },
   }

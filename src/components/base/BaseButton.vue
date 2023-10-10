@@ -28,6 +28,14 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  large: {
+    type: Boolean,
+    default: false,
+  },
+  spin: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
@@ -35,9 +43,13 @@ defineProps({
   <Button
     v-bind="$attrs"
     :label="label"
-    :icon="icon ? `pi pi-${icon}` : ''"
+    :icon="icon ? `pi pi-${icon} ${spin ? 'pi-spin' : ''}` : ''"
     :disabled="disabled"
-    :class="{ 'p-button--small': small && !medium, 'p-button--medium': medium }"
+    :class="{
+      'p-button--small': small && !medium && !large,
+      'p-button--medium': medium && !large,
+      'p-button--large': large,
+    }"
   />
 </template>
 
@@ -54,10 +66,16 @@ defineProps({
     width: 25px !important;
   }
 
-  &--medium{
+  &--medium {
     padding: 0 !important;
     height: 37px !important;
     width: 37px !important;
+  }
+
+  &--large {
+    padding: 0 !important;
+    height: 45px !important;
+    width: 45px !important;
   }
 
   &:enabled:hover {

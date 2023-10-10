@@ -1,0 +1,197 @@
+<script setup lang="ts">
+import { ref, Ref } from 'vue'
+import debounce from 'lodash.debounce'
+
+import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
+import rules from '@/utils/validators'
+import { roles } from '@/const'
+
+import { useProjectStore } from '@/stores/project'
+import { useLayoutStore } from '@/stores/layout'
+import { useMembersStore } from '@/stores/members'
+
+import { iMemberItem } from '@/types/userTypes'
+
+const projectStore = useProjectStore()
+const layoutStore = useLayoutStore()
+const membersStore = useMembersStore()
+
+const loading: Ref<boolean> = ref(false)
+
+const memberEmail: Ref<string> = ref('')
+const members: Ref<iMemberItem[]> = ref([])
+const foundMember: Ref<iMemberItem | null> = ref(null)
+
+const addFoundMember = () => {
+  members.value.push({ ...foundMember.value, role: 'Editor' } as iMemberItem)
+  memberEmail.value = ''
+  foundMember.value = null
+}
+
+const removeFoundMember = (index: number) => {
+  members.value.splice(index, 1)
+}
+
+const searchEmail = async () => {
+  loading.value = true
+
+  debounce(async function () {
+    if (!memberEmail.value || rules.email(memberEmail.value) !== true) {
+      foundMember.value = null
+      return
+    }
+
+    try {
+      const params = {
+        email: memberEmail.value,
+        projectId: projectStore.project?.id as number,
+      }
+      foundMember.value = await membersStore.checkMemberEmail(params)
+      addFoundMember()
+    } catch (_err) {
+      foundMember.value = null
+      layoutStore.showToast({
+        message: 'User not found',
+        type: 'error',
+      })
+    } finally {
+      loading.value = false
+    }
+  }, 1000)()
+}
+
+const inviteMembers = async () => {
+  try {
+    const params = {
+      projectId: projectStore.project?.id as number,
+      users: members.value.map((member) => ({
+        id: member.id,
+        role: member.role,
+      })),
+    }
+    await membersStore.inviteMembers(params)
+    layoutStore.showToast({
+      message: 'Members invited',
+      type: 'success',
+    })
+    layoutStore.closeDialog()
+    console.log('params: ')
+  } catch (err) {
+    layoutStore.showToast({
+      message: 'Error inviting members',
+      type: 'error',
+    })
+  }
+}
+</script>
+
+<template>
+  <form @submit.prevent="inviteMembers" class="flex flex-column gap-2">
+    <DialogTemplate>
+      <template #content>
+        <div class="flex flex-column flex-wrap px-4 pt-4 w-full">
+          <span class="field-label">Find member by email</span>
+          <div class="flex w-full">
+            <div class="card p-fluid w-full">
+              <BaseInput
+                v-model="memberEmail"
+                label="EmailField"
+                class="w-full"
+                :disabled="loading"
+                placeholder="Enter user email"
+                :floatLabel="false"
+                :rules="[rules.email]"
+              />
+            </div>
+            <BaseButton
+              @click="searchEmail"
+              class="ml-2"
+              :icon="loading ? 'spinner' : 'search'"
+              large
+              :spin="loading"
+              :disabled="
+                !memberEmail ||
+                loading ||
+                members.some((member) => member.email === memberEmail)
+              "
+            />
+          </div>
+          <span v-if="members.length" class="field-label mb-2"
+            >Members to be invited</span
+          >
+          <div v-if="members.length" class="members-list">
+            <div
+              v-for="(member, index) in members"
+              :key="member.id"
+              class="member"
+            >
+              <div class="flex align-items-center">
+                <img :src="member.avatarUrl" class="member__avatar" />
+                <span class="member__email">{{ member.email }}</span>
+              </div>
+              <div class="flex">
+                <BaseSelect
+                  v-model="member.role"
+                  :items="roles"
+                  label="Rola"
+                  placeholder="Select role"
+                />
+                <i
+                  class="pi pi-times cursor-pointer align-self-center ml-3"
+                  @click="removeFoundMember(index)"
+                ></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+      <template #actions>
+        <BaseButton
+          type="submit"
+          label="Invite members"
+          icon="check"
+          :disabled="!members.length"
+        />
+      </template>
+    </DialogTemplate>
+  </form>
+</template>
+
+<style scoped lang="scss">
+.members-list {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  background-color: #21212d;
+  border-radius: 4px;
+}
+.member {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &:not(:last-child) {
+    margin-bottom: 16px;
+  }
+  &__avatar {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+  }
+  &__email {
+    margin-left: 16px;
+  }
+}
+.field-label {
+  margin-bottom: 8px;
+}
+
+:deep(.p-autocomplete-multiple-container) {
+  width: 100%;
+}
+
+:deep(.p-dropdown-label) {
+  height: 35px !important;
+  width: 150px !important;
+  padding: 0.45rem 0.75rem !important;
+}
+</style>

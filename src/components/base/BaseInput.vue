@@ -3,6 +3,8 @@ import InputText from 'primevue/inputtext'
 import { useField } from 'vee-validate'
 import { onMounted, ComponentOptions } from 'vue'
 
+defineEmits(['update:modelValue'])
+
 const props = defineProps({
   modelValue: String || Number,
   value: String || Number,
@@ -38,6 +40,10 @@ const props = defineProps({
   maxLength: {
     type: Number,
     default: 0,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -85,6 +91,7 @@ function validateField(value: any) {
       @update:model-value="(value: string) => $emit('update:modelValue', value)"
       class="w-full"
       :placeholder="placeholder"
+      :disabled="disabled"
       :autocomplete="autocomplete"
       :class="{
         'p-invalid': errorMessage,

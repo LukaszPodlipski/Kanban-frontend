@@ -6,7 +6,7 @@ export interface iProject {
   id: number
   name: string
   description: string
-  isOwner: boolean
+  role: string
   prefix: string
   members: ISimplifiedUser[]
   columns: iColumn[]
@@ -15,5 +15,5 @@ export interface iProject {
 
 export type iSimplifiedProject = Pick<
   iProject,
-  'id' | 'name' | 'description' | 'isOwner' | 'prefix'
+  'id' | 'name' | 'description' | 'role' | 'prefix'
 >

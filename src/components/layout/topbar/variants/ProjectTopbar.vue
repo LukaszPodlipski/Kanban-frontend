@@ -9,9 +9,19 @@ import SettingsIcon from '@/components/icons/SettingsIcon.vue'
 import BacklogIcon from '@/components/icons/BacklogIcon.vue'
 
 import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities'
+import usePermittedUser from '@/composables/usePermittedUser'
+
+import { rolesColors } from '@/const'
+import { computed } from 'vue'
 
 const projectStore = useProjectStore()
 const tasksStore = useTasksStore()
+
+const { isEditor, userRole } = usePermittedUser()
+
+const roleColor = computed(() => {
+  return rolesColors[userRole.value as keyof typeof rolesColors] || '#6560ba'
+})
 
 const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
   useProjectTopbarUtilities()
@@ -20,7 +30,12 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
 <template>
   <TopbarTemplate :loading="projectStore.loading">
     <template v-slot:title>
-      <span>{{ projectStore.project?.name }}</span>
+      <div class="flex align-items-start">
+        <span>{{ projectStore.project?.name }}</span>
+        <span class="user-role ml-2" :style="{ backgroundColor: roleColor }">{{
+          userRole
+        }}</span>
+      </div>
     </template>
     <template v-slot:right>
       <ProjectMembers v-model:model-value="filters.assigneeIds" class="mr-4" />
@@ -34,7 +49,7 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
       <BaseButton
         label="Add New Task"
         icon="plus"
-        :disabled="tasksStore.loading"
+        :disabled="tasksStore.loading || !isEditor"
         @click="openNewTaskDialog"
         class="mr-5"
       />
@@ -57,3 +72,13 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
     </template>
   </TopbarTemplate>
 </template>
+
+<style scoped lang="scss">
+.user-role {
+  font-size: 12px;
+  background-color: #6560ba;
+  font-weight: 500;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+</style>

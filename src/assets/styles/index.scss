@@ -9,6 +9,10 @@ p {
   margin-block-end: 0em;
 }
 
+.not-permitted {
+  cursor: not-allowed !important;
+}
+
 /* -------------------------------- OVERWRITE PRIMEVUE STYLES --------------------------------- */
 .p-tooltip {
   z-index: 1002;

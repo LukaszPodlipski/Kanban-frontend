@@ -28,6 +28,7 @@ import { useAuthStore } from '@/stores/auth'
 import { iTask, iSimplifiedTask, Task } from '@/types/taskTypes'
 import rules from '@/utils/validators'
 import { relations } from '@/const'
+import usePermittedUser from '@/composables/usePermittedUser'
 
 const tasksStore = useTasksStore()
 const columnsStore = useColumnsStore()
@@ -36,6 +37,8 @@ const layoutStore = useLayoutStore()
 const websocketStore = useWebsocketStore()
 const membersStore = useMembersStore()
 const authStore = useAuthStore()
+
+const { isViewer } = usePermittedUser()
 
 const dialogItem = computed<iTask & { redirectedFromId?: number }>(
   () => layoutStore.dialog.item,
@@ -137,6 +140,11 @@ const fieldsValueState: {
   comment: null,
 })
 
+const setFieldsEditingState = (key: string, state: boolean = true) => {
+  if (isViewer) return
+  fieldsEditingState[key] = state
+}
+
 const updateFieldValue = (value: string, key: string) => {
   fieldsValueState[key] = value
 }
@@ -227,6 +235,7 @@ const setActiveTab = (tab: string) => {
 const dialogLeftPanelRef = ref<null | HTMLElement>(null)
 
 const showCommentInput = async () => {
+  if (isViewer) return
   fieldsEditingState.comment = true
   setTimeout(() => {
     if (dialogLeftPanelRef.value)
@@ -278,8 +287,8 @@ const addTaskComment = async () => {
         >
           <div
             class="task__title p-2"
-            :class="{ task__field: !fieldsEditingState.name }"
-            @dblclick="fieldsEditingState.name = true"
+            :class="{ task__field: !fieldsEditingState.name && !isViewer }"
+            @dblclick="setFieldsEditingState('name')"
           >
             <span v-if="!fieldsEditingState.name">{{ task.name }}</span>
             <Form v-slot="{ errors }" v-else>
@@ -312,8 +321,8 @@ const addTaskComment = async () => {
           <span class="task__label p-2 mt-2">Description</span>
           <div
             class="p-2"
-            :class="{ task__field: !fieldsEditingState.description }"
-            @dblclick="fieldsEditingState.description = true"
+            :class="{ task__field: !fieldsEditingState.description && !isViewer }"
+            @dblclick="setFieldsEditingState('description')"
           >
             <span
               v-if="!fieldsEditingState.description"
@@ -353,7 +362,7 @@ const addTaskComment = async () => {
           <div class="flex justify-content-between align-items-center p-2 mt-2">
             <span class="task__label">Connected tasks</span>
             <i
-              v-if="!task.relationId"
+              v-if="!task.relationId && !isViewer"
               class="pi cursor-pointer"
               :class="{
                 'pi-plus': !fieldsEditingState.relation,
@@ -433,6 +442,7 @@ const addTaskComment = async () => {
               <span class="mr-2">{{ trimText(relatedTask?.name, 20) }}</span>
               <span>{{ trimText(relatedTask?.assignee?.fullName, 20) }}</span>
               <i
+                v-if="!isViewer"
                 class="pi pi-times ml-4"
                 style="font-size: 0.8rem"
                 @click.stop="deleteRelation"
@@ -481,6 +491,7 @@ const addTaskComment = async () => {
               <div
                 v-if="!fieldsEditingState.comment"
                 class="comment-input-wrapper__placeholder flex-1"
+                :class="{ 'not-permitted': isViewer }"
                 @dblclick="showCommentInput"
               >
                 <span>Add new comment</span>
@@ -540,86 +551,58 @@ const addTaskComment = async () => {
           class="task__side-bar col-fixed flex flex-column pt-2 pb-4 px-2"
           style="width: 300px"
         >
-          <span class="task__label p-2">Status</span>
-          <span
-            v-if="!fieldsEditingState.projectColumnId"
-            class="task__field p-2"
-            @dblclick="fieldsEditingState.projectColumnId = true"
-            >{{
-              task?.projectColumnId
-                ? getColumnName(task?.projectColumnId)
-                : 'Backlog'
-            }}</span
+          <BaseDoubleClickSelect
+            fieldKey="projectColumnId"
+            class="mb-2"
+            label="Status"
+            :value="task.projectColumnId"
+            :editingState="fieldsEditingState.projectColumnId"
+            :items="columns"
+            :readonly="isViewer"
+            placeholder="Backlog"
+            @setEditingState="fieldsEditingState.projectColumnId = $event"
+            @updateFieldValue="({ value, key }: any) => updateFieldValue(value, key)"
+            @submitFieldValue="(key: string) => submitFieldValue(key)"
           >
-          <Form v-slot="{ errors }" v-else class="mx-2">
-            <BaseSelect
-              :value="task.projectColumnId"
-              :items="columns"
-              label="Status"
-              optionsValue="id"
-              optionsLabel="name"
-              placeholder="Backlog"
-              @update:modelValue="(value:string) => updateFieldValue(value, 'projectColumnId')"
-            >
-              <template #append>
-                <div class="mt-2">
-                  <BaseButton
-                    @click="submitFieldValue('projectColumnId')"
-                    icon="check"
-                    small
-                    :disabled="Object.keys(errors).length > 0"
-                  />
-                  <BaseButton
-                    icon="times"
-                    class="ml-2"
-                    small
-                    @click="fieldsEditingState.projectColumnId = false"
-                    :disabled="Object.keys(errors).length > 0"
-                  />
-                </div>
-              </template>
-            </BaseSelect>
-          </Form>
-          <span class="task__label p-2">Assignee</span>
-          <span
-            v-if="!fieldsEditingState.assigneeId"
-            class="task__field p-2"
-            @dblclick="fieldsEditingState.assigneeId = true"
-            >{{ task?.assignee?.fullName || 'Not assigned' }}</span
+            <template #value
+              >{{
+                task?.projectColumnId
+                  ? getColumnName(task?.projectColumnId)
+                  : 'Backlog'
+              }}
+            </template>
+          </BaseDoubleClickSelect>
+          <BaseDoubleClickSelect
+            fieldKey="assigneeId"
+            label="Assignee"
+            class="mb-2"
+            :value="task?.assignee?.id"
+            :editingState="fieldsEditingState.assigneeId"
+            :items="members"
+            :readonly="isViewer"
+            optionsValue="id"
+            optionsLabel="fullName"
+            placeholder="Assign task to member"
+            @setEditingState="fieldsEditingState.assigneeId = $event"
+            @updateFieldValue="({ value, key }: any) => updateFieldValue(value, key)"
+            @submitFieldValue="submitFieldValue($event)"
           >
-          <Form v-else v-slot="{ errors }" class="mx-2">
-            <BaseSelect
-              :value="task.assignee.id"
-              :items="members"
-              label="Assignee"
-              optionsValue="id"
-              optionsLabel="fullName"
-              placeholder="Assign task to member"
-              @update:modelValue="(value:string) => updateFieldValue(value, 'assigneeId')"
-            >
-              <template #append>
-                <div class="mt-2">
-                  <BaseButton
-                    @click="submitFieldValue('assigneeId')"
-                    icon="check"
-                    small
-                    :disabled="Object.keys(errors).length > 0"
-                  />
-                  <BaseButton
-                    icon="times"
-                    class="ml-2"
-                    small
-                    @click="fieldsEditingState.assigneeId = false"
-                    :disabled="Object.keys(errors).length > 0"
-                  />
-                </div>
-              </template>
-            </BaseSelect>
-          </Form>
-          <span class="task__label p-2">Created by</span>
-          <span class="p-2">{{ task?.createdBy?.fullName }}</span>
-          <span class="task__label p-2">Created date</span>
-          <span class="p-2">{{ task?.createdAt }}</span>
+            <template #value
+              >{{ task?.assignee?.fullName || 'Not assigned' }}
+            </template>
+          </BaseDoubleClickSelect>
+          <BaseDoubleClickSelect
+            label="Created by"
+            class="mb-2"
+            :value="task?.createdBy?.fullName"
+            readonly
+          />
+          <BaseDoubleClickSelect
+            label="Created date"
+            class="mb-2"
+            :value="task?.createdAt"
+            readonly
+          />
         </div>
       </div>
     </template>

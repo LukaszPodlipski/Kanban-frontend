@@ -3,7 +3,12 @@ import { Form } from 'vee-validate'
 import { ComponentOptions, ref, nextTick } from 'vue'
 import InputText from 'primevue/inputtext'
 
-const emit = defineEmits(['setEditingState', 'updateValue', 'submitValue'])
+const emit = defineEmits([
+  'setEditingState',
+  'updateValue',
+  'submitValue',
+  'onEnterKeyup',
+])
 
 const props = defineProps({
   value: {
@@ -54,6 +59,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  customEnterKeyEvent: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 type inputRefType = {
@@ -80,11 +89,34 @@ const setEditing = () => {
     } else if (editor) {
       setTimeout(() => {
         const editorInputWrapper = editor.querySelector('.p-editor-content')
-        const edytorValueElement = editorInputWrapper.querySelector('.ql-editor')
+        const edytorValueElement =
+          editorInputWrapper.querySelector('.ql-editor')
         setElementFocus(edytorValueElement)
       }, 100)
     }
   })
+}
+
+const onEnterKeyup = (errors: any) => {
+  if (Object.keys(errors).length) return
+
+  if (props.customEnterKeyEvent) {
+    emit('onEnterKeyup')
+  } else {
+    emit('submitValue', props.valueKey)
+  }
+}
+
+const onValueUpdate = (value: string) => {
+  if (props.component.name === 'Editor') {
+    const pattern = /<p><br><\/p>$/
+
+    while (pattern.test(value)) {
+      value = value.replace(pattern, '')
+    }
+    value = value.replace(/<p><br><\/p>+$/, '')
+  }
+  emit('updateValue', { key: props.valueKey, value })
 }
 </script>
 
@@ -101,40 +133,47 @@ const setEditing = () => {
     <div v-if="!isEditing">
       <span
         v-if="!$slots.default"
-        v-html="value"
-        :class="{ 'medium-size': medium }"
+        v-html="value || `${placeholder}...`"
+        class="value"
+        :class="{ 'medium-size': medium, 'placeholder-value': !value }"
       />
       <slot></slot>
     </div>
-    <Form v-else v-slot="{ errors }">
-      <BaseInput
-        ref="baseInputRef"
-        :component="component"
-        :value="value"
-        :label="label"
-        :placeholder="placeholder"
-        :floatLabel="false"
-        :rules="rules"
-        :maxLength="1000"
-        @update:modelValue="(value:string) => $emit('updateValue', { key: valueKey, value })"
-      >
-        <template #append>
-          <div class="mt-1">
-            <BaseButton
-              @click="$emit('submitValue', valueKey)"
-              icon="check"
-              small
-              :disabled="
-                Object.keys(errors).length > 0 || value.length === 0 || disabled
-              "
-            />
-            <BaseButton
-              icon="times"
-              class="ml-2"
-              small
-              @click="$emit('setEditingState', { key: valueKey, value: false })"
-            /></div></template
-      ></BaseInput>
+    <Form v-else v-slot="{ errors }" @submit="">
+      <div @keyup.enter.exact="onEnterKeyup(errors)">
+        <BaseInput
+          ref="baseInputRef"
+          :component="component"
+          :value="value"
+          :label="label"
+          :placeholder="placeholder"
+          :floatLabel="false"
+          :rules="rules"
+          :maxLength="1000"
+          @update:modelValue="(value:string) => onValueUpdate(value)"
+        >
+          <template #append>
+            <div class="mt-1">
+              <BaseButton
+                @click="$emit('submitValue', valueKey)"
+                icon="check"
+                small
+                :disabled="
+                  Object.keys(errors).length > 0 ||
+                  value.length === 0 ||
+                  disabled
+                "
+              />
+              <BaseButton
+                icon="times"
+                class="ml-2"
+                small
+                @click="
+                  $emit('setEditingState', { key: valueKey, value: false })
+                "
+              /></div></template
+        ></BaseInput>
+      </div>
     </Form>
   </div>
 </template>
@@ -144,6 +183,15 @@ const setEditing = () => {
   font-size: 18px;
   font-weight: 400;
   border-radius: 4px;
+}
+
+.value {
+  min-height: 15px;
+}
+
+.placeholder-value {
+  font-size: 14px !important;
+  color: #dfdcff;
 }
 
 .field-hover {

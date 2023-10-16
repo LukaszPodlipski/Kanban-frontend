@@ -51,7 +51,6 @@ const formIsValid = computed(() => {
   return (
     Object.keys(errors.value).length === 0 &&
     !!name.value.length &&
-    !!description.value.length &&
     (!relationId.value || (!!relationId.value && !!relationMode.value)) &&
     (!relationMode.value || (!!relationMode.value && !!relationId.value))
   )
@@ -102,9 +101,9 @@ const addTask = async () => {
               :maxLength="1000"
               :floatLabel="false"
               :component="Editor"
-              :rules="[(value:string) => rules.required(value,'Description'), (value:string) => rules.maxLength(value, 1000, 'Description')]"
+              :rules="[(value:string) => rules.maxLength(value, 1000, 'Description')]"
             />
-            <div class="flex gap-4  mt-3">
+            <div class="flex gap-4 mt-3">
               <div class="flex flex-column flex-1 justify-content-center">
                 <span class="field-label">Status (by default backlog)</span>
                 <BaseSelect

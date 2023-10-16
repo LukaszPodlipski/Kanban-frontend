@@ -330,7 +330,7 @@ const getColumnName = (id: number) => {
             :component="Editor"
             :tooltipConfig="tooltipConfig"
             medium
-            :rules="[(value:string) => rules.required(value,'Description'), (value:string) => rules.maxLength(value, 1000, 'Description')]"
+            :rules="[(value:string) => rules.maxLength(value, 1000, 'Description')]"
             @setEditingState="setFieldEditingState"
             @updateValue="updateFieldValue"
             @submitValue="submitFieldValue"
@@ -465,7 +465,7 @@ const getColumnName = (id: number) => {
   }
 
   &__identifier {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     color: #6560ba;
   }

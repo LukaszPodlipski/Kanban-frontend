@@ -46,7 +46,7 @@ const commentHasNoValue = computed(() => {
   return emptyCommentPattern.test(noSpacesValue)
 })
 
-const onEnterKeyup = () => {
+const submitValueOnEnterKeyup = () => {
   if (formatedValue.value && !commentHasNoValue.value) {
     emit('submitValue', props.value)
   }
@@ -59,10 +59,7 @@ const onEnterKeyup = () => {
       :src="authStore.user.avatarUrl"
       class="comment-input-wrapper__avatar mr-3"
     />
-    <div
-      class="w-full"
-      @keyup.enter.exact="onEnterKeyup"
-    >
+    <div class="w-full">
       <BaseDoubleClickInput
         :value="value"
         :isEditing="isEditing"
@@ -78,6 +75,7 @@ const onEnterKeyup = () => {
         @setEditingState="(value: emitEditingStateType) => $emit('setEditingState', value)"
         @updateValue="(value: emitValueType) => $emit('updateValue', value)"
         @submitValue="(value: string) => $emit('submitValue', value)"
+        @onEnterKeyup="submitValueOnEnterKeyup"
       >
         <div
           class="comment-input-wrapper__placeholder flex-1"

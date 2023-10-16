@@ -174,6 +174,7 @@ const editRoleTooltip = computed(() => {
             />
           </div>
         </div>
+
         <div class="member__right-panel flex-grow-1">
           <BaseDoubleClickSelect
             v-tooltip.left="editRoleTooltip"
@@ -181,22 +182,24 @@ const editRoleTooltip = computed(() => {
             label="Role"
             class="mb-2"
             :value="member.role"
-            :editingState="fieldsEditingState.role"
+            :isEditing="fieldsEditingState.role"
             :items="roles"
             optionsLabel=""
             optionsValue=""
             :readonly="!isAdmin || !editRolePermission"
             placeholder="Assign role to the member"
-            @setEditingState="fieldsEditingState.role = $event"
+            @setEditingState="fieldsEditingState.role = $event.value"
             @updateFieldValue="({ value, key }: any) => updateFieldValue(value, key)"
             @submitFieldValue="(key: string) => submitFieldValue(key)"
           />
+
           <BaseDoubleClickSelect
             class="mb-2"
             label="Email"
             :value="member.email"
             readonly
           />
+
           <BaseDoubleClickSelect
             label="Member since"
             :value="formatDate(member.createdAt)"

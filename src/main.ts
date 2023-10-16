@@ -16,6 +16,8 @@ import BasePasswordInput from './components/base/BasePasswordInput.vue'
 import BaseSearch from './components/base/BaseSearch.vue'
 import BaseSelect from './components/base/BaseSelect.vue'
 import BaseDoubleClickSelect from './components/base/BaseDoubleClickSelect.vue'
+import BaseDoubleClickInput from './components/base/BaseDoubleClickInput.vue'
+import BaseButtonTabs from './components/base/BaseButtonTabs.vue'
 
 import './assets/styles/index.scss' //global styles
 import '@/assets/styles/theme.css' //theme
@@ -41,5 +43,7 @@ app.component('BasePasswordInput', BasePasswordInput)
 app.component('BaseSearch', BaseSearch)
 app.component('BaseSelect', BaseSelect)
 app.component('BaseDoubleClickSelect', BaseDoubleClickSelect)
+app.component('BaseDoubleClickInput', BaseDoubleClickInput)
+app.component('BaseButtonTabs', BaseButtonTabs)
 
 app.mount('#app')

@@ -28,11 +28,10 @@ const projectStore = useProjectStore()
 const websocketStore = useWebsocketStore()
 const authStore = useAuthStore()
 
-const dialogItem = computed<iUser>(() => layoutStore.dialog.item)
 
-const member = computed<iUser>(() => {
-  return membersStore.item
-})
+/* -------------------------------- ON DIALOG OPEN --------------------------------- */
+/* ------------------------- fetch member and connect to WS -------------------------- */
+const dialogItem = computed<iUser>(() => layoutStore.dialog.item)
 
 onBeforeMount(() => {
   websocketStore.joinChannel('MemberIndexChannel', {
@@ -62,6 +61,15 @@ onUnmounted(() => {
   websocketStore.leaveChannel('MemberIndexChannel')
 })
 
+/* ------------------------------ ACCESS NEEDED DATA ------------------------------- */
+
+const member = computed<iUser>(() => {
+  return membersStore.item
+})
+
+const { isAdmin, userRole } = usePermittedUser()
+
+/* ------------------------------ INITIALIZE LOCAL STATE ------------------------------- */
 const fieldsEditingState: {
   [key: string]: boolean
 } = reactive({
@@ -74,12 +82,15 @@ const fieldsValueState: {
   role: null,
 })
 
-const { isAdmin, userRole } = usePermittedUser()
+/* ------------------------------ LOCAL STATE SETTERS ------------------------------- */
+/* - State management for the base inputs has been extracted from their components -- */
+/* ----- this was done to enable potential manipulation from a parent component ----- */
 
 const updateFieldValue = (value: string, key: string) => {
   fieldsValueState[key] = value
 }
 
+/* ------------------------------ FUNCTIONS ------------------------------- */
 const submitFieldValue = async (key: string) => {
   try {
     const params = {
@@ -110,6 +121,7 @@ const removeMember = async () => {
   }
 }
 
+/* -------------------------------- UTILS --------------------------------- */
 const isMemberOwner = computed(() => {
   return userRole.value === 'Owner' && member.value.id === authStore.user.id
 })
@@ -124,7 +136,14 @@ const isPermittedToRemoveMember = computed(() => {
   return isAdmin.value
 })
 
-const removeMemberPermissionTooltip = computed(() => {
+const isPermittedToEditRole = computed(() => {
+  if (isMemberOwner.value) {
+    return false
+  }
+  return isAdmin.value
+})
+
+const removeMemberPermissionTooltipCaption = computed(() => {
   if (isMemberOwner.value) {
     return "You cannot remove yourself because you're an owner"
   }
@@ -137,14 +156,8 @@ const removeMemberPermissionTooltip = computed(() => {
   return ''
 })
 
-const editRolePermission = computed(() => {
-  if (isMemberOwner.value) {
-    return false
-  }
-  return isAdmin.value
-})
 
-const editRoleTooltip = computed(() => {
+const editRoleTooltipCaption = computed(() => {
   if (isMemberOwner.value) {
     return 'You cannot edit your role because you are an owner'
   }
@@ -165,7 +178,7 @@ const editRoleTooltip = computed(() => {
         <div class="member__left-panel">
           <img :src="member.avatarUrl" class="member__avatar" />
           <span class="member__name">{{ member.fullName }}</span>
-          <div v-tooltip.bottom="removeMemberPermissionTooltip">
+          <div v-tooltip.bottom="removeMemberPermissionTooltipCaption">
             <BaseButton
               class="mt-4 ml-2"
               label="Remove from project"
@@ -177,7 +190,7 @@ const editRoleTooltip = computed(() => {
 
         <div class="member__right-panel flex-grow-1">
           <BaseDoubleClickSelect
-            v-tooltip.left="editRoleTooltip"
+            v-tooltip.left="editRoleTooltipCaption"
             fieldKey="role"
             label="Role"
             class="mb-2"
@@ -186,7 +199,7 @@ const editRoleTooltip = computed(() => {
             :items="roles"
             optionsLabel=""
             optionsValue=""
-            :readonly="!isAdmin || !editRolePermission"
+            :readonly="!isAdmin || !isPermittedToEditRole"
             placeholder="Assign role to the member"
             @setEditingState="fieldsEditingState.role = $event.value"
             @updateFieldValue="({ value, key }: any) => updateFieldValue(value, key)"

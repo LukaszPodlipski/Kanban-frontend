@@ -1,0 +1,186 @@
+<script setup lang="ts">
+import { PropType, computed } from 'vue'
+
+import { useTasksStore } from '@/stores/tasks'
+
+import { Form } from 'vee-validate'
+import rules from '@/utils/validators'
+import { trimText } from '@/utils/functions'
+import { relations } from '@/const'
+import { iTask, iSimplifiedTask } from '@/types/taskTypes'
+
+const emit = defineEmits([
+  'setEditingState',
+  'updateRelation',
+  'updateValue',
+  'deleteRelation',
+  'openRelatedTaskDialog',
+])
+
+const props = defineProps({
+  taskHasRelation: {
+    type: Boolean,
+    default: false,
+  },
+  relationId: {
+    type: Number as PropType<number | null>,
+    default: null,
+  },
+  relationMode: {
+    type: String as PropType<string | null>,
+    default: '',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  isEditing: {
+    type: Boolean,
+    default: false,
+  },
+  dialogItem: {
+    type: Object,
+    default: () => ({}),
+  },
+  task: {
+    type: Object as () => iTask,
+    default: () => ({}),
+  },
+  relatedTask: {
+    type: Object as () => iSimplifiedTask | null,
+    default: () => ({}),
+  },
+})
+
+const tasksStore = useTasksStore()
+
+const relatedTasksOptions = computed(() => {
+  return tasksStore.items
+    .filter((item) => item.id !== props.task.id)
+    .map((task: iSimplifiedTask) => {
+      const assiggnee = task.assignee?.fullName
+        ? ` - ${task.assignee?.fullName || ''}`
+        : ''
+      return {
+        label: `${task.identifier}: ${trimText(task.name, 15)} ${trimText(
+          assiggnee,
+          15,
+        )}`,
+        id: task.id,
+      }
+    })
+})
+
+const setRelationEditingState = () => {
+  if (props.isEditing) {
+    emit('updateValue', { key: 'relationMode', value: '' })
+    emit('updateValue', { key: 'relationId', value: null })
+    emit('setEditingState', { key: 'relation', value: false })
+  } else {
+    emit('setEditingState', { key: 'relation', value: true })
+  }
+}
+</script>
+
+<template>
+  <div class="flex justify-content-between align-items-center p-2 mt-2">
+    <span class="label">Connected task</span>
+    <i
+      v-if="!taskHasRelation || (!taskHasRelation && !disabled)"
+      class="pi cursor-pointer"
+      :class="{
+        'pi-plus': !isEditing,
+        'pi-times': isEditing,
+      }"
+      style="font-size: 0.8rem"
+      @click.native="setRelationEditingState"
+    ></i>
+  </div>
+
+  <Form v-if="isEditing" v-slot="{ resetField, errors }">
+    <div class="flex gap-2 px-2 mt-1">
+      <div
+        class="flex flex-column justify-content-center"
+        :style="{ width: '130px !important' }"
+      >
+        <BaseSelect
+          :value="relationMode"
+          :items="relations"
+          label="RelationMode"
+          fieldName="relationMode"
+          placeholder="Type"
+          :hide-dropdown-icon="true"
+          :rules="[(value:string) => relationId ? rules.required(value,'Relation') : true]"
+          @cleared="!relationId ? resetField('relatedTaskField') : null"
+          @update:modelValue="(value:number) => $emit('updateValue', { key: 'relationMode', value })"
+        />
+      </div>
+      <div class="flex flex-column flex-1 justify-content-center">
+        <BaseSelect
+          :value="relationId"
+          :items="relatedTasksOptions"
+          label="RelatedTask"
+          fieldName="relatedTask"
+          optionsValue="id"
+          optionsLabel="label"
+          :placeholder="`Select ${relationMode?.toLowerCase() || ''} task`"
+          :rules="[(value:string) => relationMode ? rules.required(value,'Related task') : true]"
+          @cleared="!relationMode ? resetField('relationModeField') : null"
+          @update:modelValue="(value:number) => $emit('updateValue', { key: 'relationId', value })"
+        />
+      </div>
+      <div class="flex justify-content-center">
+        <BaseButton
+          icon="check"
+          medium
+          :disabled="
+            Object.keys(errors).length > 0 || !relationId || !relationMode
+          "
+          @click="$emit('updateRelation')"
+        />
+      </div>
+    </div>
+  </Form>
+
+  <div
+    v-if="task.relationId"
+    class="field-hover relation flex justify-content-between align-items-center p-2 ml-2"
+    @click="
+      $emit('openRelatedTaskDialog', {
+        taskId: task.relationId,
+        redirected: true,
+      })
+    "
+  >
+    <span>{{ task.relationMode }}</span>
+    <div class="flex align-items-center justify-content-center">
+      <span class="mr-2">{{ relatedTask?.identifier }}</span>
+      <span class="mr-2">{{ trimText(relatedTask?.name, 20) }}</span>
+      <span>{{ trimText(relatedTask?.assignee?.fullName, 20) }}</span>
+      <i
+        v-if="!disabled"
+        class="pi pi-times ml-4"
+        style="font-size: 0.8rem"
+        @click.stop="$emit('deleteRelation')"
+      ></i>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.field-hover {
+  &:hover {
+    background-color: #2424307c;
+    cursor: pointer;
+  }
+}
+
+.relation {
+  border: 1px solid #6460ba6d;
+}
+</style>

@@ -10,7 +10,7 @@ const props = defineProps({
     type: [String, Number],
     default: null,
   },
-  editingState: {
+  isEditing: {
     type: Boolean,
     default: false,
   },
@@ -38,6 +38,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  tooltipConfig: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 
 let timeout: ReturnType<typeof setTimeout>
@@ -49,7 +53,7 @@ const emit = defineEmits([
 ])
 
 const updateValue = (value: any) => {
-  if(value === props.value) return
+  if (value === props.value) return
 
   emit('updateFieldValue', { value, key: props.fieldKey })
 
@@ -65,25 +69,34 @@ const submitFieldValue = (id: any) => {
 </script>
 
 <template>
-  <div>
+  <div
+    @keydown.esc.stop="
+      $emit('setEditingState', { key: fieldKey, value: false })
+    "
+  >
     <div class="flex align-start">
       <span class="label px-2 py-1">{{ label }}</span>
       <i
-        v-if="!readonly && !editingState"
+        v-if="!readonly && !isEditing"
         class="pi pi-pencil label__icon"
-        @click="emit('setEditingState', true)"
+        @click="emit('setEditingState', { key: fieldKey, value: true })"
       ></i>
     </div>
     <span
-      v-if="!editingState || readonly"
-      class="p-2 m-0"
+      v-if="!isEditing || readonly"
+      class="px-2 py-1 m-0 w-full block"
       :class="{ field: !readonly }"
-      @dblclick="emit('setEditingState', true)"
+      @dblclick="emit('setEditingState', { key: fieldKey, value: true })"
     >
       <slot name="value" />
       <span v-if="!$slots.value">{{ value }}</span>
     </span>
-    <Form v-slot="{ errors }" v-else class="mx-2 my-1">
+    <Form
+      v-else
+      v-slot="{ errors }"
+      class="mx-2 my-1"
+      v-tooltip.bottom="{ ...tooltipConfig, disabled: isEditing }"
+    >
       <BaseSelect
         :value="value"
         :items="items"
@@ -105,7 +118,7 @@ const submitFieldValue = (id: any) => {
               icon="times"
               class="ml-2"
               small
-              @click="emit('setEditingState', false)"
+              @click="emit('setEditingState', { key: fieldKey, value: false })"
               :disabled="Object.keys(errors).length > 0"
             />
           </div>

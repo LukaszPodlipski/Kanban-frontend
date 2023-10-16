@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputText from 'primevue/inputtext'
 import { useField } from 'vee-validate'
-import { onMounted, ComponentOptions } from 'vue'
+import { onMounted, ComponentOptions, ref, defineExpose } from 'vue'
 
 defineEmits(['update:modelValue'])
 
@@ -78,10 +78,17 @@ function validateField(value: any) {
 
   return true
 }
+
+const childRef = ref(null)
+defineExpose({ childRef })
 </script>
 
 <template>
-  <span class="p-input-icon-right" :class="{ 'p-float-label': floatLabel }">
+  <span
+    class="p-input-icon-right"
+    :class="{ 'p-float-label': floatLabel }"
+    ref="childRef"
+  >
     <i v-if="iconRight" :class="`pi ${iconRight}`" />
     <component
       :is="component"

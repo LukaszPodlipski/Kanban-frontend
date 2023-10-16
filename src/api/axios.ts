@@ -2,6 +2,8 @@ import axios, { AxiosInstance } from 'axios'
 import { useAuthStore } from '@/stores/auth'
 import { useLayoutStore } from '@/stores/layout'
 
+let userHasBeenLoggedOut = false
+
 export const axiosApi: AxiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/`,
   timeout: 5000,
@@ -25,14 +27,19 @@ axiosApi.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
+      if(userHasBeenLoggedOut) return
       const authStore = useAuthStore()
       const layoutStore = useLayoutStore()
 
       layoutStore.showToast({
-        message: 'Please login to again',
+        message: 'Please login again',
         type: 'error',
       })
       authStore.logout()
+      userHasBeenLoggedOut = true
+      setTimeout(() => {
+        userHasBeenLoggedOut = false
+      }, 5000)
     }
     if (error.response && error.response.status === 403) {
       const layoutStore = useLayoutStore()

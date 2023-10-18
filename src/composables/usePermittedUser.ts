@@ -28,5 +28,10 @@ export default function usePermittedUser() {
     return userRole.value === 'Viewer'
   })
 
-  return { userRole, isEditor, isOwner, isMainteiner, isViewer, isAdmin }
+  const checkIsEditor = (role: string) => {
+    if(!role) return false
+    return  ['Owner', 'Maintainer', 'Editor'].includes(role)
+  }
+
+  return { userRole, isEditor, isOwner, isMainteiner, isViewer, isAdmin, checkIsEditor }
 }

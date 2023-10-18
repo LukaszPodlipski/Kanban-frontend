@@ -35,7 +35,7 @@ const layoutStore = useLayoutStore()
 const websocketStore = useWebsocketStore()
 const membersStore = useMembersStore()
 
-const { isViewer } = usePermittedUser()
+const { isViewer, checkIsEditor } = usePermittedUser()
 const { t } = useI18n()
 
 /* -------------------------------- ON DIALOG OPEN --------------------------------- */
@@ -79,11 +79,11 @@ const task = computed<iTask>(() => {
 })
 
 const columns = computed(() => {
-  return columnsStore.items
+  return columnsStore.items?.sort((a, b) => a.order - b.order)
 })
 
 const members = computed(() => {
-  return membersStore.items
+  return membersStore.items?.filter((member) => checkIsEditor(member.role))
 })
 
 const relatedTask = computed<iSimplifiedTask | null>(() => {

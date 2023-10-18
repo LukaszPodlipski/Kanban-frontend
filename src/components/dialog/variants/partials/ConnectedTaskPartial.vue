@@ -57,7 +57,8 @@ const tasksStore = useTasksStore()
 const relatedTasksOptions = computed(() => {
   return tasksStore.items
     .filter((item) => item.id !== props.task.id)
-    .map((task: iSimplifiedTask) => {
+    ?.sort((a, b) => a.id - b.id)
+    ?.map((task: iSimplifiedTask) => {
       const assiggnee = task.assignee?.fullName
         ? ` - ${task.assignee?.fullName || ''}`
         : ''

@@ -18,10 +18,12 @@ const getLocaleFullname = (locale: string) => {
 }
 
 const availableLocales = computed(() => {
-  return Object.keys(messages)?.map((locale) => ({
-    label: getLocaleFullname(locale),
-    id: locale,
-  }))
+  return Object.keys(messages)
+    ?.map((locale) => ({
+      label: getLocaleFullname(locale),
+      id: locale,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label))
 })
 
 const activeI18nLocale = computed(() => {

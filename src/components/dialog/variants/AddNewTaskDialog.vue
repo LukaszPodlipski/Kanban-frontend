@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
+import usePermittedUser from '@/composables/usePermittedUser'
 import { relations } from '@/const'
 import { useColumnsStore } from '@/stores/columns'
 import { useLayoutStore } from '@/stores/layout'
@@ -27,17 +28,18 @@ const columnsStore = useColumnsStore()
 const membersStore = useMembersStore()
 const tasksStore = useTasksStore()
 const layoutStore = useLayoutStore()
+const { checkIsEditor } = usePermittedUser()
 
 const columns = computed(() => {
-  return columnsStore.items
+  return columnsStore.items?.sort((a, b) => a.order - b.order)
 })
 
 const members = computed(() => {
-  return membersStore.items
+  return membersStore.items?.filter((member) => checkIsEditor(member.role))
 })
 
 const tasks = computed(() => {
-  return tasksStore.items.map((task: iSimplifiedTask) => {
+  return tasksStore.items?.sort((a, b) => a.id - b.id)?.map((task: iSimplifiedTask) => {
     const assiggnee = task.assignee?.fullName
       ? ` - ${task.assignee?.fullName || ''}`
       : ''

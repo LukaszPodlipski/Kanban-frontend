@@ -1,18 +1,14 @@
-import { defineStore } from 'pinia'
-import { computed, ref, Ref, ComputedRef } from 'vue'
-import { useRoute } from 'vue-router'
-
-import { iSimplifiedProject } from '@/types/projectTypes'
-import { iColumn } from '@/types/columnTypes'
-import { iSimplifiedTask } from '@/types/taskTypes'
-
 import projectsApi from '@/api/v1/projectApi'
-
-import { falseLoadingState } from '@/utils/functions'
-
 import { useColumnsStore } from '@/stores/columns'
-import { useTasksStore } from '@/stores/tasks'
 import { useMembersStore } from '@/stores/members'
+import { useTasksStore } from '@/stores/tasks'
+import { iColumn } from '@/types/columnTypes'
+import { iSimplifiedProject } from '@/types/projectTypes'
+import { iSimplifiedTask } from '@/types/taskTypes'
+import { falseLoadingState } from '@/utils/functions'
+import { defineStore } from 'pinia'
+import { computed, ComputedRef, ref, Ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 export const useProjectStore = defineStore('project', () => {
   const loading: Ref<boolean> = ref(false) // loading state of global project operations

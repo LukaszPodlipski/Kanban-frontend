@@ -1,6 +1,6 @@
-import axios, { AxiosInstance } from 'axios'
 import { useAuthStore } from '@/stores/auth'
 import { useLayoutStore } from '@/stores/layout'
+import axios, { AxiosInstance } from 'axios'
 
 let userHasBeenLoggedOut = false
 
@@ -27,7 +27,7 @@ axiosApi.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      if(userHasBeenLoggedOut) return
+      if (userHasBeenLoggedOut) return
       const authStore = useAuthStore()
       const layoutStore = useLayoutStore()
 

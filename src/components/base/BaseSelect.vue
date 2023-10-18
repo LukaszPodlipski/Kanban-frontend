@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Dropdown from 'primevue/dropdown'
 import { useField } from 'vee-validate'
-import { onMounted, ComponentOptions } from 'vue'
+import { ComponentOptions, onMounted } from 'vue'
 
 defineEmits(['cleared', 'update:modelValue'])
 

@@ -1,12 +1,12 @@
+import { authorizeAxios } from '@/api/axios'
+import api from '@/api/v1/indexApi'
+import { useLayoutStore } from '@/stores/layout'
+import { useWebsocketStore } from '@/stores/websocket'
+import { iLoginResponse } from '@/types/authTypes'
+import { iUser } from '@/types/userTypes'
 import { defineStore } from 'pinia'
 import { ref, Ref } from 'vue'
-import api from '@/api/v1/indexApi'
-import { authorizeAxios } from '@/api/axios'
 import { useRouter } from 'vue-router'
-import { iLoginResponse } from '@/types/authTypes'
-import { useWebsocketStore } from '@/stores/websocket'
-import { useLayoutStore } from '@/stores/layout'
-import { iUser } from '@/types/userTypes'
 
 export const useAuthStore = defineStore('auth', () => {
   const user: Ref<iUser> = ref({} as iUser)

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { iComment } from '@/types/taskTypes'
-
+import { ref } from 'vue'
 
 const childRef = ref(null)
 defineExpose({ childRef })
@@ -15,7 +14,7 @@ defineProps({
 </script>
 
 <template>
-  <div ref='childRef' class="comments-wrapper mb-2">
+  <div ref="childRef" class="comments-wrapper mb-2">
     <div
       v-for="comment in comments"
       :key="comment.id"

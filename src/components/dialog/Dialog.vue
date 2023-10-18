@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Dialog from 'primevue/dialog'
 import { useLayoutStore } from '@/stores/layout'
+import Dialog from 'primevue/dialog'
 import { computed, defineAsyncComponent } from 'vue'
 
 const layoutStore = useLayoutStore()

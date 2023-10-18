@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 type iTab = {
   name: string
   label: string
@@ -15,7 +14,6 @@ defineProps({
     required: true,
   },
 })
-
 </script>
 
 <template>
@@ -31,25 +29,25 @@ defineProps({
   </div>
 </template>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .tab {
-    padding: 4px 8px;
-    border-radius: 4px;
-    background-color: #292938;
-    font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #292938;
+  font-size: 12px;
+
+  &:hover {
+    background-color: #2f2f3b;
+    cursor: pointer;
+  }
+
+  &--active {
+    background-color: #6560ba;
 
     &:hover {
-      background-color: #2f2f3b;
+      background-color: #6560ba;
       cursor: pointer;
     }
-
-    &--active {
-      background-color: #6560ba;
-
-      &:hover {
-        background-color: #6560ba;
-        cursor: pointer;
-      }
-    }
   }
+}
 </style>

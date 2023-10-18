@@ -1,5 +1,6 @@
-import { axiosApi } from '../axios'
 import { iMemberItem } from '@/types/userTypes'
+
+import { axiosApi } from '../axios'
 
 type invitedMemberType = {
   id: number

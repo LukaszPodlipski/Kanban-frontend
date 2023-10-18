@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
 import usePermittedUser from '@/composables/usePermittedUser'
+import { useAuthStore } from '@/stores/auth'
 import rules from '@/utils/validators'
 import Editor from 'primevue/editor'
 import { computed } from 'vue'
@@ -70,7 +70,10 @@ const submitValueOnEnterKeyup = () => {
         :maxLength="1000"
         dense
         :component="Editor"
-        :tooltipConfig="{ value: $t('tasks.dblClickToComment'), showDelay: 500 }"
+        :tooltipConfig="{
+          value: $t('tasks.dblClickToComment'),
+          showDelay: 500,
+        }"
         :rules="[(value:string) => rules.maxLength(value, 1000, $t('tasks.comment'))]"
         @setEditingState="(value: emitEditingStateType) => $emit('setEditingState', value)"
         @updateValue="(value: emitValueType) => $emit('updateValue', value)"

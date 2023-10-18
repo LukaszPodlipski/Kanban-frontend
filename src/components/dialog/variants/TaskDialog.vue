@@ -1,4 +1,17 @@
 <script setup lang="ts">
+import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
+import ArrowLeftIcon from '@/components/icons/ArrowLeftIcon.vue'
+import usePermittedUser from '@/composables/usePermittedUser'
+import { useColumnsStore } from '@/stores/columns'
+import { useLayoutStore } from '@/stores/layout'
+import { useMembersStore } from '@/stores/members'
+import { useProjectStore } from '@/stores/project'
+import { useTasksStore } from '@/stores/tasks'
+import { useWebsocketStore } from '@/stores/websocket'
+import { DialogParams, iTab } from '@/types/coreTypes'
+import { iSimplifiedTask, iTask, Task } from '@/types/taskTypes'
+import rules from '@/utils/validators'
+import Editor from 'primevue/editor'
 import {
   computed,
   onBeforeMount,
@@ -8,30 +21,12 @@ import {
   ref,
   watch,
 } from 'vue'
-
-import Editor from 'primevue/editor'
-import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
-import ArrowLeftIcon from '@/components/icons/ArrowLeftIcon.vue'
-
-import { useTasksStore } from '@/stores/tasks'
-import { useColumnsStore } from '@/stores/columns'
-import { useLayoutStore } from '@/stores/layout'
-import { useWebsocketStore } from '@/stores/websocket'
-import { useProjectStore } from '@/stores/project'
-import { useMembersStore } from '@/stores/members'
-
-import { iTask, iSimplifiedTask, Task } from '@/types/taskTypes'
-import { DialogParams, iTab } from '@/types/coreTypes'
-
-import rules from '@/utils/validators'
-
-import usePermittedUser from '@/composables/usePermittedUser'
 import { useI18n } from 'vue-i18n'
 
+import CommentInput from './partials/CommentInputPartial.vue'
 import ConnectedTask from './partials/ConnectedTaskPartial.vue'
 import TaskComments from './partials/TaskCommentsPartial.vue'
 import TaskHistory from './partials/TaskHistoryPartial.vue'
-import CommentInput from './partials/CommentInputPartial.vue'
 
 const tasksStore = useTasksStore()
 const columnsStore = useColumnsStore()
@@ -319,7 +314,9 @@ const getColumnName = (id: number) => {
             @submitValue="submitFieldValue"
           />
 
-          <span class="task__label p-2 mt-2">{{ $t('tasks.description') }}</span>
+          <span class="task__label p-2 mt-2">{{
+            $t('tasks.description')
+          }}</span>
           <BaseDoubleClickInput
             :value="task.description"
             :isEditing="fieldsEditingState.description"

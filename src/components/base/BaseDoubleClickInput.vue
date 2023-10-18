@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Form } from 'vee-validate'
-import { ComponentOptions, ref, nextTick } from 'vue'
 import InputText from 'primevue/inputtext'
+import { Form } from 'vee-validate'
+import { ComponentOptions, nextTick, ref } from 'vue'
 
 const emit = defineEmits([
   'setEditingState',

@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
 import usePermittedUser from '@/composables/usePermittedUser.ts'
-
+import { roles } from '@/const'
+import { useAuthStore } from '@/stores/auth'
+import { useLayoutStore } from '@/stores/layout'
+import { useMembersStore } from '@/stores/members'
+import { useProjectStore } from '@/stores/project'
+import { useWebsocketStore } from '@/stores/websocket'
+import { iUser } from '@/types/userTypes'
+import { formatDate } from '@/utils/functions'
 import {
   computed,
   onBeforeMount,
@@ -10,19 +17,7 @@ import {
   reactive,
   watch,
 } from 'vue'
-
 import { useI18n } from 'vue-i18n'
-
-import { useLayoutStore } from '@/stores/layout'
-import { useMembersStore } from '@/stores/members'
-import { useProjectStore } from '@/stores/project'
-
-import { iUser } from '@/types/userTypes'
-import { roles } from '@/const'
-
-import { formatDate } from '@/utils/functions'
-import { useWebsocketStore } from '@/stores/websocket'
-import { useAuthStore } from '@/stores/auth'
 
 const layoutStore = useLayoutStore()
 const membersStore = useMembersStore()
@@ -159,7 +154,6 @@ const removeMemberPermissionTooltipCaption = computed(() => {
   return ''
 })
 
-
 const editRoleTooltipCaption = computed(() => {
   if (isMemberOwner.value) {
     return t('members.editSelfOwnerRoleError')
@@ -174,7 +168,7 @@ const editRoleTooltipCaption = computed(() => {
 <template>
   <DialogTemplate hideActions>
     <template #customHeader>
-      <span>{{$t('members.member')}}</span>
+      <span>{{ $t('members.member') }}</span>
     </template>
     <template #content>
       <div class="flex">

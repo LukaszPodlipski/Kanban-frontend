@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
+
+import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 
 const authStore = useAuthStore()
 const user = computed(() => authStore.user)
@@ -12,7 +13,9 @@ const user = computed(() => authStore.user)
     <template v-slot:title>
       <div class="flex align-items-center">
         <img :src="user.avatarUrl" class="user-avatar" />
-        <span>{{$t('explore.hello')}}! {{ user.name }} {{ user.surname }}</span>
+        <span
+          >{{ $t('explore.hello') }}! {{ user.name }} {{ user.surname }}</span
+        >
       </div>
     </template>
     <template v-slot:right>

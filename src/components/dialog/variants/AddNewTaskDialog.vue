@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, ref, Ref } from 'vue'
-import { Form, useForm } from 'vee-validate'
-import { useI18n } from 'vue-i18n'
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
-import Editor from 'primevue/editor'
-import rules from '@/utils/validators'
+import { relations } from '@/const'
 import { useColumnsStore } from '@/stores/columns'
+import { useLayoutStore } from '@/stores/layout'
 import { useMembersStore } from '@/stores/members'
 import { useTasksStore } from '@/stores/tasks'
-import { useLayoutStore } from '@/stores/layout'
 import { iSimplifiedTask } from '@/types/taskTypes'
 import { trimText } from '@/utils/functions'
-import { relations } from '@/const'
+import rules from '@/utils/validators'
+import Editor from 'primevue/editor'
+import { Form, useForm } from 'vee-validate'
+import { computed, ref, Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { errors } = useForm()

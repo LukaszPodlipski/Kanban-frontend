@@ -1,22 +1,18 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-
-import router from '@/router'
-import { useProjectsStore } from '@/stores/projects'
-import { useProjectStore } from '@/stores/project'
-import { useLayoutStore } from '@/stores/layout'
-import { useAuthStore } from '@/stores/auth'
-
-import { trimText } from '@/utils/functions'
-
-import { iListItem } from '@/types/baseTypes'
-
 import ArrowDownIcon from '@/components/icons/ArrowDownIcon.vue'
-import ArrowRightIcon from '@/components/icons/ArrowRightIcon.vue'
 import ArrowLeftIcon from '@/components/icons/ArrowLeftIcon.vue'
+import ArrowRightIcon from '@/components/icons/ArrowRightIcon.vue'
 import { iconComponent } from '@/composables/useDynamicIcon'
+import router from '@/router'
+import { useAuthStore } from '@/stores/auth'
+import { useLayoutStore } from '@/stores/layout'
+import { useProjectStore } from '@/stores/project'
+import { useProjectsStore } from '@/stores/projects'
+import { iListItem } from '@/types/baseTypes'
+import { trimText } from '@/utils/functions'
+import { computed, onMounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 const projectsStore = useProjectsStore()
 const projectStore = useProjectStore()
@@ -110,7 +106,7 @@ const menuItems = computed(
         children: [
           {
             name: 'Account',
-            label:  i18n.t('sidebar.account'),
+            label: i18n.t('sidebar.account'),
             icon: 'AccountIcon',
             pathName: 'Account',
           },

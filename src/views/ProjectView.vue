@@ -1,29 +1,25 @@
 <script setup lang="ts">
-import draggable from 'vuedraggable'
-import ProgressBar from 'primevue/progressbar'
-
-import { useRoute } from 'vue-router'
-import {
-  computed,
-  onMounted,
-  onBeforeMount,
-  onUnmounted,
-  watch,
-  ref,
-} from 'vue'
-
-import { useProjectStore } from '@/stores/project'
-import { useTasksStore } from '@/stores/tasks'
-import { useWebsocketStore } from '@/stores/websocket'
-import { useLayoutStore } from '@/stores/layout'
-
 import AddNewColumn from '@/components/table/columns/AddNewColumn.vue'
 import ColumnHeader from '@/components/table/columns/ColumnHeader.vue'
 import TableLoadingSkeleton from '@/components/table/TableLoadingSkeleton.vue'
 import TaskTile from '@/components/table/tasks/TaskTile.vue'
-
-import { iTask } from '@/types/taskTypes'
 import usePermittedUser from '@/composables/usePermittedUser'
+import { useLayoutStore } from '@/stores/layout'
+import { useProjectStore } from '@/stores/project'
+import { useTasksStore } from '@/stores/tasks'
+import { useWebsocketStore } from '@/stores/websocket'
+import { iTask } from '@/types/taskTypes'
+import ProgressBar from 'primevue/progressbar'
+import {
+  computed,
+  onBeforeMount,
+  onMounted,
+  onUnmounted,
+  ref,
+  watch,
+} from 'vue'
+import { useRoute } from 'vue-router'
+import draggable from 'vuedraggable'
 
 /* -------------------------------- USE STORE ------------------------------- */
 const projectStore = useProjectStore()

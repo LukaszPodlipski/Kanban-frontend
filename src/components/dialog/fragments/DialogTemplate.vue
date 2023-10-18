@@ -30,7 +30,11 @@ defineProps({
     v-if="!hideActions"
     class="flex justify-content-end flex-wrap gap-3 w-100 p-4"
   >
-    <BaseButton :label="$t('core.close')" icon="times" @click="layoutStore.closeDialog" />
+    <BaseButton
+      :label="$t('core.close')"
+      icon="times"
+      @click="layoutStore.closeDialog"
+    />
     <slot name="actions" />
   </div>
 </template>

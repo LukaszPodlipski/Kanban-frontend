@@ -1,13 +1,15 @@
-import { computed, ref, Ref } from 'vue'
 import api from '@/api/v1/indexApi'
-import { falseLoadingState } from '@/utils/functions'
 import { useProjectStore } from '@/stores/project'
+import { falseLoadingState } from '@/utils/functions'
+import { computed, ref, Ref } from 'vue'
 
 interface Item {
   id: number
 }
 
-export const storeContructor = <T extends Item, Y extends Item>(endpoint: string) => {
+export const storeContructor = <T extends Item, Y extends Item>(
+  endpoint: string,
+) => {
   const items = ref([]) as Ref<Y[]>
   const item = ref({} as T) as Ref<T>
   const loading = ref(false) as Ref<boolean>

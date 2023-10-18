@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { messages } from '@/locale'
 import { getImageUrl } from '@/utils/functions'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 defineProps({
   flagsOnly: {

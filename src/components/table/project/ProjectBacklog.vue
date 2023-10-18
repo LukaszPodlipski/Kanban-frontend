@@ -1,23 +1,15 @@
 <script setup lang="ts">
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
-
+import useResizableTable from '@/composables/useResizableTable'
 import { useLayoutStore } from '@/stores/layout'
 import { useProjectStore } from '@/stores/project'
 import { useTasksStore } from '@/stores/tasks'
 import { useWebsocketStore } from '@/stores/websocket'
 import { iTask } from '@/types/taskTypes'
-import {
-  computed,
-  onBeforeMount,
-  onMounted,
-  onUnmounted,
-  watch,
-} from 'vue'
+import { formatDate, trimText } from '@/utils/functions'
+import Column from 'primevue/column'
+import DataTable from 'primevue/datatable'
+import { computed, onBeforeMount, onMounted, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-
-import useResizableTable from '@/composables/useResizableTable'
-import { trimText, formatDate } from '@/utils/functions'
 
 const tasksStore = useTasksStore()
 const websocketStore = useWebsocketStore()
@@ -89,13 +81,19 @@ const openTaskDialog = (payload: any) => {
           <span v-html="trimText(data.description, 52)"></span>
         </template>
       </Column>
-      <Column field="assignee.fullName" :header="$t('backlog.assignee')" sortable>
+      <Column
+        field="assignee.fullName"
+        :header="$t('backlog.assignee')"
+        sortable
+      >
         <template #body="{ data }">
           <div v-if="data.assignee" class="flex align-items-center">
             <img class="task__avatar mr-3" :src="data.assignee.avatarUrl" />
             <span>{{ data.assignee.fullName }}</span>
           </div>
-          <span class="task__avatar--placeholder" v-else>{{ $t('tasks.notAssigned') }}</span>
+          <span class="task__avatar--placeholder" v-else>{{
+            $t('tasks.notAssigned')
+          }}</span>
         </template>
       </Column>
       <Column field="createdAt" :header="$t('backlog.createdAt')" sortable>

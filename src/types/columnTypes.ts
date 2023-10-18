@@ -6,4 +6,7 @@ export interface iColumn {
   order: number
 }
 
-export type iSimplifiedColumn = Pick<iColumn, 'id' | 'name' | 'description' | 'color' | 'order'>
+export type iSimplifiedColumn = Pick<
+  iColumn,
+  'id' | 'name' | 'description' | 'color' | 'order'
+>

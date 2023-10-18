@@ -1,18 +1,14 @@
 <script setup lang="ts">
-import { ref, Ref } from 'vue'
-import debounce from 'lodash.debounce'
-
-import { useI18n } from 'vue-i18n'
-
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
-import rules from '@/utils/validators'
 import { roles } from '@/const'
-
-import { useProjectStore } from '@/stores/project'
 import { useLayoutStore } from '@/stores/layout'
 import { useMembersStore } from '@/stores/members'
-
+import { useProjectStore } from '@/stores/project'
 import { iMemberItem } from '@/types/userTypes'
+import rules from '@/utils/validators'
+import debounce from 'lodash.debounce'
+import { ref, Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const projectStore = useProjectStore()
 const layoutStore = useLayoutStore()

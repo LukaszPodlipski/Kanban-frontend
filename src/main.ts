@@ -1,25 +1,21 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import i18n from '@/locale'
 import axios from 'axios'
-
-import App from './App.vue'
-
+import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
-import router from './router/index'
-
-import i18n from '@/locale'
-
 import Tooltip from 'primevue/tooltip'
+import { createApp } from 'vue'
 
+import App from './App.vue'
 import BaseButton from './components/base/BaseButton.vue'
+import BaseButtonTabs from './components/base/BaseButtonTabs.vue'
+import BaseDoubleClickInput from './components/base/BaseDoubleClickInput.vue'
+import BaseDoubleClickSelect from './components/base/BaseDoubleClickSelect.vue'
 import BaseInput from './components/base/BaseInput.vue'
 import BasePasswordInput from './components/base/BasePasswordInput.vue'
 import BaseSearch from './components/base/BaseSearch.vue'
 import BaseSelect from './components/base/BaseSelect.vue'
-import BaseDoubleClickSelect from './components/base/BaseDoubleClickSelect.vue'
-import BaseDoubleClickInput from './components/base/BaseDoubleClickInput.vue'
-import BaseButtonTabs from './components/base/BaseButtonTabs.vue'
+import router from './router/index'
 
 import './assets/styles/index.scss' //global styles
 import '@/assets/styles/theme.css' //theme

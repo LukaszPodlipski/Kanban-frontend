@@ -1,15 +1,12 @@
-import { Ref, ref, watch } from 'vue'
+import { useLayoutStore } from '@/stores/layout'
+import { useProjectStore } from '@/stores/project'
+import { useTasksStore } from '@/stores/tasks'
 import debounce from 'lodash.debounce'
+import { Ref, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
-import { useTasksStore } from '@/stores/tasks'
-import { useProjectStore } from '@/stores/project'
-import { useLayoutStore } from '@/stores/layout'
-
-import { useI18n } from 'vue-i18n'
-
 export default function useProjectTopbarUtilities() {
-
   const { t } = useI18n()
   const tasksStore = useTasksStore()
 
@@ -64,5 +61,11 @@ export default function useProjectTopbarUtilities() {
     })
   }
 
-  return { filters, navigateToSettings, navigateToProject, navigateToBacklog, openNewTaskDialog }
+  return {
+    filters,
+    navigateToSettings,
+    navigateToProject,
+    navigateToBacklog,
+    openNewTaskDialog,
+  }
 }

@@ -1,16 +1,13 @@
 <script setup lang="ts">
+import BoardIcon from '@/components/icons/BoardIcon.vue'
+import SettingsIcon from '@/components/icons/SettingsIcon.vue'
+import usePermittedUser from '@/composables/usePermittedUser.ts'
+import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities.ts'
+import { useLayoutStore } from '@/stores/layout'
+import { useMembersStore } from '@/stores/members'
 import { useI18n } from 'vue-i18n'
 
-import SettingsIcon from '@/components/icons/SettingsIcon.vue'
-import BoardIcon from '@/components/icons/BoardIcon.vue'
-
-import { useMembersStore } from '@/stores/members'
-import { useLayoutStore } from '@/stores/layout'
-
 import TopbarTemplate from '../fragments/TopbarTemplate.vue'
-
-import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities.ts'
-import usePermittedUser from '@/composables/usePermittedUser.ts'
 
 const { navigateToSettings, navigateToProject } = useProjectTopbarUtilities()
 const { isAdmin } = usePermittedUser()

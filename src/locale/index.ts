@@ -1,6 +1,7 @@
+import { createI18n } from 'vue-i18n'
+
 import en from './en.json'
 import pl from './pl.json'
-import { createI18n } from 'vue-i18n'
 
 export const messages = {
   en,

@@ -1,20 +1,15 @@
 <script setup lang="ts">
-import DataTable from 'primevue/datatable'
-import Column from 'primevue/column'
-
-import { computed, onBeforeMount, onMounted, watch } from 'vue'
-
-import { useRoute } from 'vue-router'
-import { useMembersStore } from '@/stores/members'
+import useResizableTable from '@/composables/useResizableTable'
 import { useLayoutStore } from '@/stores/layout'
+import { useMembersStore } from '@/stores/members'
 import { useProjectStore } from '@/stores/project'
 import { useWebsocketStore } from '@/stores/websocket'
-
 import { iUser } from '@/types/userTypes'
-
-import useResizableTable from '@/composables/useResizableTable'
-
 import { formatDate } from '@/utils/functions'
+import Column from 'primevue/column'
+import DataTable from 'primevue/datatable'
+import { computed, onBeforeMount, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 
 const membersStore = useMembersStore()
 const layoutStore = useLayoutStore()

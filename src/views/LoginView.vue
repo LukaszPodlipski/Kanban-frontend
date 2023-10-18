@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useForm } from 'vee-validate'
-import { computed, ref, Ref } from 'vue'
-import rules from '@/utils/validators'
 import ArrowLeft from '@/components/icons/ArrowLeftIcon.vue'
 import { useAuthStore } from '@/stores/auth'
+import rules from '@/utils/validators'
+import { useForm } from 'vee-validate'
+import { computed, ref, Ref } from 'vue'
 
 const { errors } = useForm()
 

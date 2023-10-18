@@ -1,4 +1,4 @@
-import { Ref, computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, Ref, ref } from 'vue'
 
 export default function useResizableTable() {
   onMounted(async () => {

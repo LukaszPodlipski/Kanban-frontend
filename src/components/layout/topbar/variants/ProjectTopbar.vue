@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-
+import BacklogIcon from '@/components/icons/BacklogIcon.vue'
+import SettingsIcon from '@/components/icons/SettingsIcon.vue'
+import usePermittedUser from '@/composables/usePermittedUser'
+import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities'
+import { rolesColors } from '@/const'
 import { useProjectStore } from '@/stores/project'
 import { useTasksStore } from '@/stores/tasks'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import SelectProjectMembers from '../fragments/SelectProjectMembers.vue'
 import TopbarTemplate from '../fragments/TopbarTemplate.vue'
-
-import SettingsIcon from '@/components/icons/SettingsIcon.vue'
-import BacklogIcon from '@/components/icons/BacklogIcon.vue'
-
-import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities'
-import usePermittedUser from '@/composables/usePermittedUser'
-
-import { rolesColors } from '@/const'
-import { computed } from 'vue'
 
 const projectStore = useProjectStore()
 const tasksStore = useTasksStore()
@@ -44,7 +40,10 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
       </div>
     </template>
     <template v-slot:right>
-      <SelectProjectMembers v-model:model-value="filters.assigneeIds" class="mr-4" />
+      <SelectProjectMembers
+        v-model:model-value="filters.assigneeIds"
+        class="mr-4"
+      />
       <BaseSearch
         v-model="filters.query"
         :label="$t('core.search')"

@@ -1,6 +1,6 @@
-import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useWebsocketStore } from '@/stores/websocket'
+import { ref } from 'vue'
 
 export function useWebSocket() {
   const authStore = useAuthStore()

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputText from 'primevue/inputtext'
 import { useField } from 'vee-validate'
-import { onMounted, ComponentOptions, ref } from 'vue'
+import { ComponentOptions, onMounted, ref } from 'vue'
 
 defineEmits(['update:modelValue'])
 

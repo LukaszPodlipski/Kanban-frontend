@@ -1,5 +1,6 @@
-import { ISimplifiedUser } from './userTypes'
 import { formatDate } from '@/utils/functions'
+
+import { ISimplifiedUser } from './userTypes'
 
 export interface iComment {
   id: number

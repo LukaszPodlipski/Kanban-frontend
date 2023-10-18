@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { PropType, computed } from 'vue'
-
-import { useTasksStore } from '@/stores/tasks'
-
-import { Form } from 'vee-validate'
-import rules from '@/utils/validators'
-import { trimText } from '@/utils/functions'
 import { relations } from '@/const'
-import { iTask, iSimplifiedTask } from '@/types/taskTypes'
+import { useTasksStore } from '@/stores/tasks'
+import { iSimplifiedTask, iTask } from '@/types/taskTypes'
+import { trimText } from '@/utils/functions'
+import rules from '@/utils/validators'
+import { Form } from 'vee-validate'
+import { computed, PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits([

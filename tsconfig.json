@@ -26,6 +26,13 @@
       ]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/composables/useWebsocket.ts", "src/composables/useWebsockets.js"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/composables/useWebsocket.ts",
+    "src/composables/useWebsockets.js"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

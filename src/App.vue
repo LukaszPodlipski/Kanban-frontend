@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
-import { onBeforeMount } from 'vue'
 import Dialog from '@/components/dialog/Dialog.vue'
+import { useAuthStore } from '@/stores/auth'
 import Toast from 'primevue/toast'
+import { onBeforeMount } from 'vue'
 
 const authStore = useAuthStore()
 

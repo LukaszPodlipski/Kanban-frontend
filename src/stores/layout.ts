@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { ref, Ref } from 'vue'
 import { useToast } from 'primevue/usetoast'
+import { ref, Ref } from 'vue'
 
 interface Dialog {
   title?: string
@@ -75,6 +75,6 @@ export const useLayoutStore = defineStore('layout', () => {
     closeDialog,
     dialog,
     showToast,
-    setLayoutDefaultState
+    setLayoutDefaultState,
   }
 })

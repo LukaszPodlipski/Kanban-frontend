@@ -1,6 +1,6 @@
+import { iColumn } from './columnTypes'
 import { iTask } from './taskTypes'
 import { ISimplifiedUser } from './userTypes'
-import { iColumn } from './columnTypes'
 
 export interface iProject {
   id: number

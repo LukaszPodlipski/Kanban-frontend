@@ -1,4 +1,4 @@
-import { iUser } from "./userTypes";
+import { iUser } from './userTypes'
 
 export interface iLoginResponse {
   token: string

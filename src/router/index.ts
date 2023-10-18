@@ -1,7 +1,8 @@
-import { createWebHistory, createRouter } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import DashboardWrapperView from '../views/DashboardWrapperView.vue'
 import { useAuthStore } from '@/stores/auth'
+import { createRouter, createWebHistory } from 'vue-router'
+
+import DashboardWrapperView from '../views/DashboardWrapperView.vue'
+import HomeView from '../views/HomeView.vue'
 
 const routes = [
   {

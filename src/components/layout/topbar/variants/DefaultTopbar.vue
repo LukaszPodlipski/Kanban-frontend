@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
+
+import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 
 const { t } = useI18n()
 const route = useRoute()

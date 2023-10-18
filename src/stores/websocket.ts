@@ -1,13 +1,12 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
 import { useWebSocket } from '@/composables/useWebsockets.js'
-import { iTask } from '@/types/taskTypes'
-import { iColumn } from '@/types/columnTypes'
-import { iUser } from '@/types/userTypes'
-
-import { useTasksStore } from '@/stores/tasks'
 import { useColumnsStore } from '@/stores/columns'
 import { useMembersStore } from '@/stores/members'
+import { useTasksStore } from '@/stores/tasks'
+import { iColumn } from '@/types/columnTypes'
+import { iTask } from '@/types/taskTypes'
+import { iUser } from '@/types/userTypes'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
 
 type FunctionDictionary = {
   [key: string]: {

@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import Password from 'primevue/password'
-import { computed, onMounted } from 'vue'
-
-import { useField } from 'vee-validate'
-import { useI18n } from 'vue-i18n'
-
 import rules from '@/utils/validators'
+import Password from 'primevue/password'
+import { useField } from 'vee-validate'
+import { computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   modelValue: String,

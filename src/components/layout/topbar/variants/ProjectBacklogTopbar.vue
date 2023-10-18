@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import TopbarTemplate from '../fragments/TopbarTemplate.vue'
-import SelectProjectMembers from '../fragments/SelectProjectMembers.vue'
-import SettingsIcon from '@/components/icons/SettingsIcon.vue'
 import BoardIcon from '@/components/icons/BoardIcon.vue'
-
-import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities.ts'
+import SettingsIcon from '@/components/icons/SettingsIcon.vue'
 import usePermittedUser from '@/composables/usePermittedUser.ts'
-
-import { useTasksStore } from '@/stores/tasks'
+import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities.ts'
 import { useProjectStore } from '@/stores/project'
+import { useTasksStore } from '@/stores/tasks'
+
+import SelectProjectMembers from '../fragments/SelectProjectMembers.vue'
+import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 
 const tasksStore = useTasksStore()
 const projectStore = useProjectStore()
@@ -24,7 +23,10 @@ const { filters, navigateToSettings, navigateToProject, openNewTaskDialog } =
       <span>{{ $t('backlog.title') }}</span>
     </template>
     <template v-slot:right>
-      <SelectProjectMembers v-model:model-value="filters.assigneeIds" class="mr-4" />
+      <SelectProjectMembers
+        v-model:model-value="filters.assigneeIds"
+        class="mr-4"
+      />
       <BaseSearch
         v-model="filters.query"
         :label="$t('backlog.search')"

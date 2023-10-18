@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { useMembersStore } from '@/stores/members'
-import Menu from 'primevue/menu'
 import { ISimplifiedUser } from '@/types/userTypes'
+import Menu from 'primevue/menu'
+import { computed, ref } from 'vue'
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -51,7 +51,10 @@ const anyExceedingMembersSelected = computed(() => {
 </script>
 
 <template>
-  <div class="flex align-items-center" v-if="!membersStore.loading && members.length > 1">
+  <div
+    class="flex align-items-center"
+    v-if="!membersStore.loading && members.length > 1"
+  >
     <div
       v-for="member in members.slice(0, numOfVisibleMembers)"
       :key="member.id"

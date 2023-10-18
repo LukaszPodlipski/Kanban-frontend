@@ -1,8 +1,8 @@
-import { defineStore } from 'pinia'
-import { iUser } from '@/types/userTypes'
-import { iMemberItem } from '@/types/userTypes'
-import { storeContructor } from './storeConstructor'
 import membersApi from '@/api/v1/membersApi'
+import { iMemberItem, iUser } from '@/types/userTypes'
+import { defineStore } from 'pinia'
+
+import { storeContructor } from './storeConstructor'
 
 export const useMembersStore = defineStore('members', () => {
   const checkMemberEmail = async (params: {

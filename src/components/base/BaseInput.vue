@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputText from 'primevue/inputtext'
 import { useField } from 'vee-validate'
-import { ComponentOptions, onMounted, ref } from 'vue'
+import { ComponentOptions, computed, onMounted, ref } from 'vue'
 
 defineEmits(['update:modelValue'])
 
@@ -81,6 +81,13 @@ function validateField(value: any) {
 
 const childRef = ref(null)
 defineExpose({ childRef })
+
+const valueLeftLength = computed<number>(() => {
+  let value = props.modelValue || props.value || ''
+  if (props.component.name === 'Editor')
+    value = value.replace(/<[^>]+>/g, '').replace(/<p><br><\/p>$/, '')
+  return Math.max(props.maxLength - value.length, 0)
+})
 </script>
 
 <template>
@@ -127,7 +134,7 @@ defineExpose({ childRef })
         maxLength
       "
       :class="{ 'p-error mb-1': errorMessage && maxLength - value?.length < 0 }"
-      >{{ Math.max(maxLength - value?.length, 0) }} left</small
+      >{{ valueLeftLength }} left</small
     >
     <small class="flex-1 p-error" id="text-error">{{
       errorMessage || '&nbsp;'

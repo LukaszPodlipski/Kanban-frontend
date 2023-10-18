@@ -1,0 +1,144 @@
+{
+  "validators": {
+    "isInvalid": "{field} is invalid",
+    "isRequired": "{field} is required",
+    "passwordSchameInvalid": "Password must be at least 8 characters",
+    "minValueInvalid": "{field} must be at least {length} characters",
+    "maxValueInvalid": "{field} must be at most {length} characters"
+  },
+  "login": {
+    "title": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "doNotHaveAccount": "Don't have an account?",
+    "signup": "Sign up",
+    "submit": "Sign up"
+  },
+  "sidebar": {
+    "explore": "Explore",
+    "boards": "Boards",
+    "backlog": "Backlog",
+    "members": "Members",
+    "statistics": "Statistics",
+    "settings": "Settings",
+    "newBoard": "New board",
+    "user": "User",
+    "account": "Account",
+    "preferences": "Preferences",
+    "logout": "Logout",
+    "language": "Language",
+    "selectLanguage": "Select language"
+  },
+  "roles": {
+    "owner": "Owner",
+    "maintainer": "Mainteiner",
+    "editor": "Editor",
+    "viewer": "Viewer"
+  },
+  "relations": {
+    "blocked_by": "Blocked by",
+    "blocks": "Blocks",
+    "related_to": "Relates to",
+    "duplicate_of": "Duplicate of",
+    "duplicated_by": "Duplicated by"
+  },
+  "core": {
+    "search": "Search",
+    "close": "Close"
+  },
+  "project": {
+    "addNewTask": "Add New Task",
+    "backlog": "Backlog",
+    "settings": "Settings"
+  },
+  "explore": {
+    "hello": "Hello",
+    "createNewBoard": "Create new board",
+    "myAccount": "My account"
+  },
+  "members": {
+    "member": "Member",
+    "title": "Members",
+    "addNewMembers": "Add new members",
+    "board": "Board",
+    "settings": "Settings",
+    "name": "Nazwa",
+    "email": "Email",
+    "role": "Rola",
+    "createdAt": "Member since",
+    "findMemberByEmail": "Find member by email",
+    "enterUserEmail": "Enter user email",
+    "inviteMembers": "Invite members",
+    "membersToBeInvited": "Members to be invited",
+    "selectRole": "Select role",
+    "userNotFound": "User not found",
+    "membersInvited": "Members invited",
+    "errorInvitingMembers": "Error inviting members",
+    "memberRemoved": "Member removed",
+    "removeSelfMemberPermissionError": "You cannot remove yourself because you're an owner",
+    "removeMaintainerAsMaintainerError": "You cannot remove this member because you are a maintainer too",
+    "removeMemberError": "You cannot remove this member because you are not an project owner or maintainer",
+    "editSelfOwnerRoleError": "You cannot edit your role because you are an owner",
+    "editMemberRoleError": "You cannot edit this member role because you are not an project owner or maintainer",
+    "removeFromProject": "Remove from project",
+    "assignRoleToMember": "Assign role to member"
+  },
+  "backlog": {
+    "title": "Backlog",
+    "search": "Search",
+    "addNewTask": "Add new task",
+    "board": "Board",
+    "settings": "Settings",
+    "identifier": "Identifier",
+    "name": "Name",
+    "description": "Description",
+    "assignee": "Assignee",
+    "createdAt": "Created at"
+  },
+  "tasks": {
+    "notAssigned": "Not assigned",
+    "createdSuccesfully": "Task created successfully",
+    "name": "Name",
+    "enterName": "Enter task name",
+    "description": "Description",
+    "enterDescription": "Describe task",
+    "statusByDefaultBacklog": "Status (by default backlog)",
+    "status": "Status",
+    "setStatus": "Set task status",
+    "assignee": "Assignee",
+    "assignTask": "Assign task to",
+    "optionalRelation": "Relation (optional)",
+    "type": "Type",
+    "relation": "Relation",
+    "selectXtask": "Select {type} task",
+    "relatedTask": "Related task",
+    "add": "Add",
+    "comments": "Comments",
+    "history": "History",
+    "dblClickToEdit": "Double click to edit",
+    "task": "Task",
+    "backlog": "Backlog",
+    "createdBy": "Created by",
+    "createdDate": "Created date",
+    "activity": "Activity",
+    "comment": "Comment",
+    "addNewComment": "Add new comment",
+    "dblClickToComment": "Double click to comment",
+    "connectedTask": "Connected task",
+    "deleteRelation": "Delete relation"
+  },
+  "columns": {
+    "addNewColumn": "Add new column"
+  },
+  "locales": {
+    "en": "English",
+    "pl": "Polish"
+  },
+  "views": {
+    "projectMembers": "Project members",
+    "projectSettings": "Project settings",
+    "projectStatistics": "Project statistics",
+    "account": "Account",
+    "preferences": "Preferences"
+  }
+}

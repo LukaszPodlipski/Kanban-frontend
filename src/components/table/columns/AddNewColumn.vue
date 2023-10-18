@@ -4,7 +4,7 @@
   >
     <div class="flex">
       <i class="pi pi-plus mr-2" style="font-size: 1rem"></i>
-      <span>Add new column</span>
+      <span>{{ $t('columns.addNewColumn') }}</span>
     </div>
   </div>
 </template>

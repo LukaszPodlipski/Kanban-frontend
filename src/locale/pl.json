@@ -1,0 +1,144 @@
+{
+  "validators": {
+    "isInvalid": "{field} jest nieprawidłowy",
+    "isRequired": "{field} jest wymagany",
+    "passwordSchameInvalid": "Hasło musi zawierać co najmniej 8 znaków",
+    "minValueInvalid": "{field} musi zawierać przynajmniej {length} znaków",
+    "maxValueInvalid": "{field} musi zawierać najwyżej {length} znaków"
+  },
+  "login": {
+    "title": "Zaloguj się",
+    "email": "Email",
+    "password": "Hasło",
+    "doNotHaveAccount": "Nie masz konta?",
+    "signup": "Zarejestruj się",
+    "submit": "Zaloguj"
+  },
+  "sidebar": {
+    "explore": "Przeglądaj",
+    "boards": "Tablice",
+    "backlog": "Backlog",
+    "members": "Członkowie",
+    "statistics": "Statystyki",
+    "settings": "Ustawienia",
+    "newBoard": "Nowa tablica",
+    "user": "Użytkownik",
+    "account": "Konto",
+    "preferences": "Preferencje",
+    "logout": "Wyloguj",
+    "language": "Język",
+    "selectLanguage": "Wybierz język"
+  },
+  "roles": {
+    "owner": "Właściciel",
+    "maintainer": "Opiekun",
+    "editor": "Edytor",
+    "viewer": "Widz"
+  },
+  "relations": {
+    "blocked_by": "Zablokowane przez",
+    "blocks": "Blokuje",
+    "related_to": "Powiązane z",
+    "duplicate_of": "Duplikat",
+    "duplicated_by": "Duplikuje"
+  },
+  "core": {
+    "search": "Szukaj",
+    "close": "Zamknij"
+  },
+  "project": {
+    "addNewTask": "Dodaj nowe zadanie",
+    "backlog": "Backlog",
+    "settings": "Ustawienia"
+  },
+  "explore": {
+    "hello": "Witaj",
+    "createNewBoard": "Utwórz nową tablicę",
+    "myAccount": "Moje konto"
+  },
+  "members": {
+    "member": "Członek",
+    "title": "Członkowie",
+    "addNewMembers": "Dodaj nowych członków",
+    "board": "Tablica",
+    "settings": "Ustawienia",
+    "name": "Nazwa",
+    "email": "Email",
+    "role": "Rola",
+    "createdAt": "Członek od",
+    "findMemberByEmail": "Znajdź członka po emailu",
+    "enterUserEmail": "Wpisz email użytkownika",
+    "inviteMembers": "Zaproś członków",
+    "membersToBeInvited": "Członkowie do zaproszenia",
+    "selectRole": "Wybierz rolę",
+    "userNotFound": "Użytkownik nie został znaleziony",
+    "membersInvited": "Członkowie zaproszeni",
+    "errorInvitingMembers": "Wystąpił błąd podczas zapraszania członków",
+    "memberRemoved": "Członek usunięty",
+    "removeSelfMemberPermissionError": "Nie możesz usunąć samego siebie, ponieważ jesteś właścicielem",
+    "removeMaintainerAsMaintainerError": "You cannot remove this member because you are a maintainer too",
+    "removeMemberError": "Nie możesz usunąć członka poniewa nie zarządzasz tą tablicą",
+    "editSelfOwnerRoleError": "Nie możesz edytować swojej roli, ponieważ jesteś właścicielem",
+    "editMemberRoleError": "Nie możesz edytować roli członka ponieważ nie zarządzasz tą tablicą",
+    "removeFromProject": "Usuń z projektu",
+    "assignRoleToMember": "Przypisz rolę członkowi"
+  },
+  "backlog": {
+    "title": "Backlog",
+    "search": "Szukaj",
+    "addNewTask": "Dodaj nowe zadanie",
+    "board": "Tablica",
+    "settings": "Ustawienia",
+    "identifier": "Identyfikator",
+    "name": "Nazwa",
+    "description": "Opis",
+    "assignee": "Przypisany",
+    "createdAt": "Utworzono"
+  },
+  "tasks": {
+    "notAssigned": "Nie przypisano",
+    "createdSuccesfully": "Zadanie utworzone",
+    "name": "Nazwa",
+    "enterName": "Wpisz nazwę zadania",
+    "description": "Opis",
+    "enterDescription": "Opisz zadanie",
+    "statusByDefaultBacklog": "Status (domyślnie backlog)",
+    "status": "Status",
+    "setStatus": "Wybierz status",
+    "assignee": "Przypisany",
+    "assignTask": "Przypisz do",
+    "optionalRelation": "Relacja (opcjonalna)",
+    "type": "Typ",
+    "relation": "Relacja",
+    "selectXtask": "Wybierz {type} zadanie",
+    "relatedTask": "Powiązane zadanie",
+    "add": "Dodaj",
+    "comments": "Komentarze",
+    "history": "Historia",
+    "dblClickToEdit": "Dwukrotnie kliknij aby edytować",
+    "task": "Zadanie",
+    "backlog": "Backlog",
+    "createdBy": "Utworzone przez",
+    "createdDate": "Data utworzenia",
+    "activity": "Aktywność",
+    "comment": "Komentarz",
+    "addNewComment": "Dodaj nowy komentarz",
+    "dblClickToComment": "Dwukrotnie kliknij aby skomentować",
+    "connectedTask": "Powiązane zadanie",
+    "deleteRelation": "Usuń relację"
+  },
+  "columns": {
+    "addNewColumn": "Dodaj nową kolumnę"
+  },
+  "locales": {
+    "en": "Angielski",
+    "pl": "Polski"
+  },
+  "views": {
+    "project_members": "Członkowie projektu",
+    "project_settings": "Ustawienia projektu",
+    "project_statistics": "Statystyki projektu",
+    "account": "Konto",
+    "preferences": "Preferencje"
+  }
+}

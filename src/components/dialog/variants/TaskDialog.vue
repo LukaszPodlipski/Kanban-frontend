@@ -26,6 +26,7 @@ import { DialogParams, iTab } from '@/types/coreTypes'
 import rules from '@/utils/validators'
 
 import usePermittedUser from '@/composables/usePermittedUser'
+import { useI18n } from 'vue-i18n'
 
 import ConnectedTask from './partials/ConnectedTaskPartial.vue'
 import TaskComments from './partials/TaskCommentsPartial.vue'
@@ -40,6 +41,7 @@ const websocketStore = useWebsocketStore()
 const membersStore = useMembersStore()
 
 const { isViewer } = usePermittedUser()
+const { t } = useI18n()
 
 /* -------------------------------- ON DIALOG OPEN --------------------------------- */
 /* ------------------------- fetch task and connect to WS -------------------------- */
@@ -130,18 +132,18 @@ const tabs = computed<iTab[]>(() => {
   return [
     {
       name: 'comments',
-      label: 'Comments',
+      label: t('tasks.comments'),
     },
     {
       name: 'history',
-      label: 'History',
+      label: t('tasks.history'),
     },
   ]
 })
 
 const tooltipConfig = computed(() => {
   return {
-    value: 'Double click to edit',
+    value: t('tasks.dblClickToEdit'),
     showDelay: 1000,
   }
 })
@@ -180,7 +182,6 @@ const showCommentInput = async () => {
         dialogLeftPanelRef.value?.scrollHeight
   }, 100)
 }
-
 
 /* ------------------------------ FUNCTIONS ------------------------------- */
 
@@ -235,7 +236,7 @@ const openRelatedTaskDialog = ({
   ) as iTask
   if (task) {
     const params: DialogParams = {
-      title: task?.name || 'Task',
+      title: task?.name || t('tasks.task'),
       component: 'TaskDialog',
       item: task,
       hideHeader: true,
@@ -309,28 +310,28 @@ const getColumnName = (id: number) => {
             :isEditing="fieldsEditingState.name"
             :disabled="isViewer"
             valueKey="name"
-            label="Name"
-            placeholder="Enter task name"
-            :rules="[(value:string) => rules.required(value,'Name'), (value:string) => rules.minLength(value, 5, 'Name'), (value:string) => rules.maxLength(value, 60, 'Name')]"
+            :label="$t('tasks.name')"
+            :placeholder="$t('tasks.enterName')"
+            :rules="[(value:string) => rules.required(value,$t('tasks.name')), (value:string) => rules.minLength(value, 5, $t('tasks.name')), (value:string) => rules.maxLength(value, 60, $t('tasks.name'))]"
             :tooltipConfig="tooltipConfig"
             @setEditingState="setFieldEditingState"
             @updateValue="updateFieldValue"
             @submitValue="submitFieldValue"
           />
 
-          <span class="task__label p-2 mt-2">Description</span>
+          <span class="task__label p-2 mt-2">{{ $t('tasks.description') }}</span>
           <BaseDoubleClickInput
             :value="task.description"
             :isEditing="fieldsEditingState.description"
             :disabled="isViewer"
             valueKey="description"
-            label="Description"
-            placeholder="Describe new task"
+            :label="$t('tasks.description')"
+            :placeholder="$t('tasks.enterDescription')"
             :maxLength="1000"
             :component="Editor"
             :tooltipConfig="tooltipConfig"
             medium
-            :rules="[(value:string) => rules.maxLength(value, 1000, 'Description')]"
+            :rules="[(value:string) => rules.maxLength(value, 1000,  $t('tasks.description'))]"
             @setEditingState="setFieldEditingState"
             @updateValue="updateFieldValue"
             @submitValue="submitFieldValue"
@@ -352,7 +353,7 @@ const getColumnName = (id: number) => {
             @openRelatedTaskDialog="openRelatedTaskDialog"
           />
 
-          <span class="task__label p-2 mt-2">Activity</span>
+          <span class="task__label p-2 mt-2">{{ $t('tasks.activity') }}</span>
           <BaseButtonTabs
             :tabs="tabs"
             :activeTab="activeTab"
@@ -385,12 +386,12 @@ const getColumnName = (id: number) => {
           <BaseDoubleClickSelect
             fieldKey="projectColumnId"
             class="mb-2"
-            label="Status"
+            :label="$t('tasks.status')"
             :value="task.projectColumnId"
             :isEditing="fieldsEditingState.projectColumnId"
             :items="columns"
             :readonly="isViewer"
-            placeholder="Backlog"
+            :placeholder="$t('tasks.backlog')"
             :tooltipConfig="tooltipConfig"
             @setEditingState="setFieldEditingState"
             @updateFieldValue="updateFieldValue"
@@ -400,14 +401,14 @@ const getColumnName = (id: number) => {
               >{{
                 task?.projectColumnId
                   ? getColumnName(task?.projectColumnId)
-                  : 'Backlog'
+                  : $t('tasks.backlog')
               }}
             </template>
           </BaseDoubleClickSelect>
 
           <BaseDoubleClickSelect
             fieldKey="assigneeId"
-            label="Assignee"
+            :label="$t('tasks.assignee')"
             class="mb-2"
             :value="task?.assignee?.id"
             :isEditing="fieldsEditingState.assigneeId"
@@ -415,26 +416,26 @@ const getColumnName = (id: number) => {
             :readonly="isViewer"
             optionsValue="id"
             optionsLabel="fullName"
-            placeholder="Assign task to member"
+            :placeholder="$t('tasks.assignTask')"
             :tooltipConfig="tooltipConfig"
             @setEditingState="setFieldEditingState"
             @updateFieldValue="updateFieldValue"
             @submitFieldValue="submitFieldValue"
           >
             <template #value
-              >{{ task?.assignee?.fullName || 'Not assigned' }}
+              >{{ task?.assignee?.fullName || $t('tasks.notAssigned') }}
             </template>
           </BaseDoubleClickSelect>
 
           <BaseDoubleClickSelect
-            label="Created by"
+            :label="$t('tasks.createdBy')"
             class="mb-2"
             :value="task?.createdBy?.fullName"
             readonly
           />
 
           <BaseDoubleClickSelect
-            label="Created date"
+            :label="$t('tasks.createdDate')"
             class="mb-2"
             :value="task?.createdAt"
             readonly
@@ -506,6 +507,6 @@ const getColumnName = (id: number) => {
 
 :deep(.p-inputtext) {
   height: 35px !important;
-  padding: 0.45rem 0.75rem !important;
+  padding: 0.45rem 1.8rem 0.45rem 0.75rem !important;
 }
 </style>

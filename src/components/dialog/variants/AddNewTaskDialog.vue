@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, Ref } from 'vue'
 import { Form, useForm } from 'vee-validate'
+import { useI18n } from 'vue-i18n'
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
 import Editor from 'primevue/editor'
 import rules from '@/utils/validators'
@@ -12,6 +13,7 @@ import { iSimplifiedTask } from '@/types/taskTypes'
 import { trimText } from '@/utils/functions'
 import { relations } from '@/const'
 
+const { t } = useI18n()
 const { errors } = useForm()
 
 const name: Ref<string> = ref('')
@@ -68,7 +70,7 @@ const addTask = async () => {
   try {
     await tasksStore.createItem(params)
     layoutStore.closeDialog()
-    layoutStore.showToast({ message: 'Task created successfully' })
+    layoutStore.showToast({ message: t('tasks.createdSuccesfully') })
   } catch (error: any) {
     layoutStore.showToast({
       message: error.response.data.error,
@@ -85,50 +87,54 @@ const addTask = async () => {
       <DialogTemplate>
         <template #content>
           <div class="flex flex-column flex-wrap px-4 pt-4">
-            <span class="field-label">Name</span>
+            <span class="field-label">{{ $t('tasks.name') }}</span>
             <BaseInput
               v-model="name"
-              label="Name"
-              placeholder="Enter name"
+              :label="$t('tasks.name')"
+              :placeholder="$t('tasks.enterName')"
               :floatLabel="false"
               :rules="[(value:string) => rules.required(value,'Name'), (value:string) => rules.minLength(value, 5, 'Name'), (value:string) => rules.maxLength(value, 60, 'Name')]"
             />
-            <span class="field-label">Description</span>
+            <span class="field-label">{{ $t('tasks.description') }}</span>
             <BaseInput
               v-model="description"
-              label="Description"
-              placeholder="Describe new task"
+              :label="$t('tasks.description')"
+              :placeholder="$t('tasks.enterDescription')"
               :maxLength="1000"
               :floatLabel="false"
               :component="Editor"
-              :rules="[(value:string) => rules.maxLength(value, 1000, 'Description')]"
+              :rules="[(value:string) => rules.maxLength(value, 1000, t('tasks.description'))]"
             />
             <div class="flex gap-4 mt-3">
               <div class="flex flex-column flex-1 justify-content-center">
-                <span class="field-label">Status (by default backlog)</span>
+                <span class="field-label">{{
+                  $t('tasks.statusByDefaultBacklog')
+                }}</span>
                 <BaseSelect
                   v-model="projectColumnId"
                   :items="columns"
-                  label="Status"
+                  :label="$t('tasks.status')"
                   optionsValue="id"
                   optionsLabel="name"
-                  placeholder="Set task status"
+                  :placeholder="$t('tasks.setStatus')"
                 />
               </div>
               <div class="flex flex-column flex-1 justify-content-center">
-                <span class="field-label">Assignee</span>
+                <span class="field-label">{{ $t('tasks.assignee') }}</span>
                 <BaseSelect
                   v-model="assigneeId"
                   :items="members"
-                  label="Assignee"
+                  :label="$t('tasks.assignee')"
                   optionsValue="id"
                   optionsLabel="fullName"
-                  placeholder="Assign task to member"
+                  :placeholder="$t('tasks.assignTask')"
                 />
               </div>
             </div>
             <div class="flex flex-column mt-3">
-              <span class="field-label">Relation (optional)</span>
+              <span class="field-label">{{
+                $t('tasks.optionalRelation')
+              }}</span>
               <div class="flex gap-2">
                 <div
                   class="flex flex-column justify-content-center"
@@ -139,9 +145,9 @@ const addTask = async () => {
                     :items="relations"
                     label="RelationMode"
                     fieldName="relationMode"
-                    placeholder="Type"
+                    :placeholder="$t('tasks.type')"
                     :hide-dropdown-icon="true"
-                    :rules="[(value:string) => relationId ? rules.required(value,'Relation') : true]"
+                    :rules="[(value:string) => relationId ? rules.required(value,$t('tasks.relation')) : true]"
                     @cleared="
                       !relationId ? resetField('relatedTaskField') : null
                     "
@@ -155,10 +161,12 @@ const addTask = async () => {
                     fieldName="relatedTask"
                     optionsValue="id"
                     optionsLabel="label"
-                    :placeholder="`Select ${
-                      relationMode ? relationMode.toLowerCase() : ''
-                    } task`"
-                    :rules="[(value:string) => relationMode ? rules.required(value,'Related task') : true]"
+                    :placeholder="
+                      $t('tasks.selectXtask', {
+                        type: relationMode ? relationMode.toLowerCase() : '',
+                      })
+                    "
+                    :rules="[(value:string) => relationMode ? rules.required(value,$t('tasks.relatedTask')) : true]"
                     @cleared="
                       !relationMode ? resetField('relationModeField') : null
                     "
@@ -171,7 +179,7 @@ const addTask = async () => {
         <template #actions>
           <BaseButton
             type="submit"
-            label="Add"
+            :label="$t('tasks.add')"
             icon="check"
             :disabled="!formIsValid"
           />

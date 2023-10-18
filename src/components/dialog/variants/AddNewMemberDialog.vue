@@ -2,6 +2,8 @@
 import { ref, Ref } from 'vue'
 import debounce from 'lodash.debounce'
 
+import { useI18n } from 'vue-i18n'
+
 import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
 import rules from '@/utils/validators'
 import { roles } from '@/const'
@@ -21,6 +23,8 @@ const loading: Ref<boolean> = ref(false)
 const memberEmail: Ref<string> = ref('')
 const members: Ref<iMemberItem[]> = ref([])
 const foundMember: Ref<iMemberItem | null> = ref(null)
+
+const { t } = useI18n()
 
 const addFoundMember = () => {
   members.value.push({ ...foundMember.value, role: 'Editor' } as iMemberItem)
@@ -51,7 +55,7 @@ const searchEmail = async () => {
     } catch (_err) {
       foundMember.value = null
       layoutStore.showToast({
-        message: 'User not found',
+        message: t('members.userNotFound'),
         type: 'error',
       })
     } finally {
@@ -71,14 +75,13 @@ const inviteMembers = async () => {
     }
     await membersStore.inviteMembers(params)
     layoutStore.showToast({
-      message: 'Members invited',
+      message: t('members.membersInvited'),
       type: 'success',
     })
     layoutStore.closeDialog()
-    console.log('params: ')
   } catch (err) {
     layoutStore.showToast({
-      message: 'Error inviting members',
+      message: t('members.errorInvitingMembers'),
       type: 'error',
     })
   }
@@ -90,7 +93,7 @@ const inviteMembers = async () => {
     <DialogTemplate>
       <template #content>
         <div class="flex flex-column flex-wrap px-4 pt-4 w-full">
-          <span class="field-label">Find member by email</span>
+          <span class="field-label">{{ $t('members.findMemberByEmail') }}</span>
           <div class="flex w-full">
             <div class="card p-fluid w-full">
               <BaseInput
@@ -98,7 +101,7 @@ const inviteMembers = async () => {
                 label="EmailField"
                 class="w-full"
                 :disabled="loading"
-                placeholder="Enter user email"
+                :placeholder="$t('members.enterUserEmail')"
                 :floatLabel="false"
                 :rules="[rules.email]"
               />
@@ -116,9 +119,9 @@ const inviteMembers = async () => {
               "
             />
           </div>
-          <span v-if="members.length" class="field-label mb-2"
-            >Members to be invited</span
-          >
+          <span v-if="members.length" class="field-label mb-2">{{
+            $t('members.membersToBeInvited')
+          }}</span>
           <div v-if="members.length" class="members-list">
             <div
               v-for="(member, index) in members"
@@ -127,14 +130,16 @@ const inviteMembers = async () => {
             >
               <div class="flex align-items-center">
                 <img :src="member.avatarUrl" class="member__avatar" />
-                <span class="member__email">{{ member.email }}</span>
+                <span v-tooltip.bottom="member.email" class="member__email">{{
+                  member.email
+                }}</span>
               </div>
               <div class="flex">
                 <BaseSelect
                   v-model="member.role"
                   :items="roles"
-                  label="Rola"
-                  placeholder="Select role"
+                  :label="$t('members.role')"
+                  :placeholder="$t('members.selectRole')"
                 />
                 <i
                   class="pi pi-times cursor-pointer align-self-center ml-3"
@@ -148,7 +153,7 @@ const inviteMembers = async () => {
       <template #actions>
         <BaseButton
           type="submit"
-          label="Invite members"
+          :label="$t('members.inviteMembers')"
           icon="check"
           :disabled="!members.length"
         />
@@ -178,6 +183,9 @@ const inviteMembers = async () => {
     border-radius: 50%;
   }
   &__email {
+    max-width: 220px;
+    text-overflow: ellipsis;
+    overflow: hidden;
     margin-left: 16px;
   }
 }

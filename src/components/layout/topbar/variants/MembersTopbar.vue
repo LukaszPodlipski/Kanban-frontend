@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
 import SettingsIcon from '@/components/icons/SettingsIcon.vue'
 import BoardIcon from '@/components/icons/BoardIcon.vue'
 
@@ -14,10 +16,11 @@ const { navigateToSettings, navigateToProject } = useProjectTopbarUtilities()
 const { isAdmin } = usePermittedUser()
 
 const layoutStore = useLayoutStore()
+const { t } = useI18n()
 
 const openNewMemberDialog = () => {
   layoutStore.openDialog({
-    title: 'Add New Member',
+    title: t('members.addNewMembers'),
     component: 'AddNewMemberDialog',
     size: '600px',
   })
@@ -29,17 +32,17 @@ const membersStore = useMembersStore()
 <template>
   <TopbarTemplate>
     <template v-slot:title>
-      <span>Backlog</span>
+      <span>{{ $t('members.title') }}</span>
     </template>
     <template v-slot:right>
       <BaseButton
-        label="Add New Members"
+        :label="$t('members.addNewMembers')"
         icon="plus"
         :disabled="membersStore.loading || !isAdmin"
         @click="openNewMemberDialog"
         class="mr-5"
       />
-      <div v-tooltip.bottom="'Board'" class="mr-4">
+      <div v-tooltip.bottom="$t('members.board')" class="mr-4">
         <BoardIcon
           class="cursor-pointer"
           :size="24"
@@ -47,7 +50,7 @@ const membersStore = useMembersStore()
           @click="navigateToProject"
         />
       </div>
-      <div v-tooltip.bottom="'Settings'">
+      <div v-tooltip.bottom="$t('members.settings')">
         <SettingsIcon
           class="cursor-pointer"
           :size="26"

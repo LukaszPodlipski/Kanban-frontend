@@ -5,8 +5,10 @@ import axios from 'axios'
 import App from './App.vue'
 
 import PrimeVue from 'primevue/config'
-import ToastService from 'primevue/toastservice';
+import ToastService from 'primevue/toastservice'
 import router from './router/index'
+
+import i18n from '@/locale'
 
 import Tooltip from 'primevue/tooltip'
 
@@ -31,7 +33,8 @@ const pinia = createPinia()
 app.use(PrimeVue)
 app.use(router)
 app.use(pinia)
-app.use(ToastService);
+app.use(ToastService)
+app.use(i18n)
 
 app.directive('tooltip', Tooltip)
 

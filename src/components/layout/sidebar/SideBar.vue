@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import { trimText } from '@/utils/functions'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+
 import router from '@/router'
 import { useProjectsStore } from '@/stores/projects'
 import { useProjectStore } from '@/stores/project'
 import { useLayoutStore } from '@/stores/layout'
 import { useAuthStore } from '@/stores/auth'
+
+import { trimText } from '@/utils/functions'
 
 import { iListItem } from '@/types/baseTypes'
 
@@ -21,6 +24,7 @@ const layoutStore = useLayoutStore()
 const authStore = useAuthStore()
 
 const route = useRoute()
+const i18n = useI18n()
 
 onMounted(() => {
   projectsStore.getItems().then(() => setActiveMenuItem())
@@ -33,6 +37,7 @@ watch(
 
 interface MenuItem {
   name: string
+  label: string
   icon: string
   pathName?: string
   action?: () => void
@@ -48,11 +53,13 @@ const menuItems = computed(
     [
       {
         name: 'Explore',
+        label: i18n.t('sidebar.explore'),
         icon: 'ExploreIcon',
         pathName: 'Explore',
       },
       {
         name: 'Boards',
+        label: i18n.t('sidebar.boards'),
         icon: 'BoardsIcon',
         children: [
           {
@@ -64,21 +71,25 @@ const menuItems = computed(
             nestedMenu: [
               {
                 name: 'Backlog',
+                label: i18n.t('sidebar.backlog'),
                 icon: 'BacklogIcon',
                 pathName: 'ProjectBacklog',
               },
               {
                 name: 'Members',
+                label: i18n.t('sidebar.members'),
                 icon: 'MembersIcon',
                 pathName: 'ProjectMembers',
               },
               {
                 name: 'Statistics',
+                label: i18n.t('sidebar.statistics'),
                 icon: 'StatisticsIcon',
                 pathName: 'ProjectStatistics',
               },
               {
                 name: 'Settings',
+                label: i18n.t('sidebar.settings'),
                 icon: 'SettingsIcon',
                 pathName: 'ProjectSettings',
               },
@@ -86,6 +97,7 @@ const menuItems = computed(
           },
           {
             name: 'New Board',
+            label: i18n.t('sidebar.newBoard'),
             icon: 'NewBoardIcon',
             action: () => {},
           },
@@ -93,20 +105,24 @@ const menuItems = computed(
       },
       {
         name: 'User',
+        label: i18n.t('sidebar.user'),
         icon: 'UserIcon',
         children: [
           {
             name: 'Account',
+            label:  i18n.t('sidebar.account'),
             icon: 'AccountIcon',
             pathName: 'Account',
           },
           {
             name: 'Preferences',
+            label: i18n.t('sidebar.preferences'),
             icon: 'PreferencesIcon',
             pathName: 'Preferences',
           },
           {
             name: 'Logout',
+            label: i18n.t('sidebar.logout'),
             icon: 'LogoutIcon',
             action: authStore.logout,
           },
@@ -125,6 +141,7 @@ interface iPrevRoute {
 interface iNestedMenu {
   prevRoute: iPrevRoute
   name: string
+  label: string
   items: MenuItem[]
 }
 
@@ -236,6 +253,7 @@ const setNestedMenu = (childItem: MenuItem, data: any) => {
       },
     },
     name: data.name,
+    label: childItem.label,
     items: childItem.nestedMenu as MenuItem[],
   }
 }
@@ -279,7 +297,7 @@ const clearNestedMenu = () => {
           :class="{ 'mr-3': fullSideBar }"
           @click="clearNestedMenu"
         />
-        <span v-if="fullSideBar">{{ nestedMenu.name }}</span>
+        <span v-if="fullSideBar">{{ nestedMenu.label }}</span>
       </div>
       <div
         v-for="menuItem in nestedMenu.items"
@@ -290,7 +308,7 @@ const clearNestedMenu = () => {
         <div class="flex align-items-center">
           <component :is="iconComponent(menuItem.icon)" class="icon" />
           <span v-if="fullSideBar" class="menu-item__name">{{
-            formatItemName(menuItem.name)
+            formatItemName(menuItem.label)
           }}</span>
         </div>
       </div>
@@ -311,7 +329,7 @@ const clearNestedMenu = () => {
           <div class="flex align-items-center">
             <component :is="iconComponent(item.icon)" class="icon" />
             <span v-if="fullSideBar" class="menu-item__name">{{
-              formatItemName(item.name)
+              formatItemName(item.label)
             }}</span>
           </div>
           <ArrowDownIcon
@@ -360,7 +378,7 @@ const clearNestedMenu = () => {
             <div class="flex align-items-center">
               <component :is="iconComponent(child.icon)" class="icon" />
               <span v-if="fullSideBar" class="menu-item__name">{{
-                formatItemName(child.name)
+                formatItemName(child.label)
               }}</span>
             </div>
           </div>

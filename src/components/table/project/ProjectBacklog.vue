@@ -82,23 +82,23 @@ const openTaskDialog = (payload: any) => {
       :loading="tasksStore.loading"
     >
       <Column field="" header=""></Column>
-      <Column field="identifier" header="Identifier"></Column>
-      <Column field="name" header="Name" sortable></Column>
-      <Column field="description" header="Description">
+      <Column field="identifier" :header="$t('backlog.identifier')"></Column>
+      <Column field="name" :header="$t('backlog.name')" sortable></Column>
+      <Column field="description" :header="$t('backlog.description')">
         <template #body="{ data }">
           <span v-html="trimText(data.description, 52)"></span>
         </template>
       </Column>
-      <Column field="assignee.fullName" header="Assignee" sortable>
+      <Column field="assignee.fullName" :header="$t('backlog.assignee')" sortable>
         <template #body="{ data }">
           <div v-if="data.assignee" class="flex align-items-center">
             <img class="task__avatar mr-3" :src="data.assignee.avatarUrl" />
             <span>{{ data.assignee.fullName }}</span>
           </div>
-          <span class="task__avatar--placeholder" v-else>Not assigned</span>
+          <span class="task__avatar--placeholder" v-else>{{ $t('tasks.notAssigned') }}</span>
         </template>
       </Column>
-      <Column field="createdAt" header="Created at" sortable>
+      <Column field="createdAt" :header="$t('backlog.createdAt')" sortable>
         <template #body="{ data }">
           <span>{{ formatDate(data.createdAt) }}</span>
         </template>

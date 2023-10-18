@@ -48,6 +48,10 @@ const props = defineProps({
     type: Object as () => ComponentOptions,
     default: Dropdown,
   },
+  disableOutline: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const { value, errorMessage } = useField(
@@ -83,6 +87,7 @@ function validateField(value: any) {
 
 <template>
   <component
+    v-bind="$attrs"
     :is="component"
     id="select"
     v-model="value"
@@ -98,11 +103,25 @@ function validateField(value: any) {
       'p-invalid': errorMessage,
       'hide-dropdown-icon': hideDropdownIcon,
       'move-clear-icon': hideDropdownIcon,
+      'outline-disabled': disableOutline,
     }"
     @update:model-value="(value: string) => $emit('update:modelValue', value)"
-  />
+  >
+    <template
+      v-if="component.name === 'Dropdown' && $slots.value"
+      #value="slotProps"
+    >
+      <slot name="value" :slotProps="slotProps" />
+    </template>
+    <template
+      v-if="component.name === 'Dropdown' && $slots.option"
+      #option="slotProps"
+    >
+      <slot name="option" :slotProps="slotProps"></slot>
+    </template>
+  </component>
   <slot name="append" />
-  <small v-if= "rules.length" class="p-error mt-1 mb-1" id="text-error">{{
+  <small v-if="rules.length" class="p-error mt-1 mb-1" id="text-error">{{
     errorMessage || '&nbsp;'
   }}</small>
 </template>

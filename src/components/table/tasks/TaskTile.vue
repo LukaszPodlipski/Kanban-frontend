@@ -21,17 +21,19 @@ defineProps({
     }"
   >
     <span class="task__title">{{ task.name }}</span>
-    <span
-      class="task__description p-0 m-0 mt-2"
-      v-html="task.description"
-    ></span>
+    <div class="task__description-wrapper">
+      <span
+        class="task__description p-0 m-0 mt-2"
+        v-html="task.description"
+      ></span>
+    </div>
     <div class="flex flex-row justify-content-between align-items-end mt-1">
       <span class="task__identifier" v-tooltip.bottom="task.identifier">{{
         task.identifier
       }}</span>
       <div
         class="task__assignee-img"
-        v-tooltip.bottom="task.assignee?.fullName || 'Not assigned'"
+        v-tooltip.bottom="task.assignee?.fullName || $t('tasks.notAssigned')"
       >
         <img v-if="task.assignee" :src="task.assignee.avatarUrl" />
         <img v-else src="@/assets/images/defaultUser.png" alt="" />
@@ -63,13 +65,16 @@ defineProps({
     color: #dfdcff;
   }
 
+  &__description-wrapper {
+    min-height: 26px;
+  }
+
   &__description {
     font-size: 12px;
     color: #7e828e;
     padding-right: 30px;
     display: inline-block;
     width: 200px;
-    max-height: 20px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

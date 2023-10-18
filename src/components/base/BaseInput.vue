@@ -134,7 +134,7 @@ const valueLeftLength = computed<number>(() => {
         maxLength
       "
       :class="{ 'p-error mb-1': errorMessage && maxLength - value?.length < 0 }"
-      >{{ valueLeftLength }} left</small
+      >{{ $t('tasks.left', { number: valueLeftLength }) }}</small
     >
     <small class="flex-1 p-error" id="text-error">{{
       errorMessage || '&nbsp;'

@@ -125,7 +125,8 @@
     "addNewComment": "Add new comment",
     "dblClickToComment": "Double click to comment",
     "connectedTask": "Connected task",
-    "deleteRelation": "Delete relation"
+    "deleteRelation": "Delete relation",
+    "left": "{number} left"
   },
   "columns": {
     "addNewColumn": "Add new column"

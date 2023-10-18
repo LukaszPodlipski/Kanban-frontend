@@ -125,7 +125,8 @@
     "addNewComment": "Dodaj nowy komentarz",
     "dblClickToComment": "Dwukrotnie kliknij aby skomentować",
     "connectedTask": "Powiązane zadanie",
-    "deleteRelation": "Usuń relację"
+    "deleteRelation": "Usuń relację",
+    "left": "Pozostało {number} znaków"
   },
   "columns": {
     "addNewColumn": "Dodaj nową kolumnę"

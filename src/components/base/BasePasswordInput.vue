@@ -1,19 +1,30 @@
 <script setup lang="ts">
 import Password from 'primevue/password'
+import { computed, onMounted } from 'vue'
+
 import { useField } from 'vee-validate'
-import { onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+
 import rules from '@/utils/validators'
 
 const props = defineProps({
   modelValue: String,
   rules: {
     type: Array,
-    default: [
-      (value: string) => rules.required(value, 'Password'),
-      rules.password,
-    ],
+    default: () => [],
   },
   label: String,
+})
+
+const { t } = useI18n()
+
+const passwordRules = computed(() => {
+  return props.rules.length
+    ? props.rules
+    : [
+        (value: string) => rules.required(value, t('login.password')),
+        rules.password,
+      ]
 })
 
 const { value, errorMessage } = useField('passwordField', validateField)
@@ -27,7 +38,7 @@ onMounted(() => {
 function validateField(value: any) {
   const errorMessages: string[] = []
 
-  props.rules.forEach((rule: any) => {
+  passwordRules.value?.forEach((rule: any) => {
     const result = rule(value)
     if (result !== true) {
       errorMessages.push(result)

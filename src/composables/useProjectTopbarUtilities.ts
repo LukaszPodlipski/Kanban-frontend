@@ -6,7 +6,11 @@ import { useTasksStore } from '@/stores/tasks'
 import { useProjectStore } from '@/stores/project'
 import { useLayoutStore } from '@/stores/layout'
 
+import { useI18n } from 'vue-i18n'
+
 export default function useProjectTopbarUtilities() {
+
+  const { t } = useI18n()
   const tasksStore = useTasksStore()
 
   const filters: Ref<{ query: string; assigneeIds: number[] }> = ref({
@@ -55,7 +59,7 @@ export default function useProjectTopbarUtilities() {
 
   const openNewTaskDialog = () => {
     layoutStore.openDialog({
-      title: 'Add New Task',
+      title: t('project.addNewTask'),
       component: 'AddNewTaskDialog',
     })
   }

@@ -2,9 +2,14 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import TopbarTemplate from '../fragments/TopbarTemplate.vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const route = useRoute()
-const documentTitle = computed(() => route.meta.title)
+const documentTitle = computed(() => {
+  const title = route.meta.title as string
+  return t(`views.${title.replace(' ', '_').toLowerCase()}`)
+})
 </script>
 
 <template>

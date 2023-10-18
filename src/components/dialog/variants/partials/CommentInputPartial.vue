@@ -65,13 +65,13 @@ const submitValueOnEnterKeyup = () => {
         :isEditing="isEditing"
         :disabled="isViewer || !formatedValue || commentHasNoValue"
         valueKey="comment"
-        label="Comment"
-        placeholder="Add new comment"
+        :label="$t('tasks.comment')"
+        :placeholder="$t('tasks.addNewComment')"
         :maxLength="1000"
         dense
         :component="Editor"
-        :tooltipConfig="{ value: 'Double click to comment', showDelay: 500 }"
-        :rules="[(value:string) => rules.maxLength(value, 1000, 'Description')]"
+        :tooltipConfig="{ value: $t('tasks.dblClickToComment'), showDelay: 500 }"
+        :rules="[(value:string) => rules.maxLength(value, 1000, $t('tasks.comment'))]"
         @setEditingState="(value: emitEditingStateType) => $emit('setEditingState', value)"
         @updateValue="(value: emitValueType) => $emit('updateValue', value)"
         @submitValue="(value: string) => $emit('submitValue', value)"
@@ -82,7 +82,7 @@ const submitValueOnEnterKeyup = () => {
           :class="{ 'not-permitted': isViewer }"
           @dblclick="$emit('showCommentInput')"
         >
-          <span>Add new comment</span>
+          <span>{{ $t('tasks.addNewComment') }}</span>
         </div>
       </BaseDoubleClickInput>
     </div>

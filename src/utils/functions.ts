@@ -32,3 +32,7 @@ export const trimText = (
 export const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString()
 }
+
+export const getImageUrl = (path: string) => {
+  return new URL(path, import.meta.url).href
+}

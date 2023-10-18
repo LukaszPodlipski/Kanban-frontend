@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
 import { useProjectStore } from '@/stores/project'
 import { useTasksStore } from '@/stores/tasks'
 
-import ProjectMembers from '../fragments/ProjectMembers.vue'
+import SelectProjectMembers from '../fragments/SelectProjectMembers.vue'
 import TopbarTemplate from '../fragments/TopbarTemplate.vue'
 
 import SettingsIcon from '@/components/icons/SettingsIcon.vue'
@@ -18,7 +20,11 @@ const projectStore = useProjectStore()
 const tasksStore = useTasksStore()
 
 const { isEditor, userRole } = usePermittedUser()
+const { t } = useI18n()
 
+const translatedUserRole = computed<string>(() => {
+  return userRole.value ? t(`roles.${userRole.value?.toLowerCase()}`) : ''
+})
 const roleColor = computed(() => {
   return rolesColors[userRole.value as keyof typeof rolesColors] || '#6560ba'
 })
@@ -33,27 +39,27 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
       <div class="flex align-items-start">
         <span>{{ projectStore.project?.name }}</span>
         <span class="user-role ml-2" :style="{ backgroundColor: roleColor }">{{
-          userRole
+          translatedUserRole
         }}</span>
       </div>
     </template>
     <template v-slot:right>
-      <ProjectMembers v-model:model-value="filters.assigneeIds" class="mr-4" />
+      <SelectProjectMembers v-model:model-value="filters.assigneeIds" class="mr-4" />
       <BaseSearch
         v-model="filters.query"
-        label="Search"
+        :label="$t('core.search')"
         :disabled="projectStore.loading"
         :loading="tasksStore.loading"
         class="mr-5"
       />
       <BaseButton
-        label="Add New Task"
+        :label="$t('project.addNewTask')"
         icon="plus"
         :disabled="tasksStore.loading || !isEditor"
         @click="openNewTaskDialog"
         class="mr-5"
       />
-      <div v-tooltip.bottom="'Backlog'" class="mr-4">
+      <div v-tooltip.bottom="$t('project.backlog')" class="mr-4">
         <BacklogIcon
           class="cursor-pointer"
           :size="24"
@@ -61,7 +67,7 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
           @click="navigateToBacklog"
         />
       </div>
-      <div v-tooltip.bottom="'Settings'">
+      <div v-tooltip.bottom="$t('project.settings')">
         <SettingsIcon
           class="cursor-pointer"
           :size="26"

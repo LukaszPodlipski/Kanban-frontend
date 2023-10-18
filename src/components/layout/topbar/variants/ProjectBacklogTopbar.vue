@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TopbarTemplate from '../fragments/TopbarTemplate.vue'
-import ProjectMembers from '../fragments/ProjectMembers.vue'
+import SelectProjectMembers from '../fragments/SelectProjectMembers.vue'
 import SettingsIcon from '@/components/icons/SettingsIcon.vue'
 import BoardIcon from '@/components/icons/BoardIcon.vue'
 
@@ -14,32 +14,32 @@ const tasksStore = useTasksStore()
 const projectStore = useProjectStore()
 const { isAdmin } = usePermittedUser()
 
-const { filters, navigateToSettings, navigateToProject, openNewTaskDialog } = useProjectTopbarUtilities()
-
+const { filters, navigateToSettings, navigateToProject, openNewTaskDialog } =
+  useProjectTopbarUtilities()
 </script>
 
 <template>
   <TopbarTemplate>
     <template v-slot:title>
-      <span>Backlog</span>
+      <span>{{ $t('backlog.title') }}</span>
     </template>
     <template v-slot:right>
-      <ProjectMembers v-model:model-value="filters.assigneeIds" class="mr-4" />
+      <SelectProjectMembers v-model:model-value="filters.assigneeIds" class="mr-4" />
       <BaseSearch
         v-model="filters.query"
-        label="Search"
+        :label="$t('backlog.search')"
         :disabled="projectStore.loading"
         :loading="tasksStore.loading"
         class="mr-5"
       />
       <BaseButton
-        label="Add New Task"
+        :label="$t('backlog.addNewTask')"
         icon="plus"
         :disabled="tasksStore.loading || !isAdmin"
         @click="openNewTaskDialog"
         class="mr-5"
       />
-      <div v-tooltip.bottom="'Board'" class="mr-4">
+      <div v-tooltip.bottom="$t('backlog.board')" class="mr-4">
         <BoardIcon
           class="cursor-pointer"
           :size="24"
@@ -47,7 +47,7 @@ const { filters, navigateToSettings, navigateToProject, openNewTaskDialog } = us
           @click="navigateToProject"
         />
       </div>
-      <div v-tooltip.bottom="'Settings'">
+      <div v-tooltip.bottom="$t('backlog.settings')">
         <SettingsIcon
           class="cursor-pointer"
           :size="26"

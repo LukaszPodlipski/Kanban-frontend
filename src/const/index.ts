@@ -1,7 +1,7 @@
 export const relations = [
   'Blocked by',
   'Blocks',
-  'Relates to',
+  'Related to',
   'Duplicate of',
   'Duplicated by',
 ]

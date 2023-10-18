@@ -74,7 +74,7 @@ const openMemberDialog = (payload: any) => {
       :loading="membersStore.loading"
     >
       <Column field="" header=""></Column>
-      <Column field="fullName" header="Name" sortable>
+      <Column field="fullName" :header="$t('members.name')" sortable>
         <template #body="{ data }">
           <div class="flex align-items-center">
             <img class="member__avatar mr-3" :src="data.avatarUrl" />
@@ -82,9 +82,9 @@ const openMemberDialog = (payload: any) => {
           </div>
         </template>
       </Column>
-      <Column field="email" header="Email" sortable></Column>
-      <Column field="role" header="Role" sortable></Column>
-      <Column field="createdAt" header="Member since" sortable>
+      <Column field="email" :header="$t('members.email')" sortable></Column>
+      <Column field="role" :header="$t('members.role')" sortable></Column>
+      <Column field="createdAt" :header="$t('members.createdAt')" sortable>
         <template #body="{ data }">
           <span>{{ formatDate(data.createdAt) }}</span>
         </template>

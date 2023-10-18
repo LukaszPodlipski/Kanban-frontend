@@ -12,18 +12,18 @@ const user = computed(() => authStore.user)
     <template v-slot:title>
       <div class="flex align-items-center">
         <img :src="user.avatarUrl" class="user-avatar" />
-        <span>Hello! {{ user.name }} {{ user.surname }}</span>
+        <span>{{$t('explore.hello')}}! {{ user.name }} {{ user.surname }}</span>
       </div>
     </template>
     <template v-slot:right>
       <BaseButton
-        label="Create new board"
+        :label="$t('explore.createNewBoard')"
         icon="plus"
         :disabled="authStore.loading"
         class="mr-4"
       />
       <BaseButton
-        label="My account"
+        :label="$t('explore.myAccount')"
         icon="user"
         :disabled="authStore.loading"
       />

@@ -42,27 +42,27 @@ const login = async () => {
       <router-link to="/" class="login-dialog__back-icon">
         <ArrowLeft :size="25" />
       </router-link>
-      <span class="login-dialog__title">Login</span>
+      <span class="login-dialog__title">{{ $t('login.title') }}</span>
       <div class="flex flex-column justify-content-center">
         <form @submit.prevent="login" class="flex flex-column gap-2 mt-5">
           <BaseInput
             v-model="email"
-            label="Email"
+            :label="$t('login.email')"
             autocomplete="username"
-            :rules="[(value:string) => rules.required(value,'Email'), rules.email]"
+            :rules="[(value:string) => rules.required(value, $t('login.email')), rules.email]"
             icon-right="pi-user"
           />
-          <BasePasswordInput v-model="password" label="Password" />
+          <BasePasswordInput v-model="password" :label="$t('login.password')" />
           <BaseButton
             type="submit"
-            label="Login"
+            :label="$t('login.submit')"
             class="mt-2"
             :disabled="authStore.loading || !formIsValid"
           />
         </form>
         <span class="singup-callback text-center mt-4"
-          >Don't have an account?
-          <router-link to="/signup">Sign up</router-link></span
+          >{{ $t('login.doNotHaveAccount') }}
+          <router-link to="/signup">{{ $t('login.signup') }}</router-link></span
         >
       </div>
     </div>

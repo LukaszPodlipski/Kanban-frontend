@@ -1,4 +1,4 @@
-.p-inputwrapper-filled:not(.p-invalid) {
+.p-inputwrapper-filled:not(.p-invalid):not(.outline-disabled) {
   outline: 2px solid #52ba28 !important;
   border-radius: 4px;
 }

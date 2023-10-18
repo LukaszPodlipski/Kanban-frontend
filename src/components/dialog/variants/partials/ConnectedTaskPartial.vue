@@ -8,6 +8,7 @@ import rules from '@/utils/validators'
 import { trimText } from '@/utils/functions'
 import { relations } from '@/const'
 import { iTask, iSimplifiedTask } from '@/types/taskTypes'
+import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits([
   'setEditingState',
@@ -52,6 +53,7 @@ const props = defineProps({
   },
 })
 
+const { t } = useI18n()
 const tasksStore = useTasksStore()
 
 const relatedTasksOptions = computed(() => {
@@ -80,11 +82,17 @@ const setRelationEditingState = () => {
     emit('setEditingState', { key: 'relation', value: true })
   }
 }
+
+const translateRelation = (relationName: string, fallbackName: string = '') => {
+  return relationName
+    ? t(`relations.${relationName.toLowerCase().replace(' ', '_')}`)
+    : fallbackName
+}
 </script>
 
 <template>
   <div class="flex justify-content-between align-items-center p-2 mt-2">
-    <span class="label">Connected task</span>
+    <span class="label">{{ $t('tasks.connectedTask') }}</span>
     <i
       v-if="!taskHasRelation || (!taskHasRelation && !disabled)"
       class="pi cursor-pointer"
@@ -101,21 +109,33 @@ const setRelationEditingState = () => {
     <div class="flex gap-2 px-2 mt-1">
       <div
         class="flex flex-column justify-content-center"
-        :style="{ width: '130px !important' }"
+        :style="{ width: '140px !important' }"
       >
         <BaseSelect
           :value="relationMode"
           :items="relations"
           label="RelationMode"
           fieldName="relationMode"
-          placeholder="Type"
+          :placeholder="$t('tasks.type')"
           :hide-dropdown-icon="true"
-          :rules="[(value:string) => relationId ? rules.required(value,'Relation') : true]"
+          :rules="[(value:string) => relationId ? rules.required(value,$t('tasks.relation')) : true]"
           @cleared="!relationId ? resetField('relatedTaskField') : null"
           @update:modelValue="(value:number) => $emit('updateValue', { key: 'relationMode', value })"
-        />
+        >
+          <template #value="{ slotProps }">
+            {{ translateRelation(slotProps.value, $t('tasks.type')) }}</template
+          >
+          <template #option="{ slotProps }">
+            {{
+              translateRelation(slotProps.option, $t('tasks.type'))
+            }}</template
+          >
+        </BaseSelect>
       </div>
-      <div class="flex flex-column flex-1 justify-content-center">
+      <div
+        class="flex flex-column flex-1 justify-content-center"
+        style="max-width: 355px; min-width: 355px; width: 355px"
+      >
         <BaseSelect
           :value="relationId"
           :items="relatedTasksOptions"
@@ -123,7 +143,11 @@ const setRelationEditingState = () => {
           fieldName="relatedTask"
           optionsValue="id"
           optionsLabel="label"
-          :placeholder="`Select ${relationMode?.toLowerCase() || ''} task`"
+          :placeholder="
+            $t('tasks.selectXtask', {
+              type: relationMode ? `'${translateRelation(relationMode as string).toLowerCase()}'` : '',
+            })
+          "
           :rules="[(value:string) => relationMode ? rules.required(value,'Related task') : true]"
           @cleared="!relationMode ? resetField('relationModeField') : null"
           @update:modelValue="(value:number) => $emit('updateValue', { key: 'relationId', value })"
@@ -152,13 +176,16 @@ const setRelationEditingState = () => {
       })
     "
   >
-    <span>{{ task.relationMode }}</span>
+    <span>{{ translateRelation(task.relationMode as string) }}</span>
     <div class="flex align-items-center justify-content-center">
-      <span class="mr-2">{{ relatedTask?.identifier }}</span>
-      <span class="mr-2">{{ trimText(relatedTask?.name, 20) }}</span>
+      <span class="mr-2">{{ relatedTask?.identifier }} / </span>
+      <span v-tooltip.bottom="relatedTask?.name" class="mr-2">{{
+        trimText(relatedTask?.name, 20)
+      }}</span>
       <span>{{ trimText(relatedTask?.assignee?.fullName, 20) }}</span>
       <i
         v-if="!disabled"
+        v-tooltip.bottom="$t('tasks.deleteRelation')"
         class="pi pi-times ml-4"
         style="font-size: 0.8rem"
         @click.stop="$emit('deleteRelation')"
@@ -182,5 +209,9 @@ const setRelationEditingState = () => {
 
 .relation {
   border: 1px solid #6460ba6d;
+}
+
+:deep(.p-dropdown-label) {
+  padding-right: 20px !important;
 }
 </style>

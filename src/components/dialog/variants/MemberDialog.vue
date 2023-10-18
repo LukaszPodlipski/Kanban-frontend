@@ -11,6 +11,8 @@ import {
   watch,
 } from 'vue'
 
+import { useI18n } from 'vue-i18n'
+
 import { useLayoutStore } from '@/stores/layout'
 import { useMembersStore } from '@/stores/members'
 import { useProjectStore } from '@/stores/project'
@@ -28,6 +30,7 @@ const projectStore = useProjectStore()
 const websocketStore = useWebsocketStore()
 const authStore = useAuthStore()
 
+const { t } = useI18n()
 
 /* -------------------------------- ON DIALOG OPEN --------------------------------- */
 /* ------------------------- fetch member and connect to WS -------------------------- */
@@ -113,7 +116,7 @@ const removeMember = async () => {
     layoutStore.closeDialog()
     projectStore.getCompleteProject(projectStore.project?.id as number)
     layoutStore.showToast({
-      message: 'Members removed',
+      message: t('members.memberRemoved'),
       type: 'success',
     })
   } catch (error) {
@@ -145,13 +148,13 @@ const isPermittedToEditRole = computed(() => {
 
 const removeMemberPermissionTooltipCaption = computed(() => {
   if (isMemberOwner.value) {
-    return "You cannot remove yourself because you're an owner"
+    return t('members.removeSelfMemberPermissionError')
   }
   if (member.value.role === 'Maintainer' && userRole.value === 'Maintainer') {
-    return 'You cannot remove this member because you are a maintainer too'
+    return t('members.removeMaintainerAsMaintainerError')
   }
   if (!isAdmin.value) {
-    return 'You cannot remove this member because you are not an project owner or maintainer'
+    return t('members.removeMemberError')
   }
   return ''
 })
@@ -159,10 +162,10 @@ const removeMemberPermissionTooltipCaption = computed(() => {
 
 const editRoleTooltipCaption = computed(() => {
   if (isMemberOwner.value) {
-    return 'You cannot edit your role because you are an owner'
+    return t('members.editSelfOwnerRoleError')
   }
   if (!isAdmin.value) {
-    return 'You cannot edit this member role because you are not an project owner or maintainer'
+    return t('members.editMemberRoleError')
   }
   return ''
 })
@@ -171,7 +174,7 @@ const editRoleTooltipCaption = computed(() => {
 <template>
   <DialogTemplate hideActions>
     <template #customHeader>
-      <span>Member</span>
+      <span>{{$t('members.member')}}</span>
     </template>
     <template #content>
       <div class="flex">
@@ -181,7 +184,7 @@ const editRoleTooltipCaption = computed(() => {
           <div v-tooltip.bottom="removeMemberPermissionTooltipCaption">
             <BaseButton
               class="mt-4 ml-2"
-              label="Remove from project"
+              :label="$t('members.removeFromProject')"
               :disabled="!isPermittedToRemoveMember"
               @click="removeMember"
             />
@@ -192,7 +195,7 @@ const editRoleTooltipCaption = computed(() => {
           <BaseDoubleClickSelect
             v-tooltip.left="editRoleTooltipCaption"
             fieldKey="role"
-            label="Role"
+            :label="$t('members.role')"
             class="mb-2"
             :value="member.role"
             :isEditing="fieldsEditingState.role"
@@ -200,7 +203,7 @@ const editRoleTooltipCaption = computed(() => {
             optionsLabel=""
             optionsValue=""
             :readonly="!isAdmin || !isPermittedToEditRole"
-            placeholder="Assign role to the member"
+            :placeholder="$t('members.assignRoleToMember')"
             @setEditingState="fieldsEditingState.role = $event.value"
             @updateFieldValue="({ value, key }: any) => updateFieldValue(value, key)"
             @submitFieldValue="(key: string) => submitFieldValue(key)"
@@ -208,13 +211,13 @@ const editRoleTooltipCaption = computed(() => {
 
           <BaseDoubleClickSelect
             class="mb-2"
-            label="Email"
+            :label="$t('members.email')"
             :value="member.email"
             readonly
           />
 
           <BaseDoubleClickSelect
-            label="Member since"
+            :label="$t('members.createdAt')"
             :value="formatDate(member.createdAt)"
             readonly
           />

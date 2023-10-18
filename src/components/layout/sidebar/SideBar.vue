@@ -293,7 +293,7 @@ const clearNestedMenu = () => {
           :class="{ 'mr-3': fullSideBar }"
           @click="clearNestedMenu"
         />
-        <span v-if="fullSideBar">{{ nestedMenu.label }}</span>
+        <span v-if="fullSideBar">{{ nestedMenu.name }}</span>
       </div>
       <div
         v-for="menuItem in nestedMenu.items"

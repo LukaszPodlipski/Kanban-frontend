@@ -1,3 +1,4 @@
+import i18n from '@/locale'
 import { useAuthStore } from '@/stores/auth'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -108,7 +109,11 @@ router.beforeEach((to, _, next) => {
 
   const title = to.meta.title as string
   if (title) {
-    document.title = `Kanban - ${title}`
+    document.title = title
+      ? `Kanban - ${i18n.global.t(
+          `views.${title.replace(' ', '_').toLowerCase()}`,
+        )}`
+      : 'Kanban'
   }
 })
 

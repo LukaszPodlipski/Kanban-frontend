@@ -136,6 +136,10 @@
     "pl": "Polish"
   },
   "views": {
+    "welcome": "Welcome",
+    "auth": "Auth",
+    "explore": "Explore",
+    "project": "Project",
     "projectMembers": "Project members",
     "projectSettings": "Project settings",
     "projectStatistics": "Project statistics",

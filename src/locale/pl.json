@@ -136,6 +136,10 @@
     "pl": "Polski"
   },
   "views": {
+    "welcome": "Witaj",
+    "auth": "Autoryzacja",
+    "explore" : "Przeglądaj",
+    "project": "Projekt",
     "project_members": "Członkowie projektu",
     "project_settings": "Ustawienia projektu",
     "project_statistics": "Statystyki projektu",

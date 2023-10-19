@@ -149,16 +149,17 @@ const menuItemsStates = ref({
   User: false,
 }).value as { [key: string]: boolean }
 
-const fullSideBar = computed(() => layoutStore.sideBarOpened)
+const isSidebarLarge = computed(() => layoutStore.sidebarSize === 'large')
+const isSidebarHidden = computed(() => layoutStore.sidebarSize === 'hidden')
 
 const formatItemName = (text: string = ''): string => {
-  return trimText(text, 11, fullSideBar.value)
+  return trimText(text, 11, isSidebarLarge.value)
 }
 
 const menuItemClasses = (menuItem: MenuItem, data: any = null) => {
   return {
-    'menu-item--mini': !fullSideBar.value,
-    'menu-item--rounded pl-5 mr-5 pr-3': fullSideBar.value,
+    'menu-item--mini': !isSidebarLarge.value,
+    'menu-item--rounded pl-5 mr-5 pr-3': isSidebarLarge.value,
     'menu-item--action': !!menuItem.action,
     'menu-item--selected': isSelectedMenuItem(menuItem, data),
     'menu-item--loading':
@@ -264,21 +265,20 @@ const clearNestedMenu = () => {
 
 <template>
   <div
+    v-if="!isSidebarHidden"
     class="side-bar flex flex-column"
-    :class="{ 'side-bar--mini ': !fullSideBar }"
+    :class="{ 'side-bar--mini ': !isSidebarLarge }"
   >
-    <div
-      class="side-bar__logo flex align-items-center justify-content-center p-4"
-      :style="{ marginBottom: fullSideBar ? '0' : '2px' }"
-    >
+    <div class="side-bar__logo flex align-items-center justify-content-center">
       <img
         src="../../../assets/images/hamburger.svg"
-        :class="{ 'rotate-90': !fullSideBar }"
+        :class="{ 'rotate-90': !isSidebarLarge }"
+        class="mb-1"
         @click="layoutStore.changeSideBarStatus"
       />
       <span
-        v-if="fullSideBar"
-        class="side-bar__title ml-3 mr-5"
+        v-if="isSidebarLarge"
+        class="side-bar__title ml-5 mr-5"
         @click="router.go"
         >Kanban</span
       >
@@ -287,13 +287,13 @@ const clearNestedMenu = () => {
     <div v-if="nestedMenu" class="flex flex-column">
       <div
         class="menu-item menu-item--rounded nested-menu-item pl-5 mr-5 pr-3"
-        :class="{ 'menu-item--mini': !fullSideBar }"
+        :class="{ 'menu-item--mini': !isSidebarLarge }"
       >
         <ArrowLeftIcon
-          :class="{ 'mr-3': fullSideBar }"
+          :class="{ 'mr-3': isSidebarLarge }"
           @click="clearNestedMenu"
         />
-        <span v-if="fullSideBar">{{ nestedMenu.name }}</span>
+        <span v-if="isSidebarLarge">{{ nestedMenu.name }}</span>
       </div>
       <div
         v-for="menuItem in nestedMenu.items"
@@ -303,7 +303,7 @@ const clearNestedMenu = () => {
       >
         <div class="flex align-items-center">
           <component :is="iconComponent(menuItem.icon)" class="icon" />
-          <span v-if="fullSideBar" class="menu-item__name">{{
+          <span v-if="isSidebarLarge" class="menu-item__name">{{
             formatItemName(menuItem.label)
           }}</span>
         </div>
@@ -315,7 +315,7 @@ const clearNestedMenu = () => {
           class="menu-item"
           :class="{
             ...menuItemClasses(item),
-            'justify-content-between': fullSideBar,
+            'justify-content-between': isSidebarLarge,
           }"
           @click="
             ;(!item.children && executeMenuItemAction(item)) ||
@@ -324,7 +324,7 @@ const clearNestedMenu = () => {
         >
           <div class="flex align-items-center">
             <component :is="iconComponent(item.icon)" class="icon" />
-            <span v-if="fullSideBar" class="menu-item__name">{{
+            <span v-if="isSidebarLarge" class="menu-item__name">{{
               formatItemName(item.label)
             }}</span>
           </div>
@@ -353,12 +353,12 @@ const clearNestedMenu = () => {
                 <component :is="iconComponent(child.icon)" class="icon" />
                 <span
                   class="menu-item__name"
-                  :class="{ 'menu-item__name--mini': !fullSideBar }"
+                  :class="{ 'menu-item__name--mini': !isSidebarLarge }"
                   >{{ formatItemName(childItem.name) }}</span
                 >
               </div>
               <ArrowRightIcon
-                v-if="fullSideBar"
+                v-if="isSidebarLarge"
                 class="menu-item__arrow-right ml-4"
                 @click="child.nestedMenu && setNestedMenu(child, childItem)"
               />
@@ -373,7 +373,7 @@ const clearNestedMenu = () => {
           >
             <div class="flex align-items-center">
               <component :is="iconComponent(child.icon)" class="icon" />
-              <span v-if="fullSideBar" class="menu-item__name">{{
+              <span v-if="isSidebarLarge" class="menu-item__name">{{
                 formatItemName(child.label)
               }}</span>
             </div>
@@ -393,6 +393,8 @@ const clearNestedMenu = () => {
   border-bottom: 3px solid #2f2f3b;
 
   &__logo {
+    height: 80px;
+    padding: 20px;
     cursor: pointer;
 
     img {

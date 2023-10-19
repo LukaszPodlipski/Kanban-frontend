@@ -160,7 +160,6 @@ const onValueUpdate = (value: string) => {
                 small
                 :disabled="
                   Object.keys(errors).length > 0 ||
-                  value.length === 0 ||
                   disabled
                 "
               />

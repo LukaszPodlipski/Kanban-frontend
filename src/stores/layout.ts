@@ -11,8 +11,16 @@ interface Dialog {
   size?: string
 }
 
+type SidebarSizeType = 'large' | 'small' | 'hidden'
+
+const sideBarSizeChange: Record<SidebarSizeType, SidebarSizeType> = {
+  large: 'small',
+  small: 'hidden',
+  hidden: 'large',
+}
+
 export const useLayoutStore = defineStore('layout', () => {
-  const sideBarOpened: Ref<boolean> = ref(true)
+  const sidebarSize: Ref<SidebarSizeType> = ref("large")
   const dialog: Ref<Dialog> = ref({ isActive: false } as Dialog)
   const toast = useToast()
 
@@ -40,11 +48,11 @@ export const useLayoutStore = defineStore('layout', () => {
   }
 
   const changeSideBarStatus = () => {
-    sideBarOpened.value = !sideBarOpened.value
+    sidebarSize.value = sideBarSizeChange[sidebarSize.value]
   }
 
   const setLayoutDefaultState = () => {
-    sideBarOpened.value = true
+    sidebarSize.value = 'large'
     dialog.value = {
       isActive: false,
     }
@@ -69,7 +77,7 @@ export const useLayoutStore = defineStore('layout', () => {
   }
 
   return {
-    sideBarOpened,
+    sidebarSize,
     changeSideBarStatus,
     openDialog,
     closeDialog,

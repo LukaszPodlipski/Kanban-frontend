@@ -7,7 +7,7 @@ import { useLayoutStore } from '@/stores/layout'
 import { useMembersStore } from '@/stores/members'
 import { useI18n } from 'vue-i18n'
 
-import TopbarTemplate from '../fragments/TopbarTemplate.vue'
+import TopbarTemplate from '../TopbarTemplate.vue'
 
 const { navigateToSettings, navigateToProject } = useProjectTopbarUtilities()
 const { isAdmin } = usePermittedUser()

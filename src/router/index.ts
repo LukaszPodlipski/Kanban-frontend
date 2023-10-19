@@ -41,28 +41,28 @@ const routes = [
         path: 'project/:id/members',
         name: 'ProjectMembers',
         component: () =>
-          import('../components/table/project/ProjectMembers.vue'),
+          import('../components/board/project/ProjectMembers.vue'),
         meta: { title: 'Project members' },
       },
       {
         path: 'project/:id/statistics',
         name: 'ProjectStatistics',
         component: () =>
-          import('../components/table/project/ProjectStatistics.vue'),
+          import('../components/board/project/ProjectStatistics.vue'),
         meta: { title: 'Project statistics' },
       },
       {
         path: 'project/:id/settings',
         name: 'ProjectSettings',
         component: () =>
-          import('../components/table/project/ProjectSettings.vue'),
+          import('../components/board/project/ProjectSettings.vue'),
         meta: { title: 'Project settings' },
       },
       {
         path: 'project/:id/backlog',
         name: 'ProjectBacklog',
         component: () =>
-          import('../components/table/project/ProjectBacklog.vue'),
+          import('../components/board/project/ProjectBacklog.vue'),
         meta: { title: 'Project backlog' },
       },
       {

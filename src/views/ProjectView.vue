@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import AddNewColumn from '@/components/table/columns/AddNewColumn.vue'
-import ColumnHeader from '@/components/table/columns/ColumnHeader.vue'
-import TableLoadingSkeleton from '@/components/table/TableLoadingSkeleton.vue'
-import TaskTile from '@/components/table/tasks/TaskTile.vue'
+import AddNewColumn from '@/components/board/columns/AddNewColumn.vue'
+import ColumnHeader from '@/components/board/columns/ColumnHeader.vue'
+import TableLoadingSkeleton from '@/components/board/BoardLoadingSkeleton.vue'
+import TaskTile from '@/components/board/tasks/TaskTile.vue'
 import usePermittedUser from '@/composables/usePermittedUser'
 import { useLayoutStore } from '@/stores/layout'
 import { useProjectStore } from '@/stores/project'

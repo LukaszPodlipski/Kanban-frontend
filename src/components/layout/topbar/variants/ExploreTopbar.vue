@@ -2,7 +2,7 @@
 import { useAuthStore } from '@/stores/auth'
 import { computed } from 'vue'
 
-import TopbarTemplate from '../fragments/TopbarTemplate.vue'
+import TopbarTemplate from '../TopbarTemplate.vue'
 
 const authStore = useAuthStore()
 const user = computed(() => authStore.user)

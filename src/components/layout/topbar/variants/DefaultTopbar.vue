@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
-import TopbarTemplate from '../fragments/TopbarTemplate.vue'
+import TopbarTemplate from '../TopbarTemplate.vue'
 
 const { t } = useI18n()
 const route = useRoute()

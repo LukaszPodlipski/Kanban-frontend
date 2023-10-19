@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
+import DialogTemplate from '@/components/dialog/DialogTemplate.vue'
 import ArrowLeftIcon from '@/components/icons/ArrowLeftIcon.vue'
 import usePermittedUser from '@/composables/usePermittedUser'
 import { useColumnsStore } from '@/stores/columns'

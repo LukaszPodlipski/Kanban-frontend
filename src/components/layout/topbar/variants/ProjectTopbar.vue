@@ -9,8 +9,8 @@ import { useTasksStore } from '@/stores/tasks'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-import SelectProjectMembers from '../fragments/SelectProjectMembers.vue'
-import TopbarTemplate from '../fragments/TopbarTemplate.vue'
+import SelectProjectMembers from '../partials/SelectProjectMembers.vue'
+import TopbarTemplate from '../TopbarTemplate.vue'
 
 const projectStore = useProjectStore()
 const tasksStore = useTasksStore()

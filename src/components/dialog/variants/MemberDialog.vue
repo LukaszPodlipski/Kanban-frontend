@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DialogTemplate from '@/components/dialog/fragments/DialogTemplate.vue'
+import DialogTemplate from '@/components/dialog/DialogTemplate.vue'
 import usePermittedUser from '@/composables/usePermittedUser.ts'
 import { roles } from '@/const'
 import { useAuthStore } from '@/stores/auth'

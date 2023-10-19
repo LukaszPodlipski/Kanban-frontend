@@ -6,8 +6,8 @@ import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities.t
 import { useProjectStore } from '@/stores/project'
 import { useTasksStore } from '@/stores/tasks'
 
-import SelectProjectMembers from '../fragments/SelectProjectMembers.vue'
-import TopbarTemplate from '../fragments/TopbarTemplate.vue'
+import SelectProjectMembers from '../partials/SelectProjectMembers.vue'
+import TopbarTemplate from '../TopbarTemplate.vue'
 
 const tasksStore = useTasksStore()
 const projectStore = useProjectStore()

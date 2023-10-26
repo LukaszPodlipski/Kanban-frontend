@@ -9,6 +9,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import BaseButton from './components/base/BaseButton.vue'
 import BaseButtonTabs from './components/base/BaseButtonTabs.vue'
+import BaseDialogTextarea from './components/base/BaseDialogTextarea.vue'
 import BaseDoubleClickInput from './components/base/BaseDoubleClickInput.vue'
 import BaseDoubleClickSelect from './components/base/BaseDoubleClickSelect.vue'
 import BaseInput from './components/base/BaseInput.vue'
@@ -44,5 +45,6 @@ app.component('BaseSelect', BaseSelect)
 app.component('BaseDoubleClickSelect', BaseDoubleClickSelect)
 app.component('BaseDoubleClickInput', BaseDoubleClickInput)
 app.component('BaseButtonTabs', BaseButtonTabs)
+app.component('BaseDialogTextarea', BaseDialogTextarea)
 
 app.mount('#app')

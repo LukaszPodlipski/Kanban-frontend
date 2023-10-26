@@ -50,7 +50,6 @@ watch(id, async () => {
 
 /* -------------------------------- CLEAR PROJECT ------------------------------- */
 onUnmounted(() => {
-  projectStore.clearSelectedProject()
   websocketStore.leaveChannel('TasksIndexChannel')
 })
 /* -------------------------------- DRAGGING LOGIC ------------------------------- */

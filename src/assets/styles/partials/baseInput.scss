@@ -2,11 +2,15 @@
   color: #6560ba !important;
 }
 
-:deep(.p-inputtext) {
-  min-width: 300px;
+:deep(.p-inputtext):not(.p-inputtextarea) {
+  min-width: 150px;
   height: 45px;
   background: #2f2f3b !important;
   border: 1px solid #6560ba !important;
+}
+
+:deep(.p-inputtext--medium) {
+  height: 30px;
 }
 
 :deep(.p-inputtext:enabled:focus) {
@@ -37,7 +41,7 @@
   color: #6560ba !important;
 }
 
-.p-filled:not(.p-invalid) {
+.p-filled:not(.p-invalid):not(.outline-disabled) {
   outline: 2px solid #52ba28 !important;
   border-radius: 4px;
 }

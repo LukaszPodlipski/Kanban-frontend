@@ -55,7 +55,7 @@ const routes = [
         path: 'project/:id/settings',
         name: 'ProjectSettings',
         component: () =>
-          import('../components/board/project/ProjectSettings.vue'),
+          import('../components/board/project/settings/ProjectSettings.vue'),
         meta: { title: 'Project settings' },
       },
       {

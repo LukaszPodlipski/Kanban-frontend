@@ -138,12 +138,39 @@
   "views": {
     "welcome": "Witaj",
     "auth": "Autoryzacja",
-    "explore" : "Przeglądaj",
+    "explore": "Przeglądaj",
     "project": "Projekt",
+    "project_backlog": "Backlog projektu",
     "project_members": "Członkowie projektu",
     "project_settings": "Ustawienia projektu",
     "project_statistics": "Statystyki projektu",
     "account": "Konto",
     "preferences": "Preferencje"
+  },
+  "columnTypes": {
+    "start": "Kolumna startowa",
+    "end": "Kolumna końcowa"
+  },
+  "actions": {
+    "open": "Otwórz",
+    "delete": "Usuń",
+    "confirm": "Zatwierdź"
+  },
+  "settings": {
+    "columns": {
+      "name": "Nazwa",
+      "type": "Typ",
+      "color": "Kolor",
+      "actions": "Akcje",
+      "description": "Opis",
+      "columnsUpdateSuccess": "Kolumny zostały zapisane",
+      "columnsUpdateError": "Wystąpił błąd podczas aktualizacji kolumn",
+      "restoreInitialState": "Przywróć stan początkowy",
+      "saveChanges": "Zapisz zmiany",
+      "addNewColumn": "Dodaj nową kolumnę",
+      "columnType": "Typ kolumny",
+      "noDescription": "Brak opisu",
+      "editDescription": "Edytuj opis"
+    }
   }
 }

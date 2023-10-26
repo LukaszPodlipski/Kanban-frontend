@@ -44,6 +44,10 @@ interface MenuItem {
   loading?: boolean
 }
 
+const userProjects = computed(() =>
+  projectsStore.items.sort((a, b) => a.id - b.id),
+)
+
 const menuItems = computed(
   () =>
     [
@@ -60,7 +64,7 @@ const menuItems = computed(
         children: [
           {
             multiple: true,
-            items: projectsStore.items as iListItem[],
+            items: userProjects.value as iListItem[],
             loading: projectStore.loading,
             pathName: 'Project',
             icon: 'BoardIcon',
@@ -399,6 +403,7 @@ const clearNestedMenu = () => {
 
     img {
       transition: transform 0.2s ease;
+      animation: rotate 0.4s ease;
     }
   }
 
@@ -411,6 +416,15 @@ const clearNestedMenu = () => {
   &--mini {
     width: 100px;
     min-width: 100px;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(-180deg);
+  }
+  100% {
+    transform: rotate(0deg);
   }
 }
 

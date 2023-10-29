@@ -13,9 +13,16 @@ defineProps({
       class="header__color-circle mr-3"
       :style="{ backgroundColor: column.color }"
     ></div>
-    <span v-if="column?.name" class="header__name mr-5"
-      >{{ column.name }} ({{ column.tasks.length }})</span
-    >
+    <div class="flex justify-content-between flex-grow-1">
+      <span v-if="column?.name" class="header__name mr-2"
+        >{{ column.name }} ({{ column.tasks.length }})</span
+      >
+      <i
+        v-if="column.description"
+        class="header__info pi pi-info-circle"
+        v-tooltip.bottom="column.description"
+      ></i>
+    </div>
   </div>
 </template>
 
@@ -41,6 +48,11 @@ defineProps({
     height: 17px;
     border-radius: 50%;
     display: inline-block;
+  }
+
+  &__info {
+    font-size: 12px;
+    color: #6560ba;
   }
 
   &::before {

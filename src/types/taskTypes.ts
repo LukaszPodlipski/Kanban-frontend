@@ -28,8 +28,7 @@ export interface iTask {
   projectColumnId: number
   identifier: string
   updating?: boolean
-  relationMode: string | null
-  relationId: number | null
+  relatedTask: (iSimplifiedTask & { relationMode: string }) | null
   comments: iComment[]
   history: iTaskLog[]
   createdAt: string
@@ -45,8 +44,7 @@ export class Task implements iTask {
   projectColumnId: number
   identifier: string
   updating?: boolean
-  relationMode: string | null
-  relationId: number | null
+  relatedTask: (iSimplifiedTask & { relationMode: string }) | null
   comments: iComment[]
   history: iTaskLog[]
   createdAt: string
@@ -65,8 +63,7 @@ export class Task implements iTask {
     this.projectColumnId = data.projectColumnId
     this.identifier = data.identifier
     this.updating = data.updating
-    this.relationMode = data.relationMode
-    this.relationId = data.relationId
+    this.relatedTask = data.relatedTask
     this.comments = data.comments?.sort((a, b) => {
       return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     })

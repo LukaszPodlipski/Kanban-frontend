@@ -36,3 +36,11 @@ export const formatDate = (date: string) => {
 export const getImageUrl = (path: string) => {
   return new URL(path, import.meta.url).href
 }
+
+export const isObject = (value: any) => {
+  return typeof value === 'object' && !Array.isArray(value) && value !== null
+}
+
+export const stringDeepCopy = (string: string) => {
+  return (' ' + string).slice(1)
+}

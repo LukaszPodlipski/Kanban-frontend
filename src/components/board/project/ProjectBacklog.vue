@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import useResizableTable from '@/composables/useResizableTable'
 import { useLayoutStore } from '@/stores/layout'
-import { useProjectStore } from '@/stores/project'
 import { useTasksStore } from '@/stores/tasks'
 import { useWebsocketStore } from '@/stores/websocket'
 import { iTask } from '@/types/taskTypes'
 import { formatDate, trimText } from '@/utils/functions'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
-import { computed, onBeforeMount, onMounted, onUnmounted, watch } from 'vue'
+import { computed, onBeforeMount, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const tasksStore = useTasksStore()
 const websocketStore = useWebsocketStore()
-const projectStore = useProjectStore()
 const layoutStore = useLayoutStore()
 
 const route = useRoute()
@@ -23,28 +21,22 @@ onBeforeMount(() => {
   websocketStore.joinChannel('TasksIndexChannel', { projectId: id.value })
 })
 
-const backlogTasks = computed(() =>
-  tasksStore.items.filter((task) => task.projectColumnId === null),
-)
-
-onMounted(async () => {
-  await projectStore.getCompleteProject(id.value)
-})
-
 watch(id, async () => {
   if (id.value) {
     websocketStore.leaveChannel('TasksIndexChannel')
     websocketStore.joinChannel('TasksIndexChannel', { projectId: id.value })
-    projectStore.getCompleteProject(id.value)
   }
 })
 
 onUnmounted(() => {
-  projectStore.clearSelectedProject()
   websocketStore.leaveChannel('TasksIndexChannel')
 })
 
 const { tableHeight } = useResizableTable()
+
+const backlogTasks = computed(() =>
+  tasksStore.items.filter((task) => task.projectColumnId === null),
+)
 
 const openTaskDialog = (payload: any) => {
   const task: iTask = payload.data

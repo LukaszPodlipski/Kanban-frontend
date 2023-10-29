@@ -48,6 +48,20 @@ export const storeContructor = <T extends Item, Y extends Item>(
     }
   }
 
+  const fetchItem = async (id: number) => {
+    try {
+      loading.value = true
+      const response = await api.getItem(endpoint, id, {
+        projectId: selectedProjectId.value,
+      })
+      return response as T
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = await falseLoadingState()
+    }
+  }
+
   const createItem = async (params: any) => {
     try {
       loading.value = true
@@ -69,6 +83,20 @@ export const storeContructor = <T extends Item, Y extends Item>(
       await api.updateItem(endpoint, id, {
         projectId: selectedProjectId.value,
         ...params,
+      })
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = await falseLoadingState()
+    }
+  }
+
+  const updateItems = async (payload: any) => {
+    try {
+      loading.value = true
+      await api.updateItems(endpoint, {
+        projectId: selectedProjectId.value,
+        [endpoint]: payload,
       })
     } catch (error) {
       throw error
@@ -130,8 +158,10 @@ export const storeContructor = <T extends Item, Y extends Item>(
     item,
     getItems,
     getItem,
+    fetchItem,
     createItem,
     updateItem,
+    updateItems,
     updateItemWithSpecificAction,
     deleteItem,
     WSCreatedItemsHandler,

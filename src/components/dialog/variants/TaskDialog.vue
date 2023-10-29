@@ -9,7 +9,7 @@ import { useProjectStore } from '@/stores/project'
 import { useTasksStore } from '@/stores/tasks'
 import { useWebsocketStore } from '@/stores/websocket'
 import { DialogParams, iTab } from '@/types/coreTypes'
-import { iSimplifiedTask, iTask, Task } from '@/types/taskTypes'
+import { iTask, Task } from '@/types/taskTypes'
 import rules from '@/utils/validators'
 import Editor from 'primevue/editor'
 import {
@@ -84,12 +84,6 @@ const columns = computed(() => {
 
 const members = computed(() => {
   return membersStore.items?.filter((member) => checkIsEditor(member.role))
-})
-
-const relatedTask = computed<iSimplifiedTask | null>(() => {
-  return (
-    tasksStore.items.find((item) => item.id === task.value.relationId) || null
-  )
 })
 
 const taskComments = computed(() => {
@@ -219,28 +213,31 @@ const updateRelation = async () => {
   }
 }
 
-const openRelatedTaskDialog = ({
+const openRelatedTaskDialog = async ({
   taskId,
   redirected = false,
 }: {
   taskId: number
   redirected?: boolean
 }) => {
-  const task: iTask = tasksStore.items.find(
-    (item) => item.id === taskId,
-  ) as iTask
-  if (task) {
-    const params: DialogParams = {
-      title: task?.name || t('tasks.task'),
-      component: 'TaskDialog',
-      item: task,
-      hideHeader: true,
-      size: '900px',
+  try {
+    const task: iTask = await tasksStore.fetchItem(taskId)
+
+    if (task) {
+      const params: DialogParams = {
+        title: task?.name || t('tasks.task'),
+        component: 'TaskDialog',
+        item: task,
+        hideHeader: true,
+        size: '900px',
+      }
+      if (redirected) {
+        params.item = { ...task, redirectedFromId: dialogItem.value.id }
+      }
+      layoutStore.openDialog(params)
     }
-    if (redirected) {
-      params.item = { ...task, redirectedFromId: dialogItem.value.id }
-    }
-    layoutStore.openDialog(params)
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -341,8 +338,8 @@ const getColumnName = (id: number) => {
             :isEditing="fieldsEditingState.relation"
             :dialogItem="dialogItem"
             :task="task"
-            :relatedTask="relatedTask"
-            :taskHasRelation="!!task.relationId"
+            :relatedTask="task.relatedTask"
+            :taskHasRelation="!!task.relatedTask?.id"
             @setEditingState="setFieldEditingState"
             @updateValue="updateFieldValue"
             @updateRelation="updateRelation"

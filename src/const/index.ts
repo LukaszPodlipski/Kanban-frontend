@@ -15,4 +15,6 @@ export const rolesColors = {
   Viewer: 'green',
 }
 
+export const columnTypes = ['start', 'end']
+
 export const rolesWithOwner = ['Owner', ...roles]

@@ -140,10 +140,37 @@
     "auth": "Auth",
     "explore": "Explore",
     "project": "Project",
+    "project_backlog": "Project backlog",
     "projectMembers": "Project members",
     "projectSettings": "Project settings",
     "projectStatistics": "Project statistics",
     "account": "Account",
     "preferences": "Preferences"
+  },
+  "columnTypes": {
+    "start": "Start column",
+    "end": "End column"
+  },
+  "actions": {
+    "open": "Open",
+    "delete": "Delete",
+    "confirm": "Confirm"
+  },
+  "settings": {
+    "columns": {
+      "name": "Name",
+      "type": "Type",
+      "color": "Color",
+      "actions": "Actions",
+      "description": "Description",
+      "columnsUpdateSuccess": "Columns saved",
+      "columnsUpdateError": "Error updating columns",
+      "restoreInitialState": "Restore initial state",
+      "saveChanges": "Save changes",
+      "addNewColumn": "Add new column",
+      "columnType": "Column type",
+      "noDescription": "No description",
+      "editDescription": "Edit description"
+    }
   }
 }

@@ -166,16 +166,16 @@ const translateRelation = (relationName: string, fallbackName: string = '') => {
   </Form>
 
   <div
-    v-if="task.relationId"
+    v-if="task.relatedTask?.id"
     class="field-hover relation flex justify-content-between align-items-center p-2 ml-2"
     @click="
       $emit('openRelatedTaskDialog', {
-        taskId: task.relationId,
+        taskId: task.relatedTask.id,
         redirected: true,
       })
     "
   >
-    <span>{{ translateRelation(task.relationMode as string) }}</span>
+    <span>{{ translateRelation(task.relatedTask.relationMode as string) }}</span>
     <div class="flex align-items-center justify-content-center">
       <span class="mr-2">{{ relatedTask?.identifier }} / </span>
       <span v-tooltip.bottom="relatedTask?.name" class="mr-2">{{

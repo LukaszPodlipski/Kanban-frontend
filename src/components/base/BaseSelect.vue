@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { isObject } from '@/utils/functions'
 import Dropdown from 'primevue/dropdown'
 import { useField } from 'vee-validate'
-import { ComponentOptions, onMounted } from 'vue'
+import { ComponentOptions, computed, onMounted } from 'vue'
 
 defineEmits(['cleared', 'update:modelValue'])
 
@@ -83,6 +84,27 @@ function validateField(value: any) {
 
   return true
 }
+
+// we format items to add disabledOption
+// property with value to each item
+const formattedItems = computed(() => {
+  if (!props.items.length) {
+    return []
+  }
+  return props.items.map((item: any) => {
+    if (isObject(item) && typeof item === 'object') {
+      return {
+        ...item,
+        disabledOption:
+          (item.disabledOption &&
+            ![props.modelValue, props.value].includes(item.value)) ||
+          false,
+      }
+    } else {
+      return item
+    }
+  })
+})
 </script>
 
 <template>
@@ -91,7 +113,7 @@ function validateField(value: any) {
     :is="component"
     id="select"
     v-model="value"
-    :options="items"
+    :options="formattedItems"
     :optionValue="optionsValue"
     :optionLabel="optionsLabel"
     :placeholder="placeholder"
@@ -99,6 +121,7 @@ function validateField(value: any) {
     :showClear="showClear && !!value"
     class="w-full"
     @change="!value || value === '' ? $emit('cleared') : null"
+    optionDisabled="disabledOption"
     :class="{
       'p-invalid': errorMessage,
       'hide-dropdown-icon': hideDropdownIcon,

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import InputText from 'primevue/inputtext'
 import { useField } from 'vee-validate'
-import { ComponentOptions, computed, onMounted, ref } from 'vue'
+import { ComponentOptions, computed, onMounted, ref, watch } from 'vue'
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'onErrorChange'])
 
 const props = defineProps({
   modelValue: String || Number,
@@ -41,6 +41,26 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  medium: {
+    type: Boolean,
+    default: false,
+  },
+  hideDetails: {
+    type: Boolean,
+    default: false,
+  },
+  emitErrors: {
+    type: Boolean,
+    default: false,
+  },
+  validateOnCreate: {
+    type: Boolean,
+    default: false,
+  },
+  disableOutline: {
+    type: Boolean,
+    default: false,
+  },
   disabled: {
     type: Boolean,
     default: false,
@@ -49,7 +69,7 @@ const props = defineProps({
 
 const inputLabel = props.placeholder?.length ? '' : props.label
 
-const { value, errorMessage } = useField(
+const { value, errorMessage, errors } = useField(
   (props.fieldName ||
     props.label?.replace(/\s+/g, '') ||
     props.placeholder.replace(/\s+/g, '')) + 'Field',
@@ -57,10 +77,26 @@ const { value, errorMessage } = useField(
 )
 
 onMounted(() => {
+  if (props.validateOnCreate && props.emitErrors && !props.value) {
+    emit('onErrorChange', { key: props.fieldName, value: '' })
+  }
+  if (props.emitErrors) {
+    setupWatcher()
+  }
   if (props.modelValue || props.value) {
     value.value = props.modelValue || props.value
   }
 })
+
+// if emitErrors is true, we need to watch for errors changes and emit them
+const setupWatcher = () => {
+  watch(
+    () => errors.value,
+    () => {
+      emit('onErrorChange', { key: props.fieldName, value: errors.value[0] })
+    },
+  )
+}
 
 function validateField(value: any) {
   const errorMessages: string[] = []
@@ -80,7 +116,7 @@ function validateField(value: any) {
 }
 
 const childRef = ref(null)
-defineExpose({ childRef })
+defineExpose({ childRef, errors })
 
 const valueLeftLength = computed<number>(() => {
   let value = props.modelValue || props.value || ''
@@ -111,6 +147,8 @@ const valueLeftLength = computed<number>(() => {
         'p-invalid': errorMessage,
         'p-editor-container-filled':
           component.name === 'Editor' && value?.length,
+        'p-inputtext--medium': component.name === 'InputText' && medium,
+        'outline-disabled': disableOutline,
       }"
       aria-describedby="text-error"
     >
@@ -124,7 +162,7 @@ const valueLeftLength = computed<number>(() => {
     </component>
     <label for="input" class="input-label">{{ inputLabel }}</label>
   </span>
-  <div class="flex mb-2 mt-1" style="height: 15px">
+  <div v-if="!hideDetails" class="flex mb-2 mt-1" style="height: 15px">
     <slot name="append" />
     <small
       v-if="

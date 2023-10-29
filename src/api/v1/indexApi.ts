@@ -22,6 +22,11 @@ const updateItem = async (endpoint: string, id: number, params: any) => {
   return response.data
 }
 
+const updateItems = async (endpoint: string, params: any) => {
+  const response = await axiosApi.patch(`/${endpoint}`, params)
+  return response.data
+}
+
 const updateItemWithSpecificAction = async (
   endpoint: string,
   id: number,
@@ -44,6 +49,7 @@ export default {
   getItem,
   createItem,
   updateItem,
+  updateItems,
   updateItemWithSpecificAction,
   deleteItem,
 }

@@ -126,7 +126,7 @@ const saveColumnsChanges = async () => {
       }
     })
 
-    await columnsStore.updateColumns(payload)
+    await columnsStore.updateItems(payload)
     layoutStore.showToast({
       message: t('settings.columns.columnsUpdateSuccess'),
       type: 'success',

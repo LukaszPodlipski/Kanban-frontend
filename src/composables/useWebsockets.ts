@@ -5,14 +5,16 @@ import { ref } from 'vue'
 export function useWebSocket() {
   const authStore = useAuthStore()
   const websocketStore = useWebsocketStore()
-  const socket = ref(null)
+  const socket = ref<WebSocket | null>(null) // Type assertion for socket
   const token = ref('')
   const isConnected = ref(false)
   const url = import.meta.env.VITE_WS_BASE_URL
 
   const connect = () => {
     token.value = authStore.token
-    socket.value = new WebSocket(`${url}?Authorization=${token.value}`)
+    socket.value = new WebSocket(
+      `${url}?Authorization=${token.value}`,
+    ) as WebSocket // Type assertion
 
     socket.value.addEventListener('open', function () {
       isConnected.value = true
@@ -22,7 +24,8 @@ export function useWebSocket() {
       isConnected.value = false
     })
 
-    socket.value.addEventListener('message', function (event) {
+    socket.value.addEventListener('message', function (event: MessageEvent) {
+      // Type annotation for event
       websocketStore.handleMessage(event)
     })
 
@@ -35,7 +38,8 @@ export function useWebSocket() {
     }
   }
 
-  const send = (message) => {
+  const send = (message: any) => {
+    // Specify the actual type of 'message'
     waitForConnection(() => {
       if (socket.value && socket.value.readyState === WebSocket.OPEN) {
         socket.value.send(JSON.stringify(message))
@@ -43,7 +47,7 @@ export function useWebSocket() {
     }, 3000)
   }
 
-  const waitForConnection = (callback, interval) => {
+  const waitForConnection = (callback: () => void, interval: number) => {
     if (socket.value && socket.value.readyState === WebSocket.OPEN) {
       callback()
     } else {
@@ -53,14 +57,15 @@ export function useWebSocket() {
     }
   }
 
-  const joinChannel = (channel, params) => {
+  const joinChannel = (channel: string, params: any) => {
+    // Specify the actual type of 'params'
     send({
       command: 'subscribe',
       identifier: { channel, params },
     })
   }
 
-  const leaveChannel = (channel) => {
+  const leaveChannel = (channel: string) => {
     send({
       command: 'unsubscribe',
       identifier: { channel },

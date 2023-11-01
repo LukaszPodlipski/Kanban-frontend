@@ -12,7 +12,23 @@ import SettingsIcon from '@/components/icons/SettingsIcon.vue'
 import StatisticsIcon from '@/components/icons/StatisticsIcon.vue'
 import UserIcon from '@/components/icons/UserIcon.vue'
 
-export function iconComponent(iconName) {
+const componentMap = {
+  AccountIcon,
+  BacklogIcon,
+  BoardIcon,
+  BoardsIcon,
+  ExploreIcon,
+  LogoutIcon,
+  MembersIcon,
+  NewBoardIcon,
+  PreferencesIcon,
+  ProjectIcon,
+  SettingsIcon,
+  StatisticsIcon,
+  UserIcon,
+}
+
+export function iconComponent(iconName: keyof typeof componentMap) {
   const componentMap = {
     AccountIcon,
     BacklogIcon,

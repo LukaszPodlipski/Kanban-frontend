@@ -10,7 +10,7 @@ const loadComponent = () => {
   const { component } = dialogData.value || {}
   if (component && !Object.keys(components).includes(component)) {
     components[component] = defineAsyncComponent(
-      () => import(`@/components/dialog/variants/${component}.vue`),
+      () => import(`@/components/layout/dialog/variants/${component}.vue`),
     )
   }
   return component || ''

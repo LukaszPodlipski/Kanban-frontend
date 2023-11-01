@@ -28,7 +28,9 @@ const componentMap = {
   UserIcon,
 }
 
-export function iconComponent(iconName: keyof typeof componentMap) {
+export type iconNameType = keyof typeof componentMap
+
+export function iconComponent(iconName: iconNameType) {
   const componentMap = {
     AccountIcon,
     BacklogIcon,

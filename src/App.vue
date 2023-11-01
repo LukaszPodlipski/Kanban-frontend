@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Dialog from '@/components/dialog/Dialog.vue'
+import Dialog from '@/components/layout/dialog/Dialog.vue'
 import { useAuthStore } from '@/stores/auth'
 import Toast from 'primevue/toast'
 import { onBeforeMount } from 'vue'

@@ -66,7 +66,7 @@ const menuItems = computed(
             multiple: true,
             items: userProjects.value as iListItem[],
             loading: projectStore.loading,
-            pathName: 'Project',
+            pathName: 'Board',
             icon: 'BoardIcon',
             nestedMenu: [
               {

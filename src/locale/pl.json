@@ -157,7 +157,9 @@
     "confirm": "Zatwierdź"
   },
   "settings": {
+    "title": "Ustawienia projektu",
     "columns": {
+      "title": "Kolumny",
       "name": "Nazwa",
       "type": "Typ",
       "color": "Kolor",
@@ -171,6 +173,15 @@
       "columnType": "Typ kolumny",
       "noDescription": "Brak opisu",
       "editDescription": "Edytuj opis"
+    },
+    "projectData": {
+      "title": "Dane",
+      "name": "Nazwa",
+      "description": "Opis",
+      "enterProjectName": "Wpisz nazwę projektu",
+      "enterProjectDescription": "Wpisz opis projektu",
+      "projectDataUpdateSuccess": "Dane projektu zostały zapisane",
+      "projectDataUpdateError": "Wystąpił błąd podczas aktualizacji danych projektu"
     }
   }
 }

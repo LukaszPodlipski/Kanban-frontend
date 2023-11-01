@@ -9,7 +9,7 @@ import { useI18n } from 'vue-i18n'
 
 import TopbarTemplate from '../TopbarTemplate.vue'
 
-const { navigateToSettings, navigateToProject } = useProjectTopbarUtilities()
+const { navigateToSettings, navigateToBoard } = useProjectTopbarUtilities()
 const { isAdmin } = usePermittedUser()
 
 const layoutStore = useLayoutStore()
@@ -44,7 +44,7 @@ const membersStore = useMembersStore()
           class="cursor-pointer"
           :size="24"
           color="#6560ba"
-          @click="navigateToProject"
+          @click="navigateToBoard"
         />
       </div>
       <div v-tooltip.bottom="$t('members.settings')">

@@ -13,7 +13,7 @@ const tasksStore = useTasksStore()
 const projectStore = useProjectStore()
 const { isAdmin } = usePermittedUser()
 
-const { filters, navigateToSettings, navigateToProject, openNewTaskDialog } =
+const { filters, navigateToSettings, navigateToBoard, openNewTaskDialog } =
   useProjectTopbarUtilities()
 </script>
 
@@ -46,7 +46,7 @@ const { filters, navigateToSettings, navigateToProject, openNewTaskDialog } =
           class="cursor-pointer"
           :size="24"
           color="#6560ba"
-          @click="navigateToProject"
+          @click="navigateToBoard"
         />
       </div>
       <div v-tooltip.bottom="$t('backlog.settings')">

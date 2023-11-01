@@ -15,20 +15,31 @@ import { useI18n } from 'vue-i18n'
 
 import SettingsSectionTemplate from './SettingsSectionTemplate.vue'
 
+/* -------------------------------- USE REQUIRED COMPOSABLES --------------------------------- */
 const columnsStore = useColumnsStore()
 const layoutStore = useLayoutStore()
 
 const { t } = useI18n()
 const { isAdmin } = usePermittedUser()
 
+/* ---------------------------------- INITIALIZE LOCAL DATA ---------------------------------- */
 type settingColumn = iColumn & { toDelete?: boolean }
 
 const initialColumns: Ref<settingColumn[]> = ref([])
 const columns: Ref<settingColumn[]> = ref([])
 
-const refreshKey: Ref<number> = ref(0)
+const refreshKey: Ref<number> = ref(0) // needed to refresh the table after reorder - quick fix
 const aggregatedErrors: Ref<any> = ref({})
 
+const editingRows = ref([])
+
+/* -------------------------------- GET PROJECT COLUMNS ------------------------------------ */
+onMounted(async () => {
+  await columnsStore.getItems()
+  setColumnsValues()
+})
+
+/* ---------------------------------------- COMPUTED ------------------------------------------ */
 const tableColumns = computed(() => [
   { field: 'name', header: t('settings.columns.name') },
   { field: 'type', header: t('settings.columns.type') },
@@ -36,21 +47,6 @@ const tableColumns = computed(() => [
   { field: 'description', header: t('settings.columns.description') },
   { field: 'actions', header: t('settings.columns.actions') },
 ])
-
-const editingRows = ref([])
-
-onMounted(async () => {
-  await columnsStore.getItems()
-  setColumnsValues()
-})
-
-const setColumnsValues = () => {
-  const columnsValue = columnsStore.items
-    .map((column) => ({ ...column, toDelete: false }))
-    .sort((a, b) => a.order - b.order)
-  columns.value = clonedeep(columnsValue)
-  initialColumns.value = clonedeep(columnsValue)
-}
 
 const isLoading = computed(() => {
   return columnsStore.loading
@@ -75,12 +71,21 @@ const formattedColumnTypes = computed(() => {
   }))
 })
 
+/* ---------------------------------------- FUNCTIONS ----------------------------------------- */
+const setColumnsValues = () => {
+  const columnsValue = columnsStore.items
+    .map((column) => ({ ...column, toDelete: false }))
+    .sort((a, b) => a.order - b.order)
+  columns.value = clonedeep(columnsValue)
+  initialColumns.value = clonedeep(columnsValue)
+}
+
 const aggregateError = ({ key, value }: { key: string; value: string }) => {
   aggregatedErrors.value[key] = value
 }
 
 const restoreColumns = () => {
-  columns.value = JSON.parse(JSON.stringify(initialColumns.value))
+  columns.value = JSON.parse(JSON.stringify(initialColumns.value)) // deep clone
   aggregatedErrors.value = {}
   refreshKey.value += 1
 }
@@ -107,7 +112,7 @@ const markColumnToDelete = (index: number) => {
   columns.value[index].toDelete = !columns.value[index].toDelete
 }
 
-const updateColumnsByReorder = (newColumns: any) => {
+const updateLocalColumnsByReorder = (newColumns: any) => {
   columns.value = newColumns.value
 }
 
@@ -120,6 +125,7 @@ const saveColumnsChanges = async () => {
     const payload = columns.value.map((column, index) => {
       return {
         ...column,
+        color: column.color.startsWith('#') ? column.color : `#${column.color}`,
         order: index + 1,
         type: column.type,
         isNew: column.isNew || false,
@@ -147,7 +153,7 @@ const saveColumnsChanges = async () => {
 <template>
   <SettingsSectionTemplate>
     <template #header>
-      <span class="title">Kolumny</span>
+      <span class="title">{{ $t('settings.columns.title') }}</span>
       <div class="flex gap-4">
         <BaseButton
           :label="$t('settings.columns.restoreInitialState')"
@@ -184,7 +190,7 @@ const saveColumnsChanges = async () => {
         editMode="cell"
         dataKey="field"
         :disabled="!isAdmin"
-        @rowReorder="updateColumnsByReorder"
+        @rowReorder="updateLocalColumnsByReorder"
         :loading="isLoading"
         tableClass="editable-cells-table"
         :rowStyle="checkDeleteState"
@@ -275,11 +281,6 @@ const saveColumnsChanges = async () => {
 </template>
 
 <style scoped lang="scss">
-.title {
-  font-size: 22px;
-  font-weight: 600;
-}
-
 .columns-headers {
   display: grid;
   align-items: center;

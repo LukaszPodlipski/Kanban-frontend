@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DialogTemplate from '@/components/dialog/DialogTemplate.vue'
+import DialogTemplate from '@/components/layout/dialog/DialogTemplate.vue'
 import { roles } from '@/const'
 import { useLayoutStore } from '@/stores/layout'
 import { useMembersStore } from '@/stores/members'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DialogTemplate from '@/components/dialog/DialogTemplate.vue'
+import DialogTemplate from '@/components/layout/dialog/DialogTemplate.vue'
 import usePermittedUser from '@/composables/usePermittedUser'
 import { relations } from '@/const'
 import { useColumnsStore } from '@/stores/columns'

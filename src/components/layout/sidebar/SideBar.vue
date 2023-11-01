@@ -2,7 +2,7 @@
 import ArrowDownIcon from '@/components/icons/ArrowDownIcon.vue'
 import ArrowLeftIcon from '@/components/icons/ArrowLeftIcon.vue'
 import ArrowRightIcon from '@/components/icons/ArrowRightIcon.vue'
-import { iconComponent } from '@/composables/useDynamicIcon'
+import { iconComponent, iconNameType } from '@/composables/useDynamicIcon'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth'
 import { useLayoutStore } from '@/stores/layout'
@@ -34,7 +34,7 @@ watch(
 interface MenuItem {
   name: string
   label: string
-  icon: string
+  icon: iconNameType
   pathName?: string
   action?: () => void
   children?: MenuItem[]

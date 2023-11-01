@@ -39,21 +39,21 @@ const routes = [
           {
             path: ':id',
             name: 'Board',
-            component: () => import('../components/board/Board.vue'),
+            component: () => import('../components/dashboard/board/Board.vue'),
             meta: { title: 'Board' },
           },
           {
             path: ':id/members',
             name: 'ProjectMembers',
             component: () =>
-              import('../components/board/project/ProjectMembers.vue'),
+              import('../components/dashboard/project/ProjectMembers.vue'),
             meta: { title: 'Project members' },
           },
           {
             path: ':id/statistics',
             name: 'ProjectStatistics',
             component: () =>
-              import('../components/board/project/ProjectStatistics.vue'),
+              import('../components/dashboard/project/ProjectStatistics.vue'),
             meta: { title: 'Project statistics' },
           },
           {
@@ -61,7 +61,7 @@ const routes = [
             name: 'ProjectSettings',
             component: () =>
               import(
-                '../components/board/project/settings/ProjectSettings.vue'
+                '../components/dashboard/project/settings/ProjectSettings.vue'
               ),
             meta: { title: 'Project settings' },
           },
@@ -69,7 +69,7 @@ const routes = [
             path: ':id/backlog',
             name: 'ProjectBacklog',
             component: () =>
-              import('../components/board/project/ProjectBacklog.vue'),
+              import('../components/dashboard/project/ProjectBacklog.vue'),
             meta: { title: 'Project backlog' },
           },
         ],

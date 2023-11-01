@@ -1,8 +1,9 @@
+import BoardTopbar from '@/components/layout/topbar/variants/BoardTopbar.vue'
 import DefaultTopbar from '@/components/layout/topbar/variants/DefaultTopbar.vue'
 import ExploreTopbar from '@/components/layout/topbar/variants/ExploreTopbar.vue'
-import MembersTopbar from '@/components/layout/topbar/variants/MembersTopbar.vue'
 import ProjectBacklogTopbar from '@/components/layout/topbar/variants/ProjectBacklogTopbar.vue'
-import ProjectTopbar from '@/components/layout/topbar/variants/ProjectTopbar.vue'
+import ProjectMembersTopbar from '@/components/layout/topbar/variants/ProjectMembersTopbar.vue'
+import ProjectSettingsTopbar from '@/components/layout/topbar/variants/ProjectSettingsTopbar.vue'
 import { useRoute } from 'vue-router'
 
 export function component() {
@@ -11,9 +12,10 @@ export function component() {
 
   const componentMap = {
     Explore: ExploreTopbar,
-    Project: ProjectTopbar,
+    Board: BoardTopbar,
     ProjectBacklog: ProjectBacklogTopbar,
-    ProjectMembers: MembersTopbar,
+    ProjectMembers: ProjectMembersTopbar,
+    ProjectSettings: ProjectSettingsTopbar,
   }
 
   return componentMap[routeName] || DefaultTopbar

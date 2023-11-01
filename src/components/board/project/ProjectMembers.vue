@@ -2,36 +2,19 @@
 import useResizableTable from '@/composables/useResizableTable'
 import { useLayoutStore } from '@/stores/layout'
 import { useMembersStore } from '@/stores/members'
-import { useWebsocketStore } from '@/stores/websocket'
 import { iUser } from '@/types/userTypes'
 import { formatDate } from '@/utils/functions'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
-import { computed, onBeforeMount, onUnmounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, onBeforeMount } from 'vue'
 
 const membersStore = useMembersStore()
 const layoutStore = useLayoutStore()
-const websocketStore = useWebsocketStore()
 
 const { tableHeight } = useResizableTable()
 
-const route = useRoute()
-const id = computed(() => Number(route.params.id))
-
 onBeforeMount(() => {
-  websocketStore.joinChannel('MembersIndexChannel', { projectId: id.value })
-})
-
-watch(id, async () => {
-  if (id.value) {
-    websocketStore.leaveChannel('MembersIndexChannel')
-    websocketStore.joinChannel('MembersIndexChannel', { projectId: id.value })
-  }
-})
-
-onUnmounted(() => {
-  websocketStore.leaveChannel('MembersIndexChannel')
+  membersStore.getItems()
 })
 
 const members = computed(() => {

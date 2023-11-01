@@ -157,7 +157,9 @@
     "confirm": "Confirm"
   },
   "settings": {
+    "title": "Project settings",
     "columns": {
+      "title": "Columns",
       "name": "Name",
       "type": "Type",
       "color": "Color",
@@ -171,6 +173,15 @@
       "columnType": "Column type",
       "noDescription": "No description",
       "editDescription": "Edit description"
+    },
+    "projectData": {
+      "title": "Data",
+      "name": "Name",
+      "description": "Description",
+      "enterProjectName": "Enter project name",
+      "enterProjectDescription": "Enter project description",
+      "projectDataUpdateSuccess": "Project data saved",
+      "projectDataUpdateError": "Error updating project data"
     }
   }
 }

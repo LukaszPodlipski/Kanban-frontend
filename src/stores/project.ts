@@ -82,10 +82,26 @@ export const useProjectStore = defineStore('project', () => {
     projectData.value = null
   }
 
+  const updateProject = async (payload: Partial<iSimplifiedProject>) => {
+    loading.value = true
+    try {
+      await projectsApi.updateProject(
+        selectedProjectId.value as number,
+        payload,
+      )
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = await falseLoadingState()
+    }
+  }
+
   return {
     clearSelectedProject,
     loading,
     project,
+    projectData,
+    updateProject,
     selectedProjectId,
     getItem,
     getCompleteProject,

@@ -36,9 +36,9 @@ export default function useProjectTopbarUtilities() {
     })
   }
 
-  const navigateToProject = () => {
+  const navigateToBoard = () => {
     router.push({
-      name: 'Project',
+      name: 'Board',
       params: {
         id: projectStore.project?.id,
       },
@@ -64,7 +64,7 @@ export default function useProjectTopbarUtilities() {
   return {
     filters,
     navigateToSettings,
-    navigateToProject,
+    navigateToBoard,
     navigateToBacklog,
     openNewTaskDialog,
   }

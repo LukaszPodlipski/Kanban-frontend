@@ -32,38 +32,47 @@ const routes = [
         meta: { title: 'Explore' },
       },
       {
-        path: 'project/:id',
-        name: 'Project',
+        path: 'project',
+        name: 'ProjectWrapper',
         component: () => import('../views/ProjectView.vue'),
-        meta: { title: 'Project' },
-      },
-      {
-        path: 'project/:id/members',
-        name: 'ProjectMembers',
-        component: () =>
-          import('../components/board/project/ProjectMembers.vue'),
-        meta: { title: 'Project members' },
-      },
-      {
-        path: 'project/:id/statistics',
-        name: 'ProjectStatistics',
-        component: () =>
-          import('../components/board/project/ProjectStatistics.vue'),
-        meta: { title: 'Project statistics' },
-      },
-      {
-        path: 'project/:id/settings',
-        name: 'ProjectSettings',
-        component: () =>
-          import('../components/board/project/settings/ProjectSettings.vue'),
-        meta: { title: 'Project settings' },
-      },
-      {
-        path: 'project/:id/backlog',
-        name: 'ProjectBacklog',
-        component: () =>
-          import('../components/board/project/ProjectBacklog.vue'),
-        meta: { title: 'Project backlog' },
+        children: [
+          {
+            path: ':id',
+            name: 'Board',
+            component: () => import('../components/board/Board.vue'),
+            meta: { title: 'Board' },
+          },
+          {
+            path: ':id/members',
+            name: 'ProjectMembers',
+            component: () =>
+              import('../components/board/project/ProjectMembers.vue'),
+            meta: { title: 'Project members' },
+          },
+          {
+            path: ':id/statistics',
+            name: 'ProjectStatistics',
+            component: () =>
+              import('../components/board/project/ProjectStatistics.vue'),
+            meta: { title: 'Project statistics' },
+          },
+          {
+            path: ':id/settings',
+            name: 'ProjectSettings',
+            component: () =>
+              import(
+                '../components/board/project/settings/ProjectSettings.vue'
+              ),
+            meta: { title: 'Project settings' },
+          },
+          {
+            path: ':id/backlog',
+            name: 'ProjectBacklog',
+            component: () =>
+              import('../components/board/project/ProjectBacklog.vue'),
+            meta: { title: 'Project backlog' },
+          },
+        ],
       },
       {
         path: 'account',

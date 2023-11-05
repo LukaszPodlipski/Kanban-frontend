@@ -12,7 +12,7 @@ const tasksStore = useTasksStore()
 const layoutStore = useLayoutStore()
 
 onBeforeMount(() => {
-  tasksStore.getItems()
+  if (!tasksStore.items.length) tasksStore.getItems()
 })
 
 const { tableHeight } = useResizableTable()

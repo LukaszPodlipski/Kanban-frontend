@@ -30,7 +30,7 @@ const initialProjectData: Ref<{ name: string; description: string }> = ref({
 /* ------------------------------------ GET PROJECT DATA -------------------------------------- */
 onMounted(async () => {
   try {
-    await projectStore.getItem()
+    if (!projectStore.projectData) await projectStore.getItem()
     setProjectDataEntryValues()
   } catch (e) {
     console.log(e)

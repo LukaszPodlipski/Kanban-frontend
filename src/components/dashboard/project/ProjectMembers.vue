@@ -14,7 +14,7 @@ const layoutStore = useLayoutStore()
 const { tableHeight } = useResizableTable()
 
 onBeforeMount(() => {
-  membersStore.getItems()
+  if (!membersStore.items.length) membersStore.getItems()
 })
 
 const members = computed(() => {

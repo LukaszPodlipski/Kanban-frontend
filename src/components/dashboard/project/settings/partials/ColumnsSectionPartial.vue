@@ -35,7 +35,7 @@ const editingRows = ref([])
 
 /* -------------------------------- GET PROJECT COLUMNS ------------------------------------ */
 onMounted(async () => {
-  await columnsStore.getItems()
+  if (!columnsStore.items.length) await columnsStore.getItems()
   setColumnsValues()
 })
 
@@ -271,6 +271,10 @@ const saveColumnsChanges = async () => {
           <template v-if="col.field === 'actions'" #body="{ index }">
             <i
               class="pi pi-trash justify-self-center cursor-pointer"
+              :class="{
+                'pi-trash': !columns[index].toDelete,
+                'pi-times': columns[index].toDelete,
+              }"
               @click="markColumnToDelete(index)"
             ></i>
           </template>

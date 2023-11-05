@@ -17,24 +17,24 @@
 
 <style scoped lang="scss">
 .section {
-  color: #dfdcff;
-  border: 2px solid #474479;
+  color: $primary-lighten;
+  border: 2px solid $primary-darken2;
   border-radius: 4px;
 }
 
 .header {
   padding: 16px 32px;
-  background-color: #2c2c38;
-  border-bottom: #2f2f3b;
+  background-color: $grayscale-darken3;
+  border-bottom: $grayscale-darken5;
   font-size: 22px;
   font-weight: 600;
 }
 
-.content{
-  border-top: 1px solid #6560ba;
+.content {
+  border-top: 1px solid $primary-base;
 }
 
 .sub-header {
-  background-color: #2c2c3867;
+  background-color: $grayscale-darken367;
 }
 </style>

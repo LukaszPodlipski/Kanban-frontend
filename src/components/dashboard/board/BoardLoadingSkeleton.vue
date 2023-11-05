@@ -38,10 +38,10 @@ withDefaults(defineProps<Props>(), {
   animation-fill-mode: forwards;
   &__circle {
     border-radius: 50%;
-    background-color: #2c2c38;
+    background-color: $grayscale-darken3;
   }
   &__title {
-    background-color: #2c2c38;
+    background-color: $grayscale-darken3;
   }
 }
 
@@ -51,7 +51,7 @@ withDefaults(defineProps<Props>(), {
 .column {
   min-height: 100%;
   max-width: 284px;
-  background-color: #2c2c3871;
+  background-color: $grayscale-darken3-opacity;
   border-radius: 12px;
   opacity: 0;
   animation-duration: 1s;

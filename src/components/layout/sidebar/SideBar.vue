@@ -392,9 +392,9 @@ const clearNestedMenu = () => {
 .side-bar {
   width: 280px;
   min-width: 280px;
-  background-color: #2c2c38;
-  border-top: 3px solid #2f2f3b;
-  border-bottom: 3px solid #2f2f3b;
+  background-color: $grayscale-darken3;
+  border-top: 3px solid $grayscale-darken5;
+  border-bottom: 3px solid $grayscale-darken5;
 
   &__logo {
     height: 80px;
@@ -410,7 +410,7 @@ const clearNestedMenu = () => {
   &__title {
     font-size: 32px;
     font-weight: 600;
-    color: #dfdcff;
+    color: $primary-lighten;
   }
 
   &--mini {
@@ -429,19 +429,19 @@ const clearNestedMenu = () => {
 }
 
 .nested-menu-item {
-  background-color: #474479;
+  background-color: $primary-darken2;
   &:hover {
-    background-color: #474479 !important;
+    background-color: $primary-darken2 !important;
   }
 
   &:active {
-    color: #dfdcff !important;
+    color: $primary-lighten !important;
   }
 }
 .menu-item {
   font-size: 16px;
   font-weight: 500;
-  color: #dfdcff;
+  color: $primary-lighten;
   height: 48px;
   transition: transform 0.2s ease;
   cursor: pointer;
@@ -465,7 +465,7 @@ const clearNestedMenu = () => {
   }
 
   &:active {
-    color: #6560ba;
+    color: $primary-base;
   }
 
   &--mini {
@@ -481,25 +481,25 @@ const clearNestedMenu = () => {
   }
 
   &--selected {
-    background-color: #6560ba;
+    background-color: $primary-base;
 
     &:hover {
-      background-color: #6560ba;
+      background-color: $primary-base;
     }
 
     &:active {
-      color: #dfdcff;
+      color: $primary-lighten;
     }
   }
 
   &--no-active {
     &:active {
-      color: #dfdcff;
+      color: $primary-lighten;
     }
   }
 
   &--action {
-    color: #6560ba;
+    color: $primary-base;
   }
 
   &--loading {

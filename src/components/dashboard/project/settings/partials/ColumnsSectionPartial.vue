@@ -293,11 +293,11 @@ const saveColumnsChanges = async () => {
   align-items: center;
   grid-template-columns: 50px 150px 250px 100px 300px 50px;
   gap: 30px;
-  border-top: 2px solid #2c2c38;
-  background-color: #21212d;
+  border-top: 2px solid $grayscale-darken3;
+  background-color: $grayscale-darken4;
 
   &__to-delete {
-    background-color: #6b1a2b;
+    background-color: $error-color-darken;
   }
 
   &__description {

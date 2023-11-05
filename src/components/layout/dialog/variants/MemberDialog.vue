@@ -196,6 +196,7 @@ const editRoleTooltipCaption = computed(() => {
             :items="roles"
             optionsLabel=""
             optionsValue=""
+            required
             :readonly="!isAdmin || !isPermittedToEditRole"
             :placeholder="$t('members.assignRoleToMember')"
             @setEditingState="fieldsEditingState.role = $event.value"
@@ -224,7 +225,7 @@ const editRoleTooltipCaption = computed(() => {
 <style scoped lang="scss">
 .member {
   &__left-panel {
-    background-color: #2c2c38;
+    background-color: $grayscale-darken3;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -234,7 +235,7 @@ const editRoleTooltipCaption = computed(() => {
 
   &__right-panel {
     padding: 16px 16px 32px 16px;
-    background-color: #292938;
+    background-color: $grayscale-darken6;
   }
 
   &__name {

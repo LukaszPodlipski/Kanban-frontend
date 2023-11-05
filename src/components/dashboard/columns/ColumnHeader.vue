@@ -39,7 +39,7 @@ defineProps({
     text-transform: uppercase;
     font-size: 14px;
     letter-spacing: 0.12em;
-    color: #6560ba;
+    color: $primary-base;
     display: inline-block;
   }
 
@@ -52,7 +52,7 @@ defineProps({
 
   &__info {
     font-size: 12px;
-    color: #6560ba;
+    color: $primary-base;
   }
 
   &::before {
@@ -62,7 +62,7 @@ defineProps({
     display: inline-block;
     width: 284px;
     height: 70px;
-    background: #21212d;
+    background: $grayscale-darken4;
     z-index: -1;
   }
 }

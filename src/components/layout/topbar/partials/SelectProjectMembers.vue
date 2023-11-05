@@ -106,7 +106,7 @@ const anyExceedingMembersSelected = computed(() => {
 <style scoped lang="scss">
 .member {
   &--active {
-    color: #6560ba;
+    color: $primary-base;
   }
   &__img {
     width: 30px;
@@ -122,7 +122,7 @@ const anyExceedingMembersSelected = computed(() => {
     }
 
     &--active {
-      border: 3px solid #6560ba;
+      border: 3px solid $primary-base;
       transform: scale(1.2);
     }
 
@@ -151,15 +151,15 @@ const anyExceedingMembersSelected = computed(() => {
 .exceeding-members {
   z-index: 1;
   margin-left: -2px;
-  background-color: #21212d;
+  background-color: $grayscale-darken4;
   width: 30px;
   height: 30px;
   border-radius: 50%;
   font-size: 14px;
-  color: #6560ba;
+  color: $primary-base;
 
   &--active {
-    border: 2px solid #6560ba;
+    border: 2px solid $primary-base;
     transform: scale(1.2);
   }
 }

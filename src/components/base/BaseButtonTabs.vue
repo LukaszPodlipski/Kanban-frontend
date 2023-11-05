@@ -33,19 +33,19 @@ defineProps({
 .tab {
   padding: 4px 8px;
   border-radius: 4px;
-  background-color: #292938;
+  background-color: $grayscale-darken6;
   font-size: 12px;
 
   &:hover {
-    background-color: #2f2f3b;
+    background-color: $grayscale-darken5;
     cursor: pointer;
   }
 
   &--active {
-    background-color: #6560ba;
+    background-color: $primary-base;
 
     &:hover {
-      background-color: #6560ba;
+      background-color: $primary-base;
       cursor: pointer;
     }
   }

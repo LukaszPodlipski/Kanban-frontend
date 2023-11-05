@@ -44,9 +44,9 @@ const isSidebarHidden = computed(() => layoutStore.sidebarSize === 'hidden')
   height: 80px;
   width: 100%;
   padding: 16px 31px;
-  background-color: #2c2c38;
-  border-top: 3px solid #2f2f3b;
-  border-bottom: 3px solid #2f2f3b;
-  border-left: 3px solid #2f2f3b;
+  background-color: $grayscale-darken3;
+  border-top: 3px solid $grayscale-darken5;
+  border-bottom: 3px solid $grayscale-darken5;
+  border-left: 3px solid $grayscale-darken5;
 }
 </style>

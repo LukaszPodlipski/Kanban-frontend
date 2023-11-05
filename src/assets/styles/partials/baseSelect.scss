@@ -1,5 +1,7 @@
+@import '../variables.scss';
+
 .p-inputwrapper-filled:not(.p-invalid):not(.outline-disabled) {
-  outline: 2px solid #52ba28 !important;
+  outline: 2px solid $success-color !important;
   border-radius: 4px;
 }
 .p-error {

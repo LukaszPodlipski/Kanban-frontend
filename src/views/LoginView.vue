@@ -73,7 +73,12 @@ const login = async () => {
 .login-background {
   height: 100vh;
   width: 100vw;
-  background: linear-gradient(300deg, #04a4f7, #5554a0, #474479);
+  background: linear-gradient(
+    300deg,
+    #04a4f7,
+    $primary-darken1,
+    $primary-darken2
+  );
   background-size: 180% 180%;
   animation: gradient-animation 9s ease infinite;
   position: relative;
@@ -84,7 +89,7 @@ const login = async () => {
   top: 40px;
   left: 50%;
   transform: translate(-50%, 0);
-  color: #dfdcff;
+  color: $primary-lighten;
   font-size: 32px;
   font-weight: 600;
 }
@@ -95,12 +100,12 @@ const login = async () => {
   left: 50%;
   transform: translate(-50%, -50%);
   height: fit-content;
-  background-color: #2f2f3b;
+  background-color: $grayscale-darken5;
   border-radius: 8px;
   padding: 30px 50px 40px 50px;
-  color: #dfdcff;
-  border: 2px solid #6560ba !important;
-  box-shadow: 1px 1px 10px 0px #2f2f3b;
+  color: $primary-lighten;
+  border: 2px solid $primary-base !important;
+  box-shadow: 1px 1px 10px 0px $grayscale-darken5;
 
   &__title {
     font-size: 32px;
@@ -125,11 +130,11 @@ const login = async () => {
 }
 
 .singup-callback {
-  color: #dfdcff;
+  color: $primary-lighten;
   font-size: 14px;
 
   a {
-    color: #dfdcff;
+    color: $primary-lighten;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;

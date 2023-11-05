@@ -163,7 +163,7 @@ const inviteMembers = async () => {
   display: flex;
   flex-direction: column;
   padding: 12px 16px;
-  background-color: #21212d;
+  background-color: $grayscale-darken4;
   border-radius: 4px;
 }
 .member {

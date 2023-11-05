@@ -97,7 +97,7 @@ const submitValueOnEnterKeyup = () => {
   &__placeholder {
     font-size: 12px !important;
     font-weight: 400;
-    background-color: #23232f;
+    background-color: $grayscale-darken7;
     border-radius: 4px;
     padding: 10px 16px;
     width: 100%;

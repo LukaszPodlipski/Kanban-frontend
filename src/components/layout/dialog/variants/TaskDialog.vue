@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import DialogTemplate from '@/components/layout/dialog/DialogTemplate.vue'
 import ArrowLeftIcon from '@/components/icons/ArrowLeftIcon.vue'
+import DialogTemplate from '@/components/layout/dialog/DialogTemplate.vue'
 import usePermittedUser from '@/composables/usePermittedUser'
 import { useColumnsStore } from '@/stores/columns'
 import { useLayoutStore } from '@/stores/layout'
@@ -444,14 +444,14 @@ const getColumnName = (id: number) => {
 .task {
   max-height: 600px !important;
   overflow-y: scroll;
-  color: #dfdcff;
+  color: $primary-lighten;
 
   &__content-wrapper {
     max-width: 100%;
   }
 
   &__side-bar {
-    background-color: #292938;
+    background-color: $grayscale-darken6;
   }
 
   &__label {
@@ -462,7 +462,7 @@ const getColumnName = (id: number) => {
   &__identifier {
     font-size: 14px;
     font-weight: 600;
-    color: #6560ba;
+    color: $primary-base;
   }
 
   &::-webkit-scrollbar {
@@ -471,11 +471,11 @@ const getColumnName = (id: number) => {
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #6560ba;
+    background: $primary-base;
   }
 
   &::-webkit-scrollbar-track {
-    background: #2f2f3b;
+    background: $grayscale-darken5;
   }
 }
 
@@ -491,11 +491,11 @@ const getColumnName = (id: number) => {
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #6560ba;
+    background: $primary-base;
   }
 
   &::-webkit-scrollbar-track {
-    background: #2f2f3b;
+    background: $grayscale-darken5;
   }
 }
 

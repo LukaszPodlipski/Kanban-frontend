@@ -31,28 +31,28 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .input-label {
-  color: #6560ba !important;
+  color: $primary-base !important;
 }
 
 :deep(.p-inputtext) {
   min-width: 250px;
   height: 40px;
-  color: #6560ba;
-  background: #2c2c38 !important;
-  border: 1px solid #6560ba !important;
+  color: $primary-base;
+  background: $grayscale-darken3 !important;
+  border: 1px solid $primary-base !important;
 }
 
 :deep(.p-inputtext:enabled:focus) {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem #6560ba;
-  border-color: #6560ba;
+  box-shadow: 0 0 0 0.2rem $primary-base;
+  border-color: $primary-base;
 }
 :deep(.p-invalid) {
   border-radius: 4px;
-  outline: 2px solid red !important;
+  outline: 2px solid $base-color-5 !important;
 }
 :deep(.p-input-icon-left > i:first-of-type) {
-  color: #6560ba !important;
+  color: $primary-base !important;
 }
 </style>

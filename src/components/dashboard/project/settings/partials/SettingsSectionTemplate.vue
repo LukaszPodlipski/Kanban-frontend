@@ -35,6 +35,6 @@
 }
 
 .sub-header {
-  background-color: $grayscale-darken367;
+  background-color: $grayscale-darken3;
 }
 </style>

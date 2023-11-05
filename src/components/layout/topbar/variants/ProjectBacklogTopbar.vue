@@ -31,13 +31,13 @@ const { filters, navigateToSettings, navigateToBoard, openNewTaskDialog } =
         v-model="filters.query"
         :label="$t('backlog.search')"
         :disabled="projectStore.loading"
-        :loading="tasksStore.loading"
+        :loading="tasksStore.loadingItems"
         class="mr-5"
       />
       <BaseButton
         :label="$t('backlog.addNewTask')"
         icon="plus"
-        :disabled="tasksStore.loading || !isAdmin"
+        :disabled="tasksStore.loadingItems || !isAdmin"
         @click="openNewTaskDialog"
         class="mr-5"
       />

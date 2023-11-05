@@ -48,13 +48,13 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
         v-model="filters.query"
         :label="$t('core.search')"
         :disabled="projectStore.loading"
-        :loading="tasksStore.loading"
+        :loading="tasksStore.loadingItems"
         class="mr-5"
       />
       <BaseButton
         :label="$t('project.addNewTask')"
         icon="plus"
-        :disabled="tasksStore.loading || !isEditor"
+        :disabled="tasksStore.loadingItems || !isEditor"
         @click="openNewTaskDialog"
         class="mr-5"
       />

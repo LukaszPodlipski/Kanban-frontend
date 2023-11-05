@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { useLayoutStore } from '@/stores/layout'
+import ProgressBar from 'primevue/progressbar'
 
 const layoutStore = useLayoutStore()
 
 defineProps({
   hideActions: {
+    type: Boolean,
+    default: false,
+  },
+  loading: {
     type: Boolean,
     default: false,
   },
@@ -36,6 +41,9 @@ defineProps({
       @click="layoutStore.closeDialog"
     />
     <slot name="actions" />
+  </div>
+  <div style="height: 3px">
+    <ProgressBar v-if="loading" mode="indeterminate"></ProgressBar>
   </div>
 </template>
 

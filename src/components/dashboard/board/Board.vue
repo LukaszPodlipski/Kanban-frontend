@@ -87,7 +87,7 @@ const openTaskDialog = (task: iTask) => {
 <template>
   <div class="projects-wrapper">
     <ProgressBar
-      v-if="tasksStore.loading"
+      v-if="tasksStore.loadingItems"
       mode="indeterminate"
       class="progress-bar"
     ></ProgressBar>

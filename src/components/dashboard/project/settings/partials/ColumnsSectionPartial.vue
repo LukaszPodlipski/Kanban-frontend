@@ -29,7 +29,7 @@ const initialColumns: Ref<settingColumn[]> = ref([])
 const columns: Ref<settingColumn[]> = ref([])
 
 const refreshKey: Ref<number> = ref(0) // needed to refresh the table after reorder - quick fix
-const aggregatedErrors: Ref<any> = ref({})
+const aggregatedErrors: Ref<Record<string, string | undefined>> = ref({})
 
 const editingRows = ref([])
 
@@ -49,7 +49,7 @@ const tableColumns = computed(() => [
 ])
 
 const isLoading = computed(() => {
-  return columnsStore.loading
+  return columnsStore.loadingItems
 })
 
 const isColumnsSectionValid = computed(() => {
@@ -106,6 +106,14 @@ const addNewColumn = () => {
 
 const markColumnToDelete = (index: number) => {
   if (columns.value[index].isNew) {
+    // remove all errors related to the new column
+    const errors = aggregatedErrors.value
+    Object.keys(errors).map((key) => {
+      const id = key.split('#')[1]
+      if (id === columns.value[index]?.id?.toString()) delete errors[key]
+    })
+    aggregatedErrors.value = { ...errors }
+    // remove the new column
     columns.value.splice(index, 1)
     return
   }
@@ -151,7 +159,7 @@ const saveColumnsChanges = async () => {
 </script>
 
 <template>
-  <SettingsSectionTemplate>
+  <SettingsSectionTemplate :loading="columnsStore.loadingItems">
     <template #header>
       <span class="title">{{ $t('settings.columns.title') }}</span>
       <div class="flex gap-4">
@@ -217,7 +225,7 @@ const saveColumnsChanges = async () => {
             <div class="column__name">
               <BaseInput
                 v-model="columns[index][col.field]"
-                :fieldName="`column-name-${data.id}`"
+                :fieldName="`column-name#${data.id}`"
                 :disabled="!isAdmin"
                 medium
                 hideDetails

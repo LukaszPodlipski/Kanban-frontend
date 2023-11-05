@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import ProgressBar from 'primevue/progressbar'
+
+defineProps({
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+})
+</script>
+
 <template>
   <div class="section">
     <div
@@ -11,6 +22,9 @@
     </div>
     <div v-if="$slots.content" class="content flex flex-column">
       <slot name="content"></slot>
+    </div>
+    <div style="height: 3px">
+      <ProgressBar v-if="loading" mode="indeterminate"></ProgressBar>
     </div>
   </div>
 </template>

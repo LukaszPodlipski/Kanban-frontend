@@ -46,7 +46,7 @@ const openTaskDialog = (payload: any) => {
       scrollable
       :scrollHeight="tableHeight"
       :metaKeySelection="false"
-      :loading="tasksStore.loading"
+      :loading="tasksStore.loadingItems"
     >
       <Column field="" header=""></Column>
       <Column field="identifier" :header="$t('backlog.identifier')"></Column>

@@ -95,7 +95,7 @@ const updateProjectData = async () => {
 <template>
   <Form v-slot="{ errors }">
     <form @submit.prevent="updateProjectData">
-      <SettingsSectionTemplate>
+      <SettingsSectionTemplate :loading="projectStore.loading">
         <template #header>
           <span class="title">{{ $t('settings.projectData.title') }}</span>
 

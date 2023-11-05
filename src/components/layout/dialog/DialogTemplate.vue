@@ -41,6 +41,6 @@ defineProps({
 
 <style scoped lang="scss">
 .custom-header {
-  background: #23232f !important;
+  background: $grayscale-darken7 !important;
 }
 </style>

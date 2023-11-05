@@ -16,3 +16,7 @@ onBeforeMount(() => {
   <Toast position="bottom-center" />
   <router-view />
 </template>
+
+<style>
+@import './assets/styles/_variables.scss';
+</style>

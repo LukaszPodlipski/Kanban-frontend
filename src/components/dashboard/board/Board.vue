@@ -176,9 +176,9 @@ const openTaskDialog = (task: iTask) => {
   max-height: calc(100vh - 80px);
   overflow-y: scroll;
   padding: 24px 32px 32px 32px;
-  background-color: #21212d;
-  border-bottom: 3px solid #2f2f3b;
-  border-left: 3px solid #2f2f3b;
+  background-color: $grayscale-darken4;
+  border-bottom: 3px solid $grayscale-darken5;
+  border-left: 3px solid $grayscale-darken5;
 
   &::-webkit-scrollbar {
     width: 10px;
@@ -186,11 +186,11 @@ const openTaskDialog = (task: iTask) => {
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #6560ba;
+    background: $primary-base;
   }
 
   &::-webkit-scrollbar-track {
-    background: #2f2f3b;
+    background: $grayscale-darken5;
   }
 }
 
@@ -208,7 +208,7 @@ const openTaskDialog = (task: iTask) => {
 }
 
 .p-progressbar :deep(.p-progressbar-value) {
-  background-color: #6560ba !important;
+  background-color: $primary-base !important;
 }
 .columns-wrapper {
   position: relative;
@@ -223,9 +223,9 @@ const openTaskDialog = (task: iTask) => {
 
 .task-ghost {
   opacity: 0;
-  -webkit-box-shadow: 3px 11px 49px -25px rgba(101, 96, 186, 1);
-  -moz-box-shadow: 3px 11px 49px -25px rgba(101, 96, 186, 1);
-  box-shadow: 3px 11px 49px -25px rgba(101, 96, 186, 1);
+  -webkit-box-shadow: 3px 11px 49px -25px $primary-base;
+  -moz-box-shadow: 3px 11px 49px -25px $primary-base;
+  box-shadow: 3px 11px 49px -25px $primary-base;
 }
 
 .sortable-chosen {

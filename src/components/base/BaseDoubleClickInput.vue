@@ -158,10 +158,7 @@ const onValueUpdate = (value: string) => {
                 @click="$emit('submitValue', valueKey)"
                 icon="check"
                 small
-                :disabled="
-                  Object.keys(errors).length > 0 ||
-                  disabled
-                "
+                :disabled="Object.keys(errors).length > 0 || disabled"
               />
               <BaseButton
                 icon="times"
@@ -190,12 +187,12 @@ const onValueUpdate = (value: string) => {
 
 .placeholder-value {
   font-size: 14px !important;
-  color: #dfdcff;
+  color: $primary-lighten;
 }
 
 .field-hover {
   &:hover {
-    background-color: #2424307c;
+    background-color: $field-hover-darken;
     cursor: pointer;
   }
 }

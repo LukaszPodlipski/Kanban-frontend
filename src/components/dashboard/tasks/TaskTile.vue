@@ -47,7 +47,7 @@ defineProps({
   &__tile {
     min-height: 90px;
     width: 100%;
-    background-color: #2c2c38;
+    background-color: $grayscale-darken3;
     border-radius: 8px;
     padding: 24px 24px 20px 24px;
     cursor: pointer;
@@ -62,7 +62,7 @@ defineProps({
   &__title {
     font-size: 14px;
     font-weight: 600;
-    color: #dfdcff;
+    color: $primary-lighten;
   }
 
   &__description-wrapper {
@@ -71,7 +71,7 @@ defineProps({
 
   &__description {
     font-size: 12px;
-    color: #7e828e;
+    color: $grayscale-lighten1;
     padding-right: 30px;
     display: inline-block;
     width: 200px;
@@ -85,7 +85,7 @@ defineProps({
     height: 30px;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid #2c2c38;
+    border: 2px solid $grayscale-darken3;
 
     img {
       width: 100%;
@@ -96,7 +96,7 @@ defineProps({
 
   &__identifier {
     font-size: 12px;
-    color: #dfdcff;
+    color: $primary-lighten;
   }
 }
 

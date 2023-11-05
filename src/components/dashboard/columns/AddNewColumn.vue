@@ -14,14 +14,14 @@
   height: 90%;
   width: 284px;
   min-width: 284px;
-  background-color: #23232f;
+  background-color: $grayscale-darken7;
   border-radius: 8px;
-  color: #70727f;
+  color: $grayscale-darken1;
   transition: 0.3s;
 
   &:hover {
     cursor: pointer;
-    background-color: #2c2c38;
+    background-color: $grayscale-darken3;
   }
 }
 </style>

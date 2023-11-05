@@ -35,11 +35,11 @@ defineProps({
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #6560ba;
+    background: $primary-base;
   }
 
   &::-webkit-scrollbar-track {
-    background: #2f2f3b;
+    background: $grayscale-darken5;
   }
 }
 

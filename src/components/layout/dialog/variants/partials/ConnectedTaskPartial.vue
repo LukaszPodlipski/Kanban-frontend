@@ -175,7 +175,9 @@ const translateRelation = (relationName: string, fallbackName: string = '') => {
       })
     "
   >
-    <span>{{ translateRelation(task.relatedTask.relationMode as string) }}</span>
+    <span>{{
+      translateRelation(task.relatedTask.relationMode as string)
+    }}</span>
     <div class="flex align-items-center justify-content-center">
       <span class="mr-2">{{ relatedTask?.identifier }} / </span>
       <span v-tooltip.bottom="relatedTask?.name" class="mr-2">{{
@@ -201,7 +203,7 @@ const translateRelation = (relationName: string, fallbackName: string = '') => {
 
 .field-hover {
   &:hover {
-    background-color: #2424307c;
+    background-color: $field-hover-darken;
     cursor: pointer;
   }
 }

@@ -4,7 +4,7 @@ import { useLayoutStore } from '@/stores/layout'
 import { computed } from 'vue'
 
 const layoutStore = useLayoutStore()
-const fullSideBar = computed(() => layoutStore.sideBarOpened)
+const fullSideBar = computed(() => layoutStore.sidebarSize === 'large')
 </script>
 
 <template>
@@ -18,8 +18,8 @@ const fullSideBar = computed(() => layoutStore.sideBarOpened)
 
 <style scoped lang="scss">
 .wrapper {
-  border-bottom: 3px solid #2f2f3b;
-  border-left: 3px solid #2f2f3b;
+  border-bottom: 3px solid $grayscale-darken5;
+  border-left: 3px solid $grayscale-darken5;
   height: 100%;
 }
 .label {

@@ -39,16 +39,18 @@ const members = computed(() => {
 })
 
 const tasks = computed(() => {
-  return tasksStore.items?.sort((a, b) => a.id - b.id)?.map((task: iSimplifiedTask) => {
-    const assiggnee = task.assignee?.fullName
-      ? ` - ${task.assignee?.fullName || ''}`
-      : ''
-    const name = trimText(task.name, 20)
-    return {
-      label: `${task.identifier}: ${name} ${assiggnee}`,
-      id: task.id,
-    }
-  })
+  return tasksStore.items
+    ?.sort((a, b) => a.id - b.id)
+    ?.map((task: iSimplifiedTask) => {
+      const assiggnee = task.assignee?.fullName
+        ? ` - ${task.assignee?.fullName || ''}`
+        : ''
+      const name = trimText(task.name, 20)
+      return {
+        label: `${task.identifier}: ${name} ${assiggnee}`,
+        id: task.id,
+      }
+    })
 })
 
 const formIsValid = computed(() => {
@@ -204,11 +206,11 @@ const addTask = async () => {
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #6560ba;
+    background: $primary-base;
   }
 
   &::-webkit-scrollbar-track {
-    background: #2f2f3b;
+    background: $grayscale-darken5;
   }
 }
 </style>

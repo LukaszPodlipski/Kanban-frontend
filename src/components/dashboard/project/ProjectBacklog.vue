@@ -82,7 +82,7 @@ const openTaskDialog = (payload: any) => {
 
 <style scoped lang="scss">
 .backlog-wrapper {
-  border-left: 3px solid #2f2f3b;
+  border-left: 3px solid $grayscale-darken5;
   height: 100%;
 }
 
@@ -99,11 +99,11 @@ const openTaskDialog = (payload: any) => {
 }
 
 :deep(.p-datatable .p-datatable-tbody > tr) {
-  background-color: #21212d;
+  background-color: $grayscale-darken4;
 }
 
 :deep(.p-datatable .p-datatable-tbody > tr > td) {
-  border: 1px solid #6560ba5c;
+  border: 1px solid $primary-base-opacity;
   border-width: 0 0 1px 0 !important;
 }
 </style>

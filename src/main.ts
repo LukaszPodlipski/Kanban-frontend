@@ -19,7 +19,7 @@ import BaseSelect from './components/base/BaseSelect.vue'
 import router from './router/index'
 
 import './assets/styles/index.scss' //global styles
-import '@/assets/styles/theme.css' //theme
+import './assets/styles/theme.scss' //theme
 import 'primevue/resources/primevue.min.css' //core primevue UI framework styles
 import 'primeicons/primeicons.css' //icons
 import '/node_modules/primeflex/primeflex.css'

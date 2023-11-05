@@ -36,7 +36,7 @@ const components: { [key: string]: ReturnType<typeof defineAsyncComponent> } =
 
 <style scoped lang="scss">
 .p-dialog-header {
-  background: #2c2c38 !important;
+  background: $grayscale-darken3 !important;
 }
 
 :deep(.p-dialog) {

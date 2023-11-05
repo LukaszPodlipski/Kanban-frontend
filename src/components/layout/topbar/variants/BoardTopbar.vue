@@ -81,7 +81,7 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
 <style scoped lang="scss">
 .user-role {
   font-size: 12px;
-  background-color: #6560ba;
+  background-color: $primary-base;
   font-weight: 500;
   padding: 2px 4px;
   border-radius: 4px;

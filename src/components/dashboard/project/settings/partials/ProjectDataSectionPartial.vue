@@ -143,7 +143,9 @@ const updateProjectData = async () => {
               <BaseInput
                 v-model="projectData.description"
                 :label="$t('settings.projectData.description')"
-                :placeholder="$t('settings.projectData.enterProjectDescription')"
+                :placeholder="
+                  $t('settings.projectData.enterProjectDescription')
+                "
                 :floatLabel="false"
                 :disabled="!isAdmin"
                 medium
@@ -167,6 +169,6 @@ const updateProjectData = async () => {
 }
 
 .content {
-  background-color: #2c2c38;
+  background-color: $grayscale-darken3;
 }
 </style>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import rules from '@/utils/validators'
 import { Form } from 'vee-validate'
 
 const props = defineProps({
@@ -41,6 +42,10 @@ const props = defineProps({
   tooltipConfig: {
     type: Object,
     default: () => ({}),
+  },
+  required: {
+    type: Boolean,
+    default: false,
   },
 })
 
@@ -111,6 +116,7 @@ const setEditingState = (payload: { key: string; value: boolean }) => {
         :optionsValue="optionsValue"
         :optionsLabel="optionsLabel"
         :placeholder="placeholder"
+        :rules="required ? [(value:string) => rules.required(value,label)] : []"
         @update:modelValue="(value:any) => updateValue(value)"
       >
         <template #append>
@@ -149,7 +155,7 @@ const setEditingState = (payload: { key: string; value: boolean }) => {
 
 .field {
   &:hover {
-    background-color: #2424307c;
+    background-color: $field-hover-darken;
     cursor: pointer;
   }
 }

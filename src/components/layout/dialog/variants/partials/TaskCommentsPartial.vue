@@ -40,17 +40,17 @@ defineProps({
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #6560ba;
+    background: $primary-base;
   }
 
   &::-webkit-scrollbar-track {
-    background: #2f2f3b;
+    background: $grayscale-darken5;
   }
 }
 
 .comment {
   &__content {
-    background-color: #23232f;
+    background-color: $grayscale-darken7;
     border-radius: 8px;
   }
   &__avatar {

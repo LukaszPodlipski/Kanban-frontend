@@ -7,56 +7,18 @@ import usePermittedUser from '@/composables/usePermittedUser'
 import { useLayoutStore } from '@/stores/layout'
 import { useProjectStore } from '@/stores/project'
 import { useTasksStore } from '@/stores/tasks'
-import { useWebsocketStore } from '@/stores/websocket'
 import { iTask } from '@/types/taskTypes'
 import ProgressBar from 'primevue/progressbar'
-import {
-  computed,
-  onBeforeMount,
-  onMounted,
-  onUnmounted,
-  ref,
-  watch,
-} from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 
 /* -------------------------------- USE STORE ------------------------------- */
 const projectStore = useProjectStore()
 const tasksStore = useTasksStore()
-const websocketStore = useWebsocketStore()
 const layoutStore = useLayoutStore()
 
 const project = computed(() => projectStore.project)
-/* -------------------------------- GET PROJECT ------------------------------- */
-const route = useRoute()
-const id = computed(() => Number(route.params.id))
 
-onBeforeMount(() => {
-  // websocketStore.joinChannel('TasksIndexChannel', { projectId: id.value })
-  // websocketStore.joinChannel('ColumnsIndexChannel', { projectId: id.value })
-})
-
-onMounted(async () => {
-  await projectStore.getCompleteProject(id.value)
-})
-
-// watch(id, async () => {
-//   if (id.value) {
-//     websocketStore.leaveChannel('TasksIndexChannel')
-//     websocketStore.joinChannel('TasksIndexChannel', { projectId: id.value })
-//     projectStore.getCompleteProject(id.value)
-
-//     websocketStore.leaveChannel('ColumnsIndexChannel')
-//     websocketStore.joinChannel('ColumnsIndexChannel', { projectId: id.value })
-//   }
-// })
-
-/* -------------------------------- CLEAR PROJECT ------------------------------- */
-onUnmounted(() => {
-  websocketStore.leaveChannel('TasksIndexChannel')
-  websocketStore.leaveChannel('ColumnsIndexChannel')
-})
 /* -------------------------------- DRAGGING LOGIC ------------------------------- */
 
 // to apply styles to the dragged element we need to use this hack with isDraggingHelper
@@ -125,7 +87,7 @@ const openTaskDialog = (task: iTask) => {
 <template>
   <div class="projects-wrapper">
     <ProgressBar
-      v-if="tasksStore.loading"
+      v-if="tasksStore.loadingItems"
       mode="indeterminate"
       class="progress-bar"
     ></ProgressBar>

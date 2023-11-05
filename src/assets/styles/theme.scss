@@ -6717,8 +6717,8 @@
 }
 .p-progressbar {
   border: 0 none;
-  height: 1.5rem;
-  background: $primary-base;
+  height: 3px;
+  background: $grayscale-darken7;
   border-radius: 4px;
 }
 .p-progressbar .p-progressbar-value {

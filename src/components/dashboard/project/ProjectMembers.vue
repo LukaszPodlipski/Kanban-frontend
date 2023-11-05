@@ -14,7 +14,7 @@ const layoutStore = useLayoutStore()
 const { tableHeight } = useResizableTable()
 
 onBeforeMount(() => {
-  membersStore.getItems()
+  if (!membersStore.items.length) membersStore.getItems()
 })
 
 const members = computed(() => {
@@ -46,7 +46,7 @@ const openMemberDialog = (payload: any) => {
       scrollable
       :scrollHeight="tableHeight"
       :metaKeySelection="false"
-      :loading="membersStore.loading"
+      :loading="membersStore.loadingItems"
     >
       <Column field="" header=""></Column>
       <Column field="fullName" :header="$t('members.name')" sortable>

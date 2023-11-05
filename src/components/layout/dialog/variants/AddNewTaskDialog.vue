@@ -38,6 +38,10 @@ const members = computed(() => {
   return membersStore.items?.filter((member) => checkIsEditor(member.role))
 })
 
+const loading = computed(() => {
+  return tasksStore.loadingItem
+})
+
 const tasks = computed(() => {
   return tasksStore.items
     ?.sort((a, b) => a.id - b.id)
@@ -88,7 +92,7 @@ const addTask = async () => {
 <template>
   <Form v-slot="{ resetField }">
     <form @submit.prevent="addTask" class="flex flex-column gap-2">
-      <DialogTemplate>
+      <DialogTemplate :loading="loading">
         <template #content>
           <div class="flex flex-column flex-wrap px-4 pt-4">
             <span class="field-label">{{ $t('tasks.name') }}</span>
@@ -97,6 +101,7 @@ const addTask = async () => {
               :label="$t('tasks.name')"
               :placeholder="$t('tasks.enterName')"
               :floatLabel="false"
+              :disabled="loading"
               :rules="[(value:string) => rules.required(value,'Name'), (value:string) => rules.minLength(value, 5, 'Name'), (value:string) => rules.maxLength(value, 60, 'Name')]"
             />
             <span class="field-label">{{ $t('tasks.description') }}</span>
@@ -107,6 +112,7 @@ const addTask = async () => {
               :maxLength="1000"
               :floatLabel="false"
               :component="Editor"
+              :disabled="loading"
               :rules="[(value:string) => rules.maxLength(value, 1000, t('tasks.description'))]"
             />
             <div class="flex gap-4 mt-3">
@@ -120,6 +126,7 @@ const addTask = async () => {
                   :label="$t('tasks.status')"
                   optionsValue="id"
                   optionsLabel="name"
+                  :disabled="loading"
                   :placeholder="$t('tasks.setStatus')"
                 />
               </div>
@@ -131,6 +138,7 @@ const addTask = async () => {
                   :label="$t('tasks.assignee')"
                   optionsValue="id"
                   optionsLabel="fullName"
+                  :disabled="loading"
                   :placeholder="$t('tasks.assignTask')"
                 />
               </div>
@@ -151,6 +159,7 @@ const addTask = async () => {
                     fieldName="relationMode"
                     :placeholder="$t('tasks.type')"
                     :hide-dropdown-icon="true"
+                    :disabled="loading"
                     :rules="[(value:string) => relationId ? rules.required(value,$t('tasks.relation')) : true]"
                     @cleared="
                       !relationId ? resetField('relatedTaskField') : null
@@ -165,6 +174,7 @@ const addTask = async () => {
                     fieldName="relatedTask"
                     optionsValue="id"
                     optionsLabel="label"
+                    :disabled="loading"
                     :placeholder="
                       $t('tasks.selectXtask', {
                         type: relationMode ? relationMode.toLowerCase() : '',
@@ -185,7 +195,7 @@ const addTask = async () => {
             type="submit"
             :label="$t('tasks.add')"
             icon="check"
-            :disabled="!formIsValid"
+            :disabled="!formIsValid || loading"
           />
         </template>
       </DialogTemplate>

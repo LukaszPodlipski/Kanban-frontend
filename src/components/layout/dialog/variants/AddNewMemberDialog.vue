@@ -6,15 +6,16 @@ import { useMembersStore } from '@/stores/members'
 import { useProjectStore } from '@/stores/project'
 import { iMemberItem } from '@/types/userTypes'
 import rules from '@/utils/validators'
-import debounce from 'lodash.debounce'
-import { ref, Ref } from 'vue'
+import { computed, ref, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const projectStore = useProjectStore()
 const layoutStore = useLayoutStore()
 const membersStore = useMembersStore()
 
-const loading: Ref<boolean> = ref(false)
+const loading = computed(() => {
+  return membersStore.loadingItem
+})
 
 const memberEmail: Ref<string> = ref('')
 const members: Ref<iMemberItem[]> = ref([])
@@ -33,31 +34,25 @@ const removeFoundMember = (index: number) => {
 }
 
 const searchEmail = async () => {
-  loading.value = true
+  if (!memberEmail.value || rules.email(memberEmail.value) !== true) {
+    foundMember.value = null
+    return
+  }
 
-  debounce(async function () {
-    if (!memberEmail.value || rules.email(memberEmail.value) !== true) {
-      foundMember.value = null
-      return
+  try {
+    const params = {
+      email: memberEmail.value,
+      projectId: projectStore.project?.id as number,
     }
-
-    try {
-      const params = {
-        email: memberEmail.value,
-        projectId: projectStore.project?.id as number,
-      }
-      foundMember.value = await membersStore.checkMemberEmail(params)
-      addFoundMember()
-    } catch (_err) {
-      foundMember.value = null
-      layoutStore.showToast({
-        message: t('members.userNotFound'),
-        type: 'error',
-      })
-    } finally {
-      loading.value = false
-    }
-  }, 1000)()
+    foundMember.value = await membersStore.checkMemberEmail(params)
+    addFoundMember()
+  } catch (_err) {
+    foundMember.value = null
+    layoutStore.showToast({
+      message: t('members.userNotFound'),
+      type: 'error',
+    })
+  }
 }
 
 const inviteMembers = async () => {
@@ -86,7 +81,7 @@ const inviteMembers = async () => {
 
 <template>
   <form @submit.prevent="inviteMembers" class="flex flex-column gap-2">
-    <DialogTemplate>
+    <DialogTemplate :loading="loading">
       <template #content>
         <div class="flex flex-column flex-wrap px-4 pt-4 w-full">
           <span class="field-label">{{ $t('members.findMemberByEmail') }}</span>

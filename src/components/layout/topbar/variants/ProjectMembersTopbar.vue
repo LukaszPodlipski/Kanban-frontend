@@ -35,7 +35,7 @@ const membersStore = useMembersStore()
       <BaseButton
         :label="$t('members.addNewMembers')"
         icon="plus"
-        :disabled="membersStore.loading || !isAdmin"
+        :disabled="membersStore.loadingItems || !isAdmin"
         @click="openNewMemberDialog"
         class="mr-5"
       />

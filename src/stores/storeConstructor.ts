@@ -12,7 +12,8 @@ export const storeContructor = <T extends Item, Y extends Item>(
 ) => {
   const items = ref([]) as Ref<Y[]>
   const item = ref({} as T) as Ref<T>
-  const loading = ref(false) as Ref<boolean>
+  const loadingItem = ref(false) as Ref<boolean>
+  const loadingItems = ref(false) as Ref<boolean>
 
   const projectStore = useProjectStore()
   const selectedProjectId = computed<number | null>(
@@ -21,7 +22,7 @@ export const storeContructor = <T extends Item, Y extends Item>(
 
   const getItems = async (filters: any | undefined = {}) => {
     try {
-      loading.value = true
+      loadingItems.value = true
       const response = await api.getItems(endpoint, {
         projectId: selectedProjectId.value,
         filters,
@@ -30,13 +31,13 @@ export const storeContructor = <T extends Item, Y extends Item>(
     } catch (error) {
       throw error
     } finally {
-      loading.value = await falseLoadingState()
+      loadingItems.value = await falseLoadingState()
     }
   }
 
   const getItem = async (id: number) => {
     try {
-      loading.value = true
+      loadingItem.value = true
       const response = await api.getItem(endpoint, id, {
         projectId: selectedProjectId.value,
       })
@@ -44,13 +45,13 @@ export const storeContructor = <T extends Item, Y extends Item>(
     } catch (error) {
       throw error
     } finally {
-      loading.value = await falseLoadingState()
+      loadingItem.value = await falseLoadingState()
     }
   }
 
   const fetchItem = async (id: number) => {
     try {
-      loading.value = true
+      loadingItem.value = true
       const response = await api.getItem(endpoint, id, {
         projectId: selectedProjectId.value,
       })
@@ -58,13 +59,13 @@ export const storeContructor = <T extends Item, Y extends Item>(
     } catch (error) {
       throw error
     } finally {
-      loading.value = await falseLoadingState()
+      loadingItem.value = await falseLoadingState()
     }
   }
 
   const createItem = async (params: any) => {
     try {
-      loading.value = true
+      loadingItem.value = true
       await api.createItem(endpoint, {
         projectId: selectedProjectId.value,
         ...params,
@@ -72,12 +73,13 @@ export const storeContructor = <T extends Item, Y extends Item>(
     } catch (error) {
       throw error
     } finally {
-      loading.value = await falseLoadingState()
+      loadingItem.value = await falseLoadingState()
     }
   }
 
   const updateItem = async (id: number, params: any) => {
     try {
+      loadingItem.value = true
       const index = items.value.findIndex((item) => item.id === id)
       items.value[index] = { ...items.value[index], updating: true }
       await api.updateItem(endpoint, id, {
@@ -87,13 +89,13 @@ export const storeContructor = <T extends Item, Y extends Item>(
     } catch (error) {
       throw error
     } finally {
-      loading.value = await falseLoadingState()
+      loadingItem.value = await falseLoadingState()
     }
   }
 
   const updateItems = async (payload: any) => {
     try {
-      loading.value = true
+      loadingItems.value = true
       await api.updateItems(endpoint, {
         projectId: selectedProjectId.value,
         [endpoint]: payload,
@@ -101,7 +103,7 @@ export const storeContructor = <T extends Item, Y extends Item>(
     } catch (error) {
       throw error
     } finally {
-      loading.value = await falseLoadingState()
+      loadingItems.value = await falseLoadingState()
     }
   }
 
@@ -129,7 +131,7 @@ export const storeContructor = <T extends Item, Y extends Item>(
     params: any,
   ) => {
     try {
-      loading.value = true
+      loadingItem.value = true
       const index = items.value.findIndex((item) => item.id === id)
       items.value[index] = { ...items.value[index], updating: true } as Y
       await api.updateItemWithSpecificAction(endpoint, id, action, params)
@@ -137,23 +139,24 @@ export const storeContructor = <T extends Item, Y extends Item>(
     } catch (error) {
       throw error
     } finally {
-      loading.value = await falseLoadingState(100)
+      loadingItem.value = await falseLoadingState(100)
     }
   }
 
   const deleteItem = async (id: number) => {
     try {
-      loading.value = true
+      loadingItems.value = true
       await api.deleteItem(endpoint, id)
     } catch (error) {
       throw error
     } finally {
-      loading.value = await falseLoadingState()
+      loadingItems.value = await falseLoadingState()
     }
   }
 
   return {
-    loading,
+    loadingItems,
+    loadingItem,
     items,
     item,
     getItems,

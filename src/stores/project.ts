@@ -96,6 +96,12 @@ export const useProjectStore = defineStore('project', () => {
     }
   }
 
+  const WSUpdatedProjectHandler = (data: any) => {
+    const { name, description } = data
+    if (name) projectData.value!.name = name
+    if (description) projectData.value!.description = description
+  }
+
   return {
     clearSelectedProject,
     loading,
@@ -105,5 +111,6 @@ export const useProjectStore = defineStore('project', () => {
     selectedProjectId,
     getItem,
     getCompleteProject,
+    WSUpdatedProjectHandler,
   }
 })

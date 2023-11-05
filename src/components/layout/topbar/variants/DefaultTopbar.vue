@@ -9,7 +9,7 @@ const { t } = useI18n()
 const route = useRoute()
 const documentTitle = computed(() => {
   const title = route.meta.title as string
-  return t(`views.${title.replace(' ', '_').toLowerCase()}`)
+  return t(`views.${title?.replace(' ', '_').toLowerCase()}`)
 })
 </script>
 

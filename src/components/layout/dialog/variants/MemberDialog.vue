@@ -166,7 +166,7 @@ const editRoleTooltipCaption = computed(() => {
 </script>
 
 <template>
-  <DialogTemplate hideActions>
+  <DialogTemplate hideActions  :loading='membersStore.loadingItem'>
     <template #customHeader>
       <span>{{ $t('members.member') }}</span>
     </template>

@@ -5,8 +5,10 @@ import { useTasksStore } from '@/stores/tasks'
 import { iColumn } from '@/types/columnTypes'
 import { iTask } from '@/types/taskTypes'
 import { iUser } from '@/types/userTypes'
+import { iProjectDataWSPayload } from '@/types/websocketTypes'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+
 import { useProjectStore } from './project'
 
 type FunctionDictionary = {
@@ -68,7 +70,7 @@ export const useWebsocketStore = defineStore('websocket', () => {
       },
     },
     ProjectIndexChannel: {
-      update: (data: any) => {
+      update: (data: iProjectDataWSPayload) => {
         storesList.project.WSUpdatedProjectHandler(data)
       },
     },

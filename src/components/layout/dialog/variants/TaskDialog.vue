@@ -274,7 +274,7 @@ const getColumnName = (id: number) => {
 </script>
 
 <template>
-  <DialogTemplate hideActions>
+  <DialogTemplate hideActions :loading='tasksStore.loadingItem'>
     <!-- header -->
     <template #customHeader>
       <div class="flex align-items-center">

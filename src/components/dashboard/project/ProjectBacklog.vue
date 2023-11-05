@@ -12,7 +12,7 @@ const tasksStore = useTasksStore()
 const layoutStore = useLayoutStore()
 
 onBeforeMount(() => {
-  tasksStore.getItems()
+  if (!tasksStore.items.length) tasksStore.getItems()
 })
 
 const { tableHeight } = useResizableTable()
@@ -46,7 +46,7 @@ const openTaskDialog = (payload: any) => {
       scrollable
       :scrollHeight="tableHeight"
       :metaKeySelection="false"
-      :loading="tasksStore.loading"
+      :loading="tasksStore.loadingItems"
     >
       <Column field="" header=""></Column>
       <Column field="identifier" :header="$t('backlog.identifier')"></Column>

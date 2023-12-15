@@ -44,3 +44,14 @@ export const isObject = (value: any) => {
 export const stringDeepCopy = (string: string) => {
   return (' ' + string).slice(1)
 }
+
+export const randomPastelColor = () => {
+  const r = Math.floor(Math.random() * 128) + 128
+  const g = Math.floor(Math.random() * 128) + 128
+  const b = Math.floor(Math.random() * 128) + 128
+  const hexColor = `#${r.toString(16).padStart(2, '0')}${g
+    .toString(16)
+    .padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+
+  return hexColor
+}

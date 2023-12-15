@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import Button from 'primevue/button'
+import { computed } from 'vue';
 
-defineProps({
+const props = defineProps({
   label: String,
   icon: String,
   textColor: {
@@ -36,6 +37,14 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  outlined: {
+    type: Boolean,
+    default: false,
+  },
+})
+
+const backgroundColorValue = computed(() => {
+  return props.outlined ? 'transparent' : props.backgroundColor
 })
 </script>
 
@@ -56,7 +65,7 @@ defineProps({
 <style scoped lang="scss">
 .p-button {
   color: v-bind(textColor);
-  background-color: v-bind(backgroundColor);
+  background-color: v-bind(backgroundColorValue);
   border: 1px solid v-bind(backgroundColor);
   height: 40px;
 

@@ -2,11 +2,11 @@
 import usePermittedUser from '@/composables/usePermittedUser'
 import { useLayoutStore } from '@/stores/layout'
 import { useProjectStore } from '@/stores/project'
-import rules from '@/utils/validators'
 import { Form } from 'vee-validate'
 import { computed, onMounted, Ref, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
+import ProjectDataInput from '../inputs/ProjectDataInput.vue'
 import SettingsSectionTemplate from './SettingsSectionTemplate.vue'
 
 /* -------------------------------- USE REQUIRED COMPOSABLES --------------------------------- */
@@ -17,14 +17,21 @@ const { isAdmin } = usePermittedUser()
 const { t } = useI18n()
 
 /* ---------------------------------- INITIALIZE LOCAL DATA ---------------------------------- */
-const projectData: Ref<{ name: string; description: string }> = ref({
-  name: '',
-  description: '',
-})
+const projectData: Ref<{ name: string; description: string; prefix: string }> =
+  ref({
+    name: '',
+    description: '',
+    prefix: '',
+  })
 
-const initialProjectData: Ref<{ name: string; description: string }> = ref({
+const initialProjectData: Ref<{
+  name: string
+  description: string
+  prefix: string
+}> = ref({
   name: '',
   description: '',
+  prefix: '',
 })
 
 /* ------------------------------------ GET PROJECT DATA -------------------------------------- */
@@ -51,18 +58,21 @@ const isLoading = computed(() => {
 
 /* ---------------------------------------- FUNCTIONS ----------------------------------------- */
 const setProjectDataEntryValues = () => {
-  const { name, description } = projectStore.projectData || {}
+  const { name, description, prefix } = projectStore.projectData || {}
 
   projectData.value.name = name || ''
   projectData.value.description = description || ''
+  projectData.value.prefix = prefix || ''
 
   initialProjectData.value.name = name || ''
   initialProjectData.value.description = description || ''
+  initialProjectData.value.prefix = prefix || ''
 }
 
 const restoreProjectdata = () => {
   projectData.value.name = initialProjectData.value.name
   projectData.value.description = initialProjectData.value.description
+  projectData.value.prefix = initialProjectData.value.prefix
 }
 
 const updateProjectData = async () => {
@@ -98,7 +108,6 @@ const updateProjectData = async () => {
       <SettingsSectionTemplate :loading="projectStore.loading">
         <template #header>
           <span class="title">{{ $t('settings.projectData.title') }}</span>
-
           <div class="flex gap-4">
             <BaseButton
               :label="$t('settings.columns.restoreInitialState')"
@@ -120,39 +129,13 @@ const updateProjectData = async () => {
           </div>
         </template>
         <template #content>
-          <div class="content pt-4 pb-3 px-5 flex gap-5">
-            <div class="flex flex-column" style="min-width: 265px">
-              <span class="field-label">{{
-                $t('settings.projectData.name')
-              }}</span>
-              <BaseInput
-                v-model="projectData.name"
-                :label="$t('tasks.name')"
-                :placeholder="$t('settings.projectData.enterProjectName')"
-                :floatLabel="false"
-                :disabled="!isAdmin"
-                medium
-                disableOutline
-                :rules="[(value:string) => rules.required(value, $t('settings.projectData.name')), (value:string) => rules.maxLength(value,20,$t('settings.projectData.name'))]"
-              />
-            </div>
-            <div class="flex flex-column w-full ml-2">
-              <span class="field-label">{{
-                $t('settings.projectData.description')
-              }}</span>
-              <BaseInput
-                v-model="projectData.description"
-                :label="$t('settings.projectData.description')"
-                :placeholder="
-                  $t('settings.projectData.enterProjectDescription')
-                "
-                :floatLabel="false"
-                :disabled="!isAdmin"
-                medium
-                disableOutline
-                :rules="[(value:string) => rules.required(value,$t('settings.projectData.description')), (value:string) => rules.maxLength(value,100,$t('settings.projectData.description'))]"
-              />
-            </div>
+          <div class="project-data-wrapper pt-4 pb-4 px-5">
+            <ProjectDataInput
+              v-model:name="projectData.name"
+              v-model:description="projectData.description"
+              v-model:prefix="projectData.prefix"
+              :isEditing="true"
+            />
           </div>
         </template>
       </SettingsSectionTemplate>
@@ -166,6 +149,10 @@ const updateProjectData = async () => {
 }
 .field-label {
   margin-bottom: 8px;
+}
+
+.project-data-wrapper {
+  background-color: $grayscale-darken3;
 }
 
 .content {

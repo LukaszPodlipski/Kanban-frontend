@@ -49,7 +49,9 @@
   "project": {
     "addNewTask": "Dodaj nowe zadanie",
     "backlog": "Backlog",
-    "settings": "Ustawienia"
+    "settings": "Ustawienia",
+    "createNewProject": "Utwórz nowy projekt",
+    "createProject": "Utwórz projekt"
   },
   "explore": {
     "hello": "Witaj",
@@ -172,16 +174,20 @@
       "addNewColumn": "Dodaj nową kolumnę",
       "columnType": "Typ kolumny",
       "noDescription": "Brak opisu",
-      "editDescription": "Edytuj opis"
+      "editDescription": "Edytuj opis",
+      "noColumns": "Brak kolumn"
     },
     "projectData": {
       "title": "Dane",
       "name": "Nazwa",
       "description": "Opis",
+      "prefix": "Prefiks",
+      "enterProjectPrefix": "Wpisz prefiks projektu",
       "enterProjectName": "Wpisz nazwę projektu",
       "enterProjectDescription": "Wpisz opis projektu",
       "projectDataUpdateSuccess": "Dane projektu zostały zapisane",
-      "projectDataUpdateError": "Wystąpił błąd podczas aktualizacji danych projektu"
+      "projectDataUpdateError": "Wystąpił błąd podczas aktualizacji danych projektu",
+      "prefixEditingWarning": "Edycja prefiksu nie jest dozwolona"
     }
   }
 }

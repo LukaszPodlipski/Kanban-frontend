@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputText from 'primevue/inputtext'
 import { Form } from 'vee-validate'
-import { ComponentOptions, nextTick, ref } from 'vue'
+import { ComponentOptions, computed, nextTick, ref } from 'vue'
 
 const emit = defineEmits([
   'setEditingState',
@@ -71,6 +71,16 @@ type inputRefType = {
 
 const baseInputRef = ref<inputRefType | null>(null)
 
+const tempValue = ref<string>('')
+
+const computedValue = computed<string>({
+  get() {
+    return tempValue.value || props.value
+  },
+  set(value: string) {
+    onValueUpdate(value)
+  },
+})
 // We are setting focus on element when editing is enabled to be able to intercept esc keydown event and close editing
 const setEditing = () => {
   emit('setEditingState', { key: props.valueKey, value: true })
@@ -108,6 +118,7 @@ const onEnterKeyup = (errors: any) => {
 }
 
 const onValueUpdate = (value: string) => {
+  tempValue.value = value
   if (props.component.name === 'Editor') {
     const pattern = /<p><br><\/p>$/
 
@@ -133,7 +144,7 @@ const onValueUpdate = (value: string) => {
     <div v-if="!isEditing">
       <span
         v-if="!$slots.default"
-        v-html="value || `${placeholder}...`"
+        v-html="computedValue || `${placeholder}...`"
         class="value"
         :class="{ 'medium-size': medium, 'placeholder-value': !value }"
       />
@@ -144,7 +155,7 @@ const onValueUpdate = (value: string) => {
         <BaseInput
           ref="baseInputRef"
           :component="component"
-          :value="value"
+          :value="computedValue"
           :label="label"
           :placeholder="placeholder"
           :floatLabel="false"

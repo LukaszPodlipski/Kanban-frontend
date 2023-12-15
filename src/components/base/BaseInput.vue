@@ -6,8 +6,14 @@ import { ComponentOptions, computed, onMounted, ref, watch } from 'vue'
 const emit = defineEmits(['update:modelValue', 'onErrorChange'])
 
 const props = defineProps({
-  modelValue: String || Number,
-  value: String || Number,
+  modelValue: {
+    type: String || Number,
+    default: '',
+  },
+  value: {
+    type: String || Number,
+    default: '',
+  },
   fieldName: {
     type: String,
     default: '',
@@ -69,22 +75,36 @@ const props = defineProps({
 
 const inputLabel = props.placeholder?.length ? '' : props.label
 
-const { value, errorMessage, errors } = useField(
-  (props.fieldName ||
-    props.label?.replace(/\s+/g, '') ||
-    props.placeholder.replace(/\s+/g, '')) + 'Field',
-  validateField,
-)
+const fieldName = computed(() => {
+  return (
+    (props.fieldName ||
+      props.label?.replace(/\s+/g, '') ||
+      props.placeholder.replace(/\s+/g, '')) + 'Field'
+  )
+})
+
+const {
+  value: useFieldValue,
+  errorMessage,
+  errors,
+} = useField(fieldName, validateField)
+
+const valueHandler = computed({
+  get() {
+    return props.modelValue || props.value
+  },
+  set(val) {
+    emit('update:modelValue', val)
+  },
+})
 
 onMounted(() => {
   if (props.validateOnCreate && props.emitErrors && !props.value) {
     emit('onErrorChange', { key: props.fieldName, value: '' })
   }
+
   if (props.emitErrors) {
     setupWatcher()
-  }
-  if (props.modelValue || props.value) {
-    value.value = props.modelValue || props.value
   }
 })
 
@@ -119,10 +139,10 @@ const childRef = ref(null)
 defineExpose({ childRef, errors })
 
 const valueLeftLength = computed<number>(() => {
-  let value = props.modelValue || props.value || ''
+  let val = valueHandler.value || ''
   if (props.component.name === 'Editor')
-    value = value.replace(/<[^>]+>/g, '').replace(/<p><br><\/p>$/, '')
-  return Math.max(props.maxLength - value.length, 0)
+    val = val.replace(/<[^>]+>/g, '').replace(/<p><br><\/p>$/, '')
+  return Math.max(props.maxLength - val.length, 0)
 })
 </script>
 
@@ -135,14 +155,14 @@ const valueLeftLength = computed<number>(() => {
     <i v-if="iconRight" :class="`pi ${iconRight}`" />
     <component
       :is="component"
-      v-model="value"
-      id="input"
+      v-model="valueHandler"
+      :id="fieldName"
       autoResize
-      @update:model-value="(value: string) => $emit('update:modelValue', value)"
       class="w-full"
       :placeholder="placeholder"
       :disabled="disabled"
       :autocomplete="autocomplete"
+      aria-describedby="text-error"
       :class="{
         'p-invalid': errorMessage,
         'p-editor-container-filled':
@@ -150,7 +170,8 @@ const valueLeftLength = computed<number>(() => {
         'p-inputtext--medium': component.name === 'InputText' && medium,
         'outline-disabled': disableOutline,
       }"
-      aria-describedby="text-error"
+      @keydown.enter.prevent=""
+      @input="useFieldValue = $event.target.value"
     >
       <template v-if="component.name === 'Editor'" v-slot:toolbar>
         <span class="ql-formats">

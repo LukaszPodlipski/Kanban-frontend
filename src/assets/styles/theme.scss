@@ -4512,8 +4512,6 @@
 }
 .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
   outline: 0 none;
-  outline-offset: 0;
-  box-shadow: inset 0 0 0 0.2rem $primary-base;
 }
 .p-tabview
   .p-tabview-nav

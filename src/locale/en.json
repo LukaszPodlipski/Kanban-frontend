@@ -49,7 +49,9 @@
   "project": {
     "addNewTask": "Add New Task",
     "backlog": "Backlog",
-    "settings": "Settings"
+    "settings": "Settings",
+    "createNewProject": "Create new project",
+    "createProject": "Create project"
   },
   "explore": {
     "hello": "Hello",
@@ -172,16 +174,20 @@
       "addNewColumn": "Add new column",
       "columnType": "Column type",
       "noDescription": "No description",
-      "editDescription": "Edit description"
+      "editDescription": "Edit description",
+      "noColumns": "No columns"
     },
     "projectData": {
       "title": "Data",
       "name": "Name",
       "description": "Description",
+      "prefix": "Prefix",
+      "enterProjectPrefix": "Enter project prefix",
       "enterProjectName": "Enter project name",
       "enterProjectDescription": "Enter project description",
       "projectDataUpdateSuccess": "Project data saved",
-      "projectDataUpdateError": "Error updating project data"
+      "projectDataUpdateError": "Error updating project data",
+      "prefixEditingWarning": "Prefix editing is not allowed"
     }
   }
 }

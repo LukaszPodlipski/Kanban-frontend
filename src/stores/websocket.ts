@@ -2,6 +2,7 @@ import { useWebSocket } from '@/composables/useWebsockets.js'
 import { useColumnsStore } from '@/stores/columns'
 import { useMembersStore } from '@/stores/members'
 import { useTasksStore } from '@/stores/tasks'
+import { iListItem } from '@/types/baseTypes'
 import { iColumn } from '@/types/columnTypes'
 import { iTask } from '@/types/taskTypes'
 import { iUser } from '@/types/userTypes'
@@ -10,6 +11,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 import { useProjectStore } from './project'
+import { useProjectsStore } from './projects'
 
 type FunctionDictionary = {
   [key: string]: {
@@ -23,6 +25,7 @@ export const useWebsocketStore = defineStore('websocket', () => {
     columns: useColumnsStore(),
     members: useMembersStore(),
     project: useProjectStore(),
+    projects: useProjectsStore(),
   }
 
   const functionDictionary: FunctionDictionary = {
@@ -73,6 +76,17 @@ export const useWebsocketStore = defineStore('websocket', () => {
       update: (data: iProjectDataWSPayload) => {
         storesList.project.WSUpdatedProjectHandler(data)
       },
+    },
+    UserProjectsIndexChannel: {
+      create: (data: iListItem) => {
+        storesList.projects.WSCreatedItemsHandler(data)
+      },
+      update: (data: iListItem) => {
+        storesList.projects.WSUpdatedItemsHandler(data)
+      },
+      delete: (data: iListItem) => {
+        storesList.projects.WSDeletedItemsHandler(data)
+      }
     },
   }
 

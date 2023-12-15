@@ -15,7 +15,13 @@ const updateProject = async (
   return response.data
 }
 
+const createProject = async (payload: any) => {
+  const response = await axiosApi.post('/projects', payload)
+  return response.data
+}
+
 export default {
   updateProject,
   getSingleProject,
+  createProject,
 }

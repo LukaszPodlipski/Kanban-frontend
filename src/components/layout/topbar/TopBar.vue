@@ -43,10 +43,26 @@ const isSidebarHidden = computed(() => layoutStore.sidebarSize === 'hidden')
 .top-bar {
   height: 80px;
   width: 100%;
+  max-width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
   padding: 16px 31px;
   background-color: $grayscale-darken3;
   border-top: 3px solid $grayscale-darken5;
   border-bottom: 3px solid $grayscale-darken5;
   border-left: 3px solid $grayscale-darken5;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primary-base;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $grayscale-darken5;
+  }
 }
 </style>

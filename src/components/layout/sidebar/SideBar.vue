@@ -99,7 +99,7 @@ const menuItems = computed(
             name: 'New Board',
             label: i18n.t('sidebar.newBoard'),
             icon: 'NewBoardIcon',
-            action: () => {},
+            action: openNewProjectDialog,
           },
         ],
       },
@@ -157,7 +157,7 @@ const isSidebarLarge = computed(() => layoutStore.sidebarSize === 'large')
 const isSidebarHidden = computed(() => layoutStore.sidebarSize === 'hidden')
 
 const formatItemName = (text: string = ''): string => {
-  return trimText(text, 11, isSidebarLarge.value)
+  return trimText(text, 12, isSidebarLarge.value)
 }
 
 const menuItemClasses = (menuItem: MenuItem, data: any = null) => {
@@ -265,6 +265,14 @@ const clearNestedMenu = () => {
     router.push({ name: prevRoute.name, params: prevRoute.params })
   nestedMenu.value = null
 }
+
+const openNewProjectDialog = () => {
+  layoutStore.openDialog({
+    title: i18n.t('project.createNewProject'),
+    component: 'CreateNewProjectDialog',
+    size: '900px',
+  })
+}
 </script>
 
 <template>
@@ -345,7 +353,7 @@ const clearNestedMenu = () => {
         >
           <div
             v-if="child.multiple && child.items && child.items.length"
-            class="menu-item pl-6 pr-4 py-3 mr-4"
+            class="menu-item pl-6 pr-3 py-3 mr-4"
             :class="menuItemClasses(child, childItem)"
             id="childRouteItem"
             v-for="(childItem, index) in child.items"
@@ -362,7 +370,7 @@ const clearNestedMenu = () => {
                 >
               </div>
               <ArrowRightIcon
-                v-if="isSidebarLarge"
+                v-if="isSidebarLarge && isSelectedMenuItem(child, childItem)"
                 class="menu-item__arrow-right ml-4"
                 @click="child.nestedMenu && setNestedMenu(child, childItem)"
               />

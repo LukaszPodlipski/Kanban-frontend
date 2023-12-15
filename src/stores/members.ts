@@ -6,7 +6,7 @@ import { defineStore } from 'pinia'
 import { storeContructor } from './storeConstructor'
 
 export const useMembersStore = defineStore('members', () => {
-  const { loadingItems, loadingItem } = storeContructor<iUser, iUser>('members')
+  const { loadingItem } = storeContructor<iUser, iUser>('members')
 
   const checkMemberEmail = async (params: {
     email: string
@@ -41,8 +41,6 @@ export const useMembersStore = defineStore('members', () => {
 
   return {
     ...storeContructor<iUser, iUser>('members'),
-    loadingItems,
-    loadingItem,
     checkMemberEmail,
     inviteMembers,
   }

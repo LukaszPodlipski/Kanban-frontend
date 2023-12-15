@@ -9,6 +9,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  denseActions: {
+    type: Boolean,
+    default: false,
+  },
   loading: {
     type: Boolean,
     default: false,
@@ -33,14 +37,20 @@ defineProps({
   </div>
   <div
     v-if="!hideActions"
-    class="flex justify-content-end flex-wrap gap-3 w-100 p-4"
+    class="flex justify-content-between flex-wrap gap-3 w-100"
+    :class="denseActions ? 'pb-4 pt-2 px-4' : 'p-4'"
   >
-    <BaseButton
-      :label="$t('core.close')"
-      icon="times"
-      @click="layoutStore.closeDialog"
-    />
-    <slot name="actions" />
+    <div>
+      <slot name="toolsButtons" />
+    </div>
+    <div class="flex gap-4">
+      <BaseButton
+        :label="$t('core.close')"
+        icon="times"
+        @click="layoutStore.closeDialog"
+      />
+      <slot name="actions" />
+    </div>
   </div>
   <div style="height: 3px">
     <ProgressBar v-if="loading" mode="indeterminate"></ProgressBar>

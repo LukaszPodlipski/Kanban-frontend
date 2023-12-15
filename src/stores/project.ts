@@ -102,6 +102,17 @@ export const useProjectStore = defineStore('project', () => {
     if (description) projectData.value!.description = description
   }
 
+  const createProject = async (payload: any) => {
+    loading.value = true
+    try {
+      await projectsApi.createProject(payload)
+    } catch (error) {
+      throw error
+    } finally {
+      loading.value = await falseLoadingState()
+    }
+  }
+
   return {
     clearSelectedProject,
     loading,
@@ -112,5 +123,6 @@ export const useProjectStore = defineStore('project', () => {
     getItem,
     getCompleteProject,
     WSUpdatedProjectHandler,
+    createProject,
   }
 })

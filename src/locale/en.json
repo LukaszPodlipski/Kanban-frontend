@@ -4,7 +4,8 @@
     "isRequired": "{field} is required",
     "passwordSchameInvalid": "Password must be at least 8 characters",
     "minValueInvalid": "{field} must be at least {length} characters",
-    "maxValueInvalid": "{field} must be at most {length} characters"
+    "maxValueInvalid": "{field} must be at most {length} characters",
+    "isExactInvalid": "Entered value differs from expected value"
   },
   "login": {
     "title": "Sign up",
@@ -188,6 +189,17 @@
       "projectDataUpdateSuccess": "Project data saved",
       "projectDataUpdateError": "Error updating project data",
       "prefixEditingWarning": "Prefix editing is not allowed"
+    },
+    "dangerZone": {
+      "title": "Danger zone",
+      "deleteProject": "Delete project",
+      "enterProjectName": "Enter project name",
+      "description": "All columns and tasks will be deleted - there will be no possibility to restore them.",
+      "confirm": "Confirm",
+      "projectName": "Project name",
+      "projectDeleteSuccess": "Project deleted",
+      "projectDeleteError": "Error deleting project",
+      "notPermittedToDelete": "You are not permitted to delete this project"
     }
   }
 }

@@ -4,7 +4,8 @@
     "isRequired": "{field} jest wymagany",
     "passwordSchameInvalid": "Hasło musi zawierać co najmniej 8 znaków",
     "minValueInvalid": "{field} musi zawierać przynajmniej {length} znaków",
-    "maxValueInvalid": "{field} musi zawierać najwyżej {length} znaków"
+    "maxValueInvalid": "{field} musi zawierać najwyżej {length} znaków",
+    "isExactInvalid": "Podana wartość różni się od oczekiwanej"
   },
   "login": {
     "title": "Zaloguj się",
@@ -188,6 +189,17 @@
       "projectDataUpdateSuccess": "Dane projektu zostały zapisane",
       "projectDataUpdateError": "Wystąpił błąd podczas aktualizacji danych projektu",
       "prefixEditingWarning": "Edycja prefiksu nie jest dozwolona"
+    },
+    "dangerZone": {
+      "title": "Strefa niebezpieczeństwa",
+      "deleteProject": "Usuń projekt",
+      "enterProjectName": "Przepisz nazwę projektu",
+      "description": "Wszystkie kolumny i zadania zostaną usunięte - nie będzie możliwości ich przywrócenia.",
+      "confirm": "Potwierdź",
+      "projectName": "Nazwa projektu",
+      "projectDeleteSuccess": "Projekt został usunięty",
+      "projectDeleteError": "Wystąpił błąd podczas usuwania projektu",
+      "notPermittedToDelete": "Nie masz uprawnień do usunięcia projektu"
     }
   }
 }

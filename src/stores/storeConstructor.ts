@@ -145,12 +145,12 @@ export const storeContructor = <T extends Item, Y extends Item>(
 
   const deleteItem = async (id: number) => {
     try {
-      loadingItems.value = true
+      loadingItem.value = true
       await api.deleteItem(endpoint, id)
     } catch (error) {
       throw error
     } finally {
-      loadingItems.value = await falseLoadingState()
+      loadingItem.value = await falseLoadingState()
     }
   }
 

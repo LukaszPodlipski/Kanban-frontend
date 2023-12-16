@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import ColumnsSection from './partials/ColumnsSectionPartial.vue'
 import ProjectDataSection from './partials/ProjectDataSectionPartial.vue'
+import DangerZone from './partials/DangerZone.vue'
 </script>
 
 <template>
   <div class="settings-wrapper flex flex-column gap-4 p-4">
     <ProjectDataSection />
     <ColumnsSection />
+    <DangerZone />
   </div>
 </template>
 

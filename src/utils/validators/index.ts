@@ -29,10 +29,18 @@ const maxLength = (value: string, length: number, label: string = 'Field') => {
   return true
 }
 
+const isExact = (value: string, validatorValue: string) => {
+  if(value !== validatorValue){
+    return i18n.global.t('validators.isExactInvalid')
+  }
+  return true
+}
+
 export default {
   required,
   email,
   password,
   minLength,
   maxLength,
+  isExact,
 }

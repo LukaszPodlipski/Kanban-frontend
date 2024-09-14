@@ -40,7 +40,7 @@ const isLoading = computed(() => {
 
 const isColumnsSectionValid = computed(() => {
   return (
-    Object.values(aggregatedErrors.value).filter((value) => value !== undefined)
+    Object.values(aggregatedErrors.value).filter((value) => value !== undefined && value !== '')
       .length === 0
   )
 })

@@ -81,12 +81,12 @@ const menuItems = computed(
                 icon: 'MembersIcon',
                 pathName: 'ProjectMembers',
               },
-              {
-                name: 'Statistics',
-                label: i18n.t('sidebar.statistics'),
-                icon: 'StatisticsIcon',
-                pathName: 'ProjectStatistics',
-              },
+              // {
+              //   name: 'Statistics',
+              //   label: i18n.t('sidebar.statistics'),
+              //   icon: 'StatisticsIcon',
+              //   pathName: 'ProjectStatistics',
+              // }, TODO: Add statistics page
               {
                 name: 'Settings',
                 label: i18n.t('sidebar.settings'),
@@ -291,7 +291,7 @@ const openNewProjectDialog = () => {
       <span
         v-if="isSidebarLarge"
         class="side-bar__title ml-5 mr-5"
-        @click="router.go"
+        @click="() => router.go(0)"
         >Kanban</span
       >
     </div>

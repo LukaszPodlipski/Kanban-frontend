@@ -49,13 +49,13 @@ const routes = [
               import('../components/dashboard/project/ProjectMembers.vue'),
             meta: { title: 'Project members' },
           },
-          {
-            path: ':id/statistics',
-            name: 'ProjectStatistics',
-            component: () =>
-              import('../components/dashboard/project/ProjectStatistics.vue'),
-            meta: { title: 'Project statistics' },
-          },
+          // {
+          //   path: ':id/statistics',
+          //   name: 'ProjectStatistics',
+          //   component: () =>
+          //     import('../components/dashboard/project/ProjectStatistics.vue'),
+          //   meta: { title: 'Project statistics' },
+          // }, TODO: Implement project statistics
           {
             path: ':id/settings',
             name: 'ProjectSettings',

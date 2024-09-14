@@ -94,6 +94,7 @@ const openTaskDialog = (task: iTask) => {
     <div v-if="!projectStore.loading" class="flex h-full flex-column relative">
       <div class="flex columns-wrapper">
         <div
+          v-if="project?.columns.length"
           v-for="column in project?.columns"
           :key="column.id"
           class="column mr-5"
@@ -123,7 +124,7 @@ const openTaskDialog = (task: iTask) => {
             </template>
           </draggable>
         </div>
-        <AddNewColumn />
+        <AddNewColumn v-else />
       </div>
     </div>
     <TableLoadingSkeleton v-else />
@@ -174,6 +175,7 @@ const openTaskDialog = (task: iTask) => {
 }
 .columns-wrapper {
   position: relative;
+  width: max-content;
 }
 
 .column {

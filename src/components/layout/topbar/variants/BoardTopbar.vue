@@ -82,7 +82,7 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
 .user-role {
   font-size: 12px;
   background-color: $primary-base;
-  font-weight: 500;
+  font-weight: 600;
   padding: 2px 4px;
   border-radius: 4px;
 }

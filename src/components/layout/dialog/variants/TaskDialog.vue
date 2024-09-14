@@ -279,7 +279,7 @@ const getColumnName = (id: number) => {
   <DialogTemplate hideActions :loading="tasksStore.loadingItem">
     <!-- header -->
     <template #customHeader>
-      <div class="flex align-items-center">
+      <div class="flex align-items-center cursor-pointer">
         <ArrowLeftIcon
           v-if="dialogItem.redirectedFromId"
           color="#6560ba"

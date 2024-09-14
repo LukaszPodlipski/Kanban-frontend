@@ -9,8 +9,8 @@ export const relations = [
 export const roles = ['Maintainer', 'Editor', 'Viewer']
 
 export const rolesColors = {
-  Owner: 'red',
-  Maintainer: 'orange',
+  Owner: '#bb0f0f',
+  Maintainer: '#c37f03',
   Editor: 'blue',
   Viewer: 'green',
 }

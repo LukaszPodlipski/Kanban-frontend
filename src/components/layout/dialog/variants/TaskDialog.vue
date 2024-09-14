@@ -249,12 +249,14 @@ const taskCommentsRef = ref<taskCommentsRefType | null>(null)
 
 const addTaskComment = async () => {
   try {
-    const regex = /<p><br><\/p>$/
-
     await tasksStore.updateItemWithSpecificAction(
       dialogItem.value.id,
       'comment',
-      { content: fieldsValueState.comment.trimEnd().replace(regex, '') },
+      {
+        content: fieldsValueState.comment
+          .trimEnd()
+          .replace(/(<p><br><\/p>){2,}/g, '<p><br></p>'),
+      },
     )
     fieldsEditingState.comment = false
     fieldsValueState.comment = ''

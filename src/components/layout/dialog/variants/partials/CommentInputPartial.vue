@@ -37,11 +37,11 @@ type emitEditingStateType = {
 const authStore = useAuthStore()
 
 const formatedValue = computed(() => {
-  return props.value.replace(/<p><br><\/p>/g, '')
+  return props.value?.replace(/<p><br><\/p>/g, '')
 })
 
 const commentHasNoValue = computed(() => {
-  const noSpacesValue = formatedValue.value.replace(/ /g, '')
+  const noSpacesValue = formatedValue.value?.replace(/ /g, '')
   const emptyCommentPattern = /<p><\/p>(<p><\/p>)*$/
   return emptyCommentPattern.test(noSpacesValue)
 })

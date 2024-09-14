@@ -119,14 +119,6 @@ const onEnterKeyup = (errors: any) => {
 
 const onValueUpdate = (value: string) => {
   tempValue.value = value
-  if (props.component.name === 'Editor') {
-    const pattern = /<p><br><\/p>$/
-
-    while (pattern.test(value)) {
-      value = value.replace(pattern, '')
-    }
-    value = value.replace(/<p><br><\/p>+$/, '')
-  }
   emit('updateValue', { key: props.valueKey, value })
 }
 </script>

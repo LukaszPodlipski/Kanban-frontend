@@ -106,7 +106,7 @@ const addTask = async () => {
             />
             <span class="field-label">{{ $t('tasks.description') }}</span>
             <BaseInput
-              v-model="description"
+              :value="description"
               :label="$t('tasks.description')"
               :placeholder="$t('tasks.enterDescription')"
               :maxLength="1000"
@@ -114,7 +114,8 @@ const addTask = async () => {
               :component="Editor"
               :disabled="loading"
               :rules="[(value:string) => rules.maxLength(value, 1000, t('tasks.description'))]"
-            />
+              @update:modelValue="description = $event"
+              />
             <div class="flex gap-4 mt-3">
               <div class="flex flex-column flex-1 justify-content-center">
                 <span class="field-label">{{

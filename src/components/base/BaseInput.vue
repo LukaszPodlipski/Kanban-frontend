@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { stripHTML } from '@/utils/functions'
 import InputText from 'primevue/inputtext'
 import { useField } from 'vee-validate'
 import { ComponentOptions, computed, onMounted, ref, watch } from 'vue'
@@ -89,7 +90,7 @@ const {
   errors,
 } = useField(fieldName, validateField)
 
-const valueHandler = computed({
+const model = computed({
   get() {
     return props.modelValue || props.value
   },
@@ -139,10 +140,7 @@ const childRef = ref(null)
 defineExpose({ childRef, errors })
 
 const valueLeftLength = computed<number>(() => {
-  let val = valueHandler.value || ''
-  if (props.component.name === 'Editor')
-    val = val.replace(/<[^>]+>/g, '').replace(/<p><br><\/p>$/, '')
-  return Math.max(props.maxLength - val.length, 0)
+  return Math.max(props.maxLength - stripHTML(model.value).length, 0)
 })
 </script>
 
@@ -155,7 +153,7 @@ const valueLeftLength = computed<number>(() => {
     <i v-if="iconRight" :class="`pi ${iconRight}`" />
     <component
       :is="component"
-      v-model="valueHandler"
+      v-model="model"
       :id="fieldName"
       autoResize
       class="w-full"

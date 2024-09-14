@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { iTask } from '@/types/taskTypes'
+import { computed, defineProps } from 'vue'
 
-defineProps({
+const props = defineProps({
   task: {
     type: Object as () => iTask,
     required: true,
@@ -10,6 +11,15 @@ defineProps({
     type: Boolean,
     default: false,
   },
+})
+
+const formattedTaskDescription = computed(() => {
+  const description = props.task.description.replace(/<p><br><\/p>/g, '')
+  if (description.length > 20) {
+    return description.slice(0, 20) + '...'
+  } else {
+    return description
+  }
 })
 </script>
 
@@ -24,7 +34,7 @@ defineProps({
     <div class="task__description-wrapper">
       <span
         class="task__description p-0 m-0 mt-2"
-        v-html="task.description"
+        v-html="formattedTaskDescription"
       ></span>
     </div>
     <div class="flex flex-row justify-content-between align-items-end mt-1">

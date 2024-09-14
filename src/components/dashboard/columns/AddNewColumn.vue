@@ -1,6 +1,12 @@
+<script setup lang="ts">
+import useProjectTopbarUtilities from '@/composables/useProjectTopbarUtilities'
+
+const { navigateToSettings } = useProjectTopbarUtilities()
+</script>
 <template>
   <div
     class="add-column flex align-items-center justify-content-center my-6 mr-5"
+    @click="navigateToSettings"
   >
     <div class="flex">
       <i class="pi pi-plus mr-2" style="font-size: 1rem"></i>

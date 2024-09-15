@@ -1,11 +1,31 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
+import { useLayoutStore } from '@/stores/layout'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
 
 import TopbarTemplate from '../TopbarTemplate.vue'
 
 const authStore = useAuthStore()
+const layoutStore = useLayoutStore()
+const router = useRouter()
+
+const i18n = useI18n()
+
 const user = computed(() => authStore.user)
+
+const openNewProjectDialog = () => {
+  layoutStore.openDialog({
+    title: i18n.t('project.createNewProject'),
+    component: 'CreateNewProjectDialog',
+    size: '900px',
+  })
+}
+
+const goToUserAccount = () => {
+  router.push({ name: 'Account' })
+}
 </script>
 
 <template>
@@ -24,11 +44,13 @@ const user = computed(() => authStore.user)
         icon="plus"
         :disabled="authStore.loading"
         class="mr-4"
+        @click="openNewProjectDialog"
       />
       <BaseButton
         :label="$t('explore.myAccount')"
         icon="user"
         :disabled="authStore.loading"
+        @click="goToUserAccount"
       />
     </template>
   </TopbarTemplate>

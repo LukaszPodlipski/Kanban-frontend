@@ -188,7 +188,9 @@
       "enterProjectDescription": "Enter project description",
       "projectDataUpdateSuccess": "Project data saved",
       "projectDataUpdateError": "Error updating project data",
-      "prefixEditingWarning": "Prefix editing is not allowed"
+      "prefixEditingWarning": "Prefix editing is not allowed",
+      "projectUpdateSuccess": "Project updated",
+      "projectUpdateError": "Error updating project"
     },
     "dangerZone": {
       "title": "Danger zone",

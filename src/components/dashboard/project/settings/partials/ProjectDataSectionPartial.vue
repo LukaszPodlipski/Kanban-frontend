@@ -2,6 +2,7 @@
 import usePermittedUser from '@/composables/usePermittedUser'
 import { useLayoutStore } from '@/stores/layout'
 import { useProjectStore } from '@/stores/project'
+import { useProjectsStore } from '@/stores/projects'
 import { Form } from 'vee-validate'
 import { computed, onMounted, Ref, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -11,6 +12,7 @@ import SettingsSectionTemplate from './SettingsSectionTemplate.vue'
 
 /* -------------------------------- USE REQUIRED COMPOSABLES --------------------------------- */
 const projectStore = useProjectStore()
+const projectsStore = useProjectsStore()
 const layoutStore = useLayoutStore()
 
 const { isAdmin } = usePermittedUser()
@@ -85,17 +87,18 @@ const updateProjectData = async () => {
     await projectStore.updateProject(payload)
 
     layoutStore.showToast({
-      message: t('settings.columns.columnsUpdateSuccess'),
+      message: t('settings.projectData.projectDataUpdateSuccess'),
       type: 'success',
     })
 
     await projectStore.getItem()
+    await projectsStore.getItems()
     setProjectDataEntryValues()
   } catch (e) {
     console.error(e)
 
     layoutStore.showToast({
-      message: t('settings.columns.columnsUpdateError'),
+      message: t('settings.projectData.projectDataUpdateError'),
       type: 'error',
     })
   }

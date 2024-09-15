@@ -65,7 +65,7 @@ const restoreColumns = () => {
 
 const addNewColumn = () => {
   const newColumn = new ProjectColumn({
-    id: new Date().getTime(),
+    id: null,
     color: randomPastelColor(),
     order: columns.value.length + 1,
     isNew: true,

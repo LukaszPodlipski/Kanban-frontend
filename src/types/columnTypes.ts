@@ -1,5 +1,5 @@
 export interface iColumn {
-  id: number
+  id: number | null
   name: string
   color: string
   order: number
@@ -9,7 +9,7 @@ export interface iColumn {
 }
 
 export class Column implements iColumn {
-  id: number
+  id: number | null
   name: string
   color: string
   order: number

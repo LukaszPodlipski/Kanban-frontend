@@ -8,7 +8,7 @@ import { iMemberItem } from '@/types/userTypes'
 import { randomPastelColor } from '@/utils/functions'
 import TabPanel from 'primevue/tabpanel'
 import TabView from 'primevue/tabview'
-import { Form, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import { computed, reactive, Ref, ref, watch } from 'vue'
 
 import MemberInvitationPartial from './partials/MemberInvitationPartial.vue'
@@ -70,7 +70,7 @@ watch(
 )
 const addNewColumn = () => {
   const newColumn = new ProjectColumn({
-    id: new Date().getTime(),
+    id: null,
     color: randomPastelColor(),
     order: project.columns.length + 1,
     name: '',

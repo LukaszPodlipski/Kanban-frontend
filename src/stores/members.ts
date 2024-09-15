@@ -1,12 +1,12 @@
 import membersApi from '@/api/v1/membersApi'
-import { iMemberItem, iUser } from '@/types/userTypes'
+import { iMemberItem } from '@/types/userTypes'
 import { falseLoadingState } from '@/utils/functions'
 import { defineStore } from 'pinia'
 
 import { storeContructor } from './storeConstructor'
 
 export const useMembersStore = defineStore('members', () => {
-  const { loadingItem } = storeContructor<iUser, iUser>('members')
+  const { loadingItem } = storeContructor<iMemberItem, iMemberItem>('members')
 
   const checkMemberEmail = async (params: {
     email: string
@@ -40,7 +40,7 @@ export const useMembersStore = defineStore('members', () => {
   }
 
   return {
-    ...storeContructor<iUser, iUser>('members'),
+    ...storeContructor<iMemberItem, iMemberItem>('members'),
     checkMemberEmail,
     inviteMembers,
   }

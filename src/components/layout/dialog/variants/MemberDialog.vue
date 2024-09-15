@@ -7,7 +7,7 @@ import { useLayoutStore } from '@/stores/layout'
 import { useMembersStore } from '@/stores/members'
 import { useProjectStore } from '@/stores/project'
 import { useWebsocketStore } from '@/stores/websocket'
-import { iUser } from '@/types/userTypes'
+import { iMemberItem } from '@/types/userTypes'
 import { formatDate } from '@/utils/functions'
 import {
   computed,
@@ -29,7 +29,7 @@ const { t } = useI18n()
 
 /* -------------------------------- ON DIALOG OPEN --------------------------------- */
 /* ------------------------- fetch member and connect to WS -------------------------- */
-const dialogItem = computed<iUser>(() => layoutStore.dialog.item)
+const dialogItem = computed<iMemberItem>(() => layoutStore.dialog.item)
 
 onBeforeMount(() => {
   websocketStore.joinChannel('MemberIndexChannel', {
@@ -61,7 +61,7 @@ onUnmounted(() => {
 
 /* ------------------------------ ACCESS NEEDED DATA ------------------------------- */
 
-const member = computed<iUser>(() => {
+const member = computed<iMemberItem>(() => {
   return membersStore.item
 })
 

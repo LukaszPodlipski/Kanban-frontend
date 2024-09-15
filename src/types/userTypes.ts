@@ -19,7 +19,12 @@ export interface ISimplifiedUser {
 
 export type iMemberItem = {
   id: number
+  name: string
+  surname: string
+  fullName: string
   email: string
   avatarUrl: string
   role: roleType
+  createdAt: string
+  userId: number
 }

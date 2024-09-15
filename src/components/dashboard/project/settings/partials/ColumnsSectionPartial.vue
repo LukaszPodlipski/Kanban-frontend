@@ -2,7 +2,7 @@
 import usePermittedUser from '@/composables/usePermittedUser'
 import { useColumnsStore } from '@/stores/columns'
 import { useLayoutStore } from '@/stores/layout'
-import { iColumn, Column as ProjectColumn } from '@/types/columnTypes'
+import { UpdateColumn, iUpdateColumn } from '@/types/columnTypes'
 import clonedeep from 'lodash.clonedeep'
 import Divider from 'primevue/divider'
 import { computed, onMounted, Ref, ref } from 'vue'
@@ -19,10 +19,8 @@ const { t } = useI18n()
 const { isAdmin } = usePermittedUser()
 
 /* ---------------------------------- INITIALIZE LOCAL DATA ---------------------------------- */
-type settingColumn = iColumn & { toDelete?: boolean }
-
-const initialColumns: Ref<settingColumn[]> = ref([])
-const columns: Ref<settingColumn[]> = ref([])
+const initialColumns: Ref<iUpdateColumn[]> = ref([])
+const columns: Ref<iUpdateColumn[]> = ref([])
 
 const aggregatedErrors: Ref<Record<string, string | undefined>> = ref({})
 
@@ -64,7 +62,7 @@ const restoreColumns = () => {
 }
 
 const addNewColumn = () => {
-  const newColumn = new ProjectColumn({
+  const newColumn = new UpdateColumn({
     id: null,
     color: randomPastelColor(),
     order: columns.value.length + 1,

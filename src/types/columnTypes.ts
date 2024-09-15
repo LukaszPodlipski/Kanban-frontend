@@ -1,5 +1,5 @@
 export interface iColumn {
-  id: number | null
+  id: number
   name: string
   color: string
   order: number
@@ -8,7 +8,7 @@ export interface iColumn {
   isNew?: boolean
 }
 
-export class Column implements iColumn {
+export interface iUpdateColumn {
   id: number | null
   name: string
   color: string
@@ -16,8 +16,20 @@ export class Column implements iColumn {
   type: 'start' | 'end' | null
   description: string
   isNew?: boolean
+  toDelete?: boolean
+}
 
-  constructor(column: iColumn) {
+export class UpdateColumn implements iUpdateColumn {
+  id: number | null
+  name: string
+  color: string
+  order: number
+  type: 'start' | 'end' | null
+  description: string
+  isNew?: boolean
+  toDelete?: boolean
+
+  constructor(column: iUpdateColumn) {
     this.id = column.id
     this.name = column.name
     this.color = column.color || '#000000'
@@ -25,5 +37,6 @@ export class Column implements iColumn {
     this.type = column.type
     this.description = column.description
     this.isNew = column.isNew
+    this.toDelete = false
   }
 }

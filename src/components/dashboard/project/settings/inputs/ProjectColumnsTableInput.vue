@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import usePermittedUser from '@/composables/usePermittedUser'
 import { columnTypes } from '@/const'
-import { iColumn } from '@/types/columnTypes'
+import { iUpdateColumn } from '@/types/columnTypes'
 import rules from '@/utils/validators'
 import ColorPicker from 'primevue/colorpicker'
 import Column from 'primevue/column'
@@ -14,13 +14,11 @@ const { isAdmin } = usePermittedUser()
 
 const editingRows = ref([])
 
-type settingColumn = iColumn & { toDelete?: boolean }
-
 const emit = defineEmits(['update:columns', 'update:aggregated-errors'])
 
 const props = defineProps({
   columns: {
-    type: Array as () => settingColumn[],
+    type: Array as () => iUpdateColumn[],
     default: () => [],
   },
   aggregatedErrors: {

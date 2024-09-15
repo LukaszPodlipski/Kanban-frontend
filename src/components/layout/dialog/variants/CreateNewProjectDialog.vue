@@ -3,7 +3,7 @@ import ProjectColumnsTableInput from '@/components/dashboard/project/settings/in
 import ProjectDataInput from '@/components/dashboard/project/settings/inputs/ProjectDataInput.vue'
 import DialogTemplate from '@/components/layout/dialog/DialogTemplate.vue'
 import { useProjectStore } from '@/stores/project'
-import { iColumn, Column as ProjectColumn } from '@/types/columnTypes'
+import { iUpdateColumn, UpdateColumn } from '@/types/columnTypes'
 import { iMemberItem } from '@/types/userTypes'
 import { randomPastelColor } from '@/utils/functions'
 import TabPanel from 'primevue/tabpanel'
@@ -43,7 +43,7 @@ interface iProject {
   name: string
   description: string
   prefix: string
-  columns: iColumn[]
+  columns: iUpdateColumn[]
   members: iMemberItem[]
 }
 
@@ -69,7 +69,7 @@ watch(
   },
 )
 const addNewColumn = () => {
-  const newColumn = new ProjectColumn({
+  const newColumn = new UpdateColumn({
     id: null,
     color: randomPastelColor(),
     order: project.columns.length + 1,

@@ -33,7 +33,7 @@ const { filters, navigateToSettings, navigateToBacklog, openNewTaskDialog } =
   <TopbarTemplate :loading="projectStore.loading">
     <template v-slot:title>
       <div class="flex align-items-start">
-        <span>{{ projectStore.project?.name }}</span>
+        <span v-tooltip.bottom="projectStore.project?.description">{{ projectStore.project?.name }}</span>
         <span class="user-role ml-2" :style="{ backgroundColor: roleColor }">{{
           translatedUserRole
         }}</span>
